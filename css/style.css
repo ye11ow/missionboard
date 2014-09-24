@@ -1,0 +1,163 @@
+html, body, body > div {
+  height: 100%;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+.nav-pills>li>a {
+  color: #5A656B;
+  font-weight: bold;
+  border-radius: 0;
+}
+
+.nav-pills>li.active>a {
+  color: white;
+  background-color: #35424B;
+}
+
+.nav-pills>li.active>a:hover {
+  color: #35424B;
+  background-color: white;
+}
+
+.banner {
+  width: 100%; 
+  top: 0px;
+  position: fixed;
+  z-index: 99;
+}
+
+.main-menu {
+  position: fixed;
+  padding-top: 84px;
+  width: 20%;
+  height: 100%;
+  background-color: #2D383E;
+}
+
+.main-container {
+  min-height: 100%;
+  margin-left: 20%;
+  background-color: whitesmoke;
+  padding-top: 84px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.progress-dashboard {
+  height: 210px;
+}
+
+.progress-dashboard h3{
+  margin-top: -5px;
+}
+
+.progress-dashboard .panel {
+  height: 180px;
+}
+
+.col-left {
+  border-right: 1px dashed #ddd;
+}
+
+.alert-state {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 96px;
+  font-size: 36px;
+  text-align: center;
+}
+
+.progress-chart {
+  margin-top: 15px;
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+}
+.progress-chart canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.percent {
+  font-size: 18px;
+  display: inline-block;
+  line-height: 120px;
+  z-index: 2;
+}
+.percent:after {
+  content: '%';
+  margin-left: 0.1em;
+  font-size: .8em;
+}
+
+#add-progress {
+  width: 0;
+  max-height: 66px;
+  margin-top: -90px;
+  display: none;
+  overflow: hidden
+}
+
+.progress {
+  height: 40px;
+  width: 100%;
+}
+
+.progress-title {
+  display: inline;
+}
+
+.progress-bar {
+  line-height: 40px;
+  font-size: 18px;
+}
+
+.label-percent {
+  margin-bottom: 10px;
+  height: 24px;
+  font-size: 16px;
+  width: 60px;
+  float: right;
+}
+
+.progress-control {
+  position: absolute;
+  top: 34px;
+  z-index: 1;
+  height: 40px;
+  width: 100%;
+}
+
+.progress-control button {
+  font-size: 18px;
+  height: 40px;
+  width: 40px;
+  border: 0;
+  background-color: transparent;
+}
+
+.progress-control-btn-left {
+
+}
+
+.progress-control-btn-right {
+  position: absolute;
+  right: 30px;
+}
+
+.btn-delete-progress {
+  margin-top: 35px;
+}
