@@ -106,6 +106,14 @@ h3 {
 #add-progress {
 }
 
+#progress-filter.nav>li>a {
+  padding: 6px 15px;
+}
+
+#progress-orderby.nav>li>a {
+  padding: 6px 15px;
+}
+
 .progress-current {
   margin-left: 16.666% !important;
 }
