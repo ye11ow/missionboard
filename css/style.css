@@ -106,6 +106,15 @@ h3 {
 #add-progress {
 }
 
+.btn-add {
+  color: red;
+  font-weight:bold;
+}
+
+.btn-add:hover, .btn-edit:hover {
+  text-decoration: underline;
+}
+
 #progress-filter.nav>li>a {
   padding: 6px 15px;
 }
@@ -128,7 +137,17 @@ h3 {
 }
 
 .progress-title {
+  margin-left: 10px;
   display: inline;
+}
+
+.progress-edit {
+  font-size: 16px;
+}
+
+.progress-edit:hover {
+  color: red;
+  cursor: pointer;
 }
 
 .progress-bar {
