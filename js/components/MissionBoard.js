@@ -4,9 +4,10 @@
 var React = require('react');
 var ProgressList = require('./ProgressList');
 var ProgressStore = require('../stores/ProgressStore');
-var ProgressActions = require('../actions/ProgressActions');
 
 var CategoryStore = require('../stores/CategoryStore');
+var CategoryActions = require('../actions/CategoryActions');
+
 
 function getProgressState() {
   return {
@@ -76,6 +77,20 @@ var MissionBoard = React.createClass({
     this.setState(getProgressState());
   },
 
+  handleCategoryAdd: function() {
+    $("#category-add-title").show();
+  },
+
+  handleCategoryTitle: function(event) {
+    if (event.which === 13) {
+      var title = $(event.target).val();
+      if (title && title.length > 0) {
+        CategoryActions.create(title);
+        $("#category-add-title").hide();
+      }
+    }
+  },
+
   render: function() {
     var progresses = this.state.progresses;
     var _progresses = {};
@@ -122,7 +137,13 @@ var MissionBoard = React.createClass({
             {categories.map(function(category) {
               return <li key={category.id} data-category={category.id}><a href="#">{category.title}</a></li>;
             })}
+            <li className="category-title">
+              <input id="category-add-title" type="text" className="form-control" placeholder="title" onKeyPress={this.handleCategoryTitle} />
+            </li>
           </ul>
+          <div className="category-dashboard">
+            <span id="category-add" className="glyphicon glyphicon-plus category-add" onClick={this.handleCategoryAdd}></span>
+          </div>
         </div>
         <ProgressList progresses={_progresses} category={this.state.category} categories={this.state.categories} />
       </div>

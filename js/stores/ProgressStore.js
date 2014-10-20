@@ -15,7 +15,6 @@ function create(title, current, total, category, type, description) {
   // Hand waving here -- not showing how this interacts with XHR or persistent
   // server-side storage.
   // Using the current timestamp in place of a real id.
-  var id = Date.now();
   var progress = {
     title: title,
     current: current,
@@ -24,7 +23,7 @@ function create(title, current, total, category, type, description) {
     category: category,
     type: type,
     description: description,
-    createdAt: id,
+    createdAt: Date.now(),
   };
   $.post( SERVER + "/missions/", progress, function(data) {
     console.log(data);
