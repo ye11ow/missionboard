@@ -26,6 +26,7 @@ var MissionBoard = React.createClass({
 
   componentDidMount: function() {
     ProgressStore.addChangeListener(this._onChange);
+    CategoryStore.addChangeListener(this._onChange);
 
     $.get( SERVER + "/missions/", function(data) {
       var data = JSON.parse(data);
@@ -61,6 +62,7 @@ var MissionBoard = React.createClass({
 
   componentWillUnmount: function() {
     ProgressStore.removeChangeListener(this._onChange);
+    CategoryStore.removeChangeListener(this._onChange);
   },
 
   handleSwitchCategory: function(event) {

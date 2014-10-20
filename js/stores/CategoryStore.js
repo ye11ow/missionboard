@@ -13,8 +13,17 @@ function create(title) {
     title: title
   };
   $.post( SERVER + "/categories/", category, function(data) {
-    console.log(data);
-    _length++;
+    if (data && typeof data === "string") {
+      data = JSON.parse(data);
+    }
+    var id = data["_id"]["$oid"]
+    if (id && id.length > 0) {
+      category["id"] = data["_id"]["$oid"];
+      _categories[id] = category;
+      _length++;
+
+      CategoryStore.emitChange();
+    }
   });
 }
 
@@ -67,8 +76,6 @@ AppDispatcher.register(function(payload) {
     default:
       return true;
   }
-
-  CategoryStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.
 });

@@ -26,8 +26,17 @@ function create(title, current, total, category, type, description) {
     createdAt: Date.now(),
   };
   $.post( SERVER + "/missions/", progress, function(data) {
-    console.log(data);
-    _length++;
+    if (data && typeof data === "string") {
+      data = JSON.parse(data);
+    }
+    var id = data["_id"]["$oid"]
+    if (id && id.length > 0) {
+      progress["id"] = data["_id"]["$oid"];
+      _progresses[id] = progress;
+      _length++;
+
+      ProgressStore.emitChange();
+    }
   });
 }
 
@@ -42,6 +51,8 @@ function destroy(id) {
   }).done(function( data ) {
     delete _progresses[id];
     _length--;
+
+    ProgressStore.emitChange();
   });
 }
 
@@ -75,6 +86,8 @@ function update(id, title, current, total, category, type, description) {
     data: progress
   }).done(function( data ) {
     console.log(data);
+
+    ProgressStore.emitChange();
   });
 }
 
@@ -172,8 +185,6 @@ AppDispatcher.register(function(payload) {
     default:
       return true;
   }
-
-  ProgressStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.
 });
