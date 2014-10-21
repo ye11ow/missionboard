@@ -27,6 +27,18 @@ function create(title) {
   });
 }
 
+function destroy(id) {
+  $.ajax({
+    type: "DELETE",
+    url: SERVER + "/categories/" + id
+  }).done(function( data ) {
+    delete _categories[id];
+    _length--;
+
+    CategoryStore.emitChange();
+  });
+}
+
 var CategoryStore = merge(EventEmitter.prototype, {
 
   setCategories: function(categories) {

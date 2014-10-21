@@ -119,6 +119,16 @@ var ProgressStore = merge(EventEmitter.prototype, {
     return _progresses;
   },
 
+  getLengthByCategory: function(category) {
+    var length = 0;
+    for (var i in _progresses) {
+      if (_progresses[i].category === category) {
+        length++;
+      }
+    }
+    return length;
+  },
+
   getLength: function() {
     return _length;
   },

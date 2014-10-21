@@ -8,10 +8,35 @@ h3 {
   margin: 0;
 }
 
-.category-add {
+.category .glyphicon {
+  display: none;
+  font-size: 16px;
+  top: 30px;
+  margin-left: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.category .glyphicon:hover {
+  color: red;
+}
+
+.category-control {
   cursor: pointer;
   color: white;
   font-size: 24px;
+}
+
+.category-control:hover {
+  color: red;
+}
+
+.category-confirm,
+.category-cancel {
+  visibility: hidden;
+}
+
+.category-edit {
 }
 
 .category-title {
@@ -24,14 +49,11 @@ h3 {
   display: none;
 }
 
-.category-add:hover {
-  color: red;
-}
-
 .category-dashboard {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 50px;
 }
 
 .navbar {
