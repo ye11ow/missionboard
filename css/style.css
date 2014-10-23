@@ -11,10 +11,11 @@ h3 {
 .category .glyphicon {
   display: none;
   font-size: 16px;
-  top: 30px;
+  top: 15px;
   margin-left: 5px;
   cursor: pointer;
   color: white;
+  float: left;
 }
 
 .category .glyphicon:hover {
@@ -53,7 +54,7 @@ h3 {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .navbar {

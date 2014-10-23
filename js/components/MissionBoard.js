@@ -64,6 +64,7 @@ var MissionBoard = React.createClass({
       $.each(data, function(i, d) {
         d.id = d["_id"]["$oid"];
         delete d["_id"];
+        delete d.orderby["_id"];
         categories[d.id] = d;
       });
 
@@ -156,16 +157,20 @@ var MissionBoard = React.createClass({
     var progresses = this.state.progresses;
     var _progresses = {};
     var categories = [];
-    var category = this.state.category;
+    var categoryTitle = this.state.category;
+    var category = null;
 
     for (var i in this.state.categories) {
       categories.push(this.state.categories[i]);
+      if (this.state.categories[i].id === this.state.category) {
+        category = this.state.categories[i];
+      }
     }
 
     // a key is need here for Progress.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
     for (var key in progresses) {
-      if (category === "all" || progresses[key].category === category) {
+      if (categoryTitle === "all" || progresses[key].category === categoryTitle) {
         _progresses[key] = progresses[key];
       }
     }
@@ -209,7 +214,7 @@ var MissionBoard = React.createClass({
             <span id="category-edit" className="glyphicon glyphicon-cog col-sm-3 category-control category-edit" onClick={this.handleCategoryEdit}></span>
           </div>
         </div>
-        <ProgressList progresses={_progresses} category={this.state.category} categories={this.state.categories} />
+        <ProgressList progresses={_progresses} category={category} categories={this.state.categories} />
       </div>
     );
   },

@@ -27,6 +27,21 @@ function create(title) {
   });
 }
 
+function updateOrderby(id, by, type) {
+  var orderby = {
+    by: by,
+    type:type
+  }
+  $.ajax({
+    type: "PUT",
+    url: SERVER + "/categories/" + id + "/orderby",
+    data: orderby
+  }).done(function( data ) {
+    _categories[id].orderby = orderby;
+    console.log(data);
+  });
+}
+
 function destroy(id) {
   $.ajax({
     type: "DELETE",
@@ -79,6 +94,10 @@ AppDispatcher.register(function(payload) {
       if (title !== '') {
         create(title);
       }
+      break;
+
+    case CategoryConstants.CATEGORY_ORDERBY_UPDATE:
+      updateOrderby(action.id, action.by, action.type);
       break;
 
     case CategoryConstants.CATEGORY_DESTROY:

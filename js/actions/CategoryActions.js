@@ -13,6 +13,15 @@ var CategoryActions = {
     });
   },
 
+  updateOrderby: function(id, by, type) {
+    AppDispatcher.handleViewAction({
+      actionType: CategoryConstants.CATEGORY_ORDERBY_UPDATE,
+      id: id,
+      by: by,
+      type: type
+    });
+  },
+
   /**
    * @param  {string} id
    */

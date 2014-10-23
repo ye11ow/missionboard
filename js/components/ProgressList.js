@@ -5,6 +5,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var ProgressActions = require('../actions/ProgressActions');
+var CategoryActions = require('../actions/CategoryActions');
 
 var Progress = require('./Progress');
 
@@ -54,13 +55,13 @@ function getSorting(order) {
   }
 }
 
-function getOrder(state) {
+function getOrderby(orderby) {
   var type = "asc";
   var by = $("#progress-orderby").find(".active a").attr("data-orderby");
 
   // switch type
-  if (by === state.order.by) {
-    type = (state.order.type === "asc" ? "desc" : "asc");
+  if (by === orderby.by) {
+    type = (orderby.type === "asc" ? "desc" : "asc");
   }
 
   return {
@@ -105,11 +106,7 @@ var ProgressList = React.createClass({
 
   getInitialState: function () {
     return {
-      count: this.props.progresses.count,
-      order: {
-        by: "createdAt",
-        type: "asc"
-      }
+      count: this.props.progresses.count
     };
   },
 
@@ -167,7 +164,7 @@ var ProgressList = React.createClass({
     $("#progress-edit").modal("hide");
   },
 
-  handleOrder: function(event) {
+  handleOrderby: function(event) {
     event.preventDefault();
     if ($(event.target).attr("data-orderby") === undefined) {
       return;
@@ -178,9 +175,9 @@ var ProgressList = React.createClass({
     var $target = $(event.target).parent();
     $target.addClass("active");
 
-    this.setState({
-      order: getOrder(this.state)
-    });
+    var orderby = getOrderby(this.props.category.orderby);
+
+    CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type);
   },
 
   handleFilter: function(event) {
@@ -214,6 +211,17 @@ var ProgressList = React.createClass({
     var completed = 0;
     var filter = this.state.filter;
     var categories = [];
+    var orderby = null;
+
+    if (this.props.category) {
+      orderby = this.props.category.orderby
+      console.log(this.props.category.orderby);
+    } else {
+      orderby = {
+        by: "createdAt",
+        type: "desc"
+      }
+    }
 
     for (var i in this.props.categories) {
       categories.push(this.props.categories[i]);
@@ -229,7 +237,7 @@ var ProgressList = React.createClass({
       _progresses.push(progresses[key]);
     }
 
-    var sortProgress = getSorting(this.state.order);
+    var sortProgress = getSorting(orderby);
 
     _progresses.sort(sortProgress);
 
@@ -238,13 +246,24 @@ var ProgressList = React.createClass({
     });
 
     if ($('#complete-progress').data('easyPieChart')) {
-      $('#complete-progress').data('easyPieChart').update(Math.floor(completed * 100 / _progresses.length));
+      var length = _progresses.length;
+      if (length === 0) {
+        $('#complete-progress').data('easyPieChart').update(0);
+      } else {
+        $('#complete-progress').data('easyPieChart').update(Math.floor(completed * 100 / _progresses.length));
+      }
     }
     if ($('#overall-progress').data('easyPieChart')) {
-      $('#overall-progress').data('easyPieChart').update(getOverallProgress(progresses));
+      if (length === 0) {
+        $('#overall-progress').data('easyPieChart').update(0);
+      } else {
+        $('#overall-progress').data('easyPieChart').update(getOverallProgress(progresses));
+      }
     }
 
     $('select option[value="' + this.props.category + '"]').attr("selected", true);
+    $("#progress-orderby").find(".active").removeClass("active");
+    $('[data-orderby="' + orderby.by + '"]').parent().addClass("active");
 
     return (
       <div className="container-fluid main-container">
@@ -364,8 +383,8 @@ var ProgressList = React.createClass({
               <h6>Order By </h6>
             </div>
             <div className="col-lg-3">
-              <ul id="progress-orderby" className="nav nav-tabs" onClick={this.handleOrder}>
-                <li className="active"><a href="#" data-orderby="title">Title</a></li>
+              <ul id="progress-orderby" className="nav nav-tabs" onClick={this.handleOrderby}>
+                <li><a href="#" data-orderby="title">Title</a></li>
                 <li><a href="#" data-orderby="createdAt">Date</a></li>
                 <li className="disabled"><a>Activity</a></li>
               </ul>
