@@ -22,6 +22,9 @@ function resetCategoryControl() {
   $(".category a").css("margin-left", "0");
 }
 
+function sortCategory(cA, cB) {
+  return cA.order - cB.order;
+}
 
 function getProgressState() {
   return {
@@ -157,7 +160,6 @@ var MissionBoard = React.createClass({
     var progresses = this.state.progresses;
     var _progresses = {};
     var categories = [];
-    var categoryTitle = this.state.category;
     var category = null;
 
     for (var i in this.state.categories) {
@@ -167,10 +169,13 @@ var MissionBoard = React.createClass({
       }
     }
 
+    categories.sort(sortCategory);
+
+
     // a key is need here for Progress.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
     for (var key in progresses) {
-      if (categoryTitle === "all" || progresses[key].category === categoryTitle) {
+      if (!category || progresses[key].category === this.state.category || category.system === true) {
         _progresses[key] = progresses[key];
       }
     }
@@ -199,9 +204,12 @@ var MissionBoard = React.createClass({
         </nav>
         <div id="main-menu" className="main-menu" onClick={this.handleCategorySwitch}>
           <ul className="nav nav-pills nav-stacked">
-            <li className="active" data-category="all"><a href="#">All</a></li>
             {categories.map(function(category) {
-              return <li className="category" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}</a></li>;
+              if (category.system === false) {
+                return <li className="category" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}</a></li>;
+              } else {
+                return <li className="category active" key={category.id} data-category={category.id}><a href="#">{category.title}</a></li>;
+              }
             })}
             <li className="category-title">
               <input id="category-add-title" type="text" className="form-control" placeholder="title" onKeyPress={this.handleCategoryCreate} />

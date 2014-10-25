@@ -81,6 +81,18 @@ function getOverallProgress(progresses) {
   return Math.floor(sum / count);
 }
 
+function processFilter(filter) {
+  if (filter === "all") {
+    $('[data-role="progress"]').show();
+  } else if (filter === "current") {
+    $('[data-role="progress"][data-completed="false"]').show();
+    $('[data-role="progress"][data-completed="true"]').hide();
+  } else {
+    $('[data-role="progress"][data-completed="true"]').show();
+    $('[data-role="progress"][data-completed="false"]').hide();
+  }
+}
+
 var ProgressList = React.createClass({
 
   propTypes: {
@@ -104,9 +116,15 @@ var ProgressList = React.createClass({
     $('#overall-progress').data('easyPieChart').update(0);
   },
 
+  componentDidUpdate: function() {
+    var filter = $("#progress-filter").find(".active a").attr("data-filter");
+    processFilter(filter);
+  },
+
   getInitialState: function () {
     return {
-      count: this.props.progresses.count
+      count: this.props.progresses.count,
+      orderby: this.props.category ? this.props.category.orderby : {by: "createdAt", type: "desc"}
     };
   },
 
@@ -176,6 +194,9 @@ var ProgressList = React.createClass({
     $target.addClass("active");
 
     var orderby = getOrderby(this.props.category.orderby);
+    this.setState({
+      orderby: orderby
+    });
 
     CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type);
   },
@@ -192,15 +213,7 @@ var ProgressList = React.createClass({
     var $target = $(event.target).parent();
     $target.addClass("active");
 
-    if (filter === "all") {
-      $('[data-role="progress"]').show();
-    } else if (filter === "current") {
-      $('[data-role="progress"][data-completed="false"]').show();
-      $('[data-role="progress"][data-completed="true"]').hide();
-    } else {
-      $('[data-role="progress"][data-completed="true"]').show();
-      $('[data-role="progress"][data-completed="false"]').hide();
-    }
+    processFilter(filter);
   },
 
   render: function() {
@@ -209,19 +222,8 @@ var ProgressList = React.createClass({
     var progressItems = [];
     var _progresses = [];
     var completed = 0;
-    var filter = this.state.filter;
     var categories = [];
-    var orderby = null;
-
-    if (this.props.category) {
-      orderby = this.props.category.orderby
-      console.log(this.props.category.orderby);
-    } else {
-      orderby = {
-        by: "createdAt",
-        type: "desc"
-      }
-    }
+    var orderby = this.state.orderby;
 
     for (var i in this.props.categories) {
       categories.push(this.props.categories[i]);
@@ -374,8 +376,8 @@ var ProgressList = React.createClass({
             </div>
             <div className="col-lg-3">
               <ul id="progress-filter" className="nav nav-tabs" onClick={this.handleFilter}>
-                <li className="active"><a href="#" data-filter="all">All</a></li>
-                <li><a href="#" data-filter="current">Current</a></li>
+                <li><a href="#" data-filter="all">All</a></li>
+                <li className="active"><a href="#" data-filter="current">Current</a></li>
                 <li><a href="#" data-filter="completed">Completed</a></li>
               </ul>
             </div>
