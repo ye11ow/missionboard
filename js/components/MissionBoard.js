@@ -45,36 +45,40 @@ var MissionBoard = React.createClass({
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
-    $.get( SERVER + "/missions/", function(data) {
-      var data = JSON.parse(data);
-      var progresses = {};
-      var length = 0;
-      $.each(data, function(i, d) {
+    $.when( 
+      $.get(SERVER + "/missions/"),
+      $.get(SERVER + "/categories/") 
+    ).done(function(progresses, categories){
+      if (progresses[0]) {
+        progresses = progresses[0];
+      }
+      if (categories[0]) {
+        categories = categories[0];
+      }
+
+      var _progresses = {};
+      var _categories = {}
+
+      $.each(progresses, function(i, d) {
         d.id = d["_id"]["$oid"];
         delete d["_id"];
-        progresses[d.id] = d;
+        _progresses[d.id] = d;
         length++;
       });
-      if (this.isMounted()) {
-        ProgressStore.setProgresses(progresses, length);
-        this.setState(getProgressState());
-      }
-    }.bind(this));
 
-    $.get( SERVER + "/categories/", function(data) {
-      var data = JSON.parse(data);
-      var categories = {};
-      $.each(data, function(i, d) {
+      $.each(categories, function(i, d) {
         d.id = d["_id"]["$oid"];
         delete d["_id"];
         delete d.orderby["_id"];
-        categories[d.id] = d;
+        _categories[d.id] = d;
       });
 
       if (this.isMounted()) {
-        CategoryStore.setCategories(categories);
+        ProgressStore.setProgresses(_progresses, length);
+        CategoryStore.setCategories(_categories);
         this.setState(getProgressState());
       }
+
     }.bind(this));
 
     $("#main-menu").on("click", ".glyphicon-trash", this.handleCategoryDestroy);
@@ -168,9 +172,7 @@ var MissionBoard = React.createClass({
         category = this.state.categories[i];
       }
     }
-
     categories.sort(sortCategory);
-
 
     // a key is need here for Progress.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children

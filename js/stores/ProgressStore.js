@@ -26,12 +26,10 @@ function create(title, current, total, category, type, description) {
     createdAt: Date.now(),
   };
   $.post( SERVER + "/missions/", progress, function(data) {
-    if (data && typeof data === "string") {
-      data = JSON.parse(data);
-    }
     var id = data["_id"]["$oid"]
     if (id && id.length > 0) {
       progress["id"] = data["_id"]["$oid"];
+      progress["createdAt"] = data["createdAt"];
       _progresses[id] = progress;
       _length++;
 
@@ -104,6 +102,8 @@ function doit(id, current) {
       data: progress
     }).done(function( data ) {
       console.log(data);
+
+      ProgressStore.emitChange();
     });
   }
 }

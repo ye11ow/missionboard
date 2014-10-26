@@ -240,7 +240,6 @@ var ProgressList = React.createClass({
     }
 
     var sortProgress = getSorting(orderby);
-
     _progresses.sort(sortProgress);
 
     _progresses.forEach(function(p) {
@@ -263,7 +262,10 @@ var ProgressList = React.createClass({
       }
     }
 
-    $('select option[value="' + this.props.category + '"]').attr("selected", true);
+    if (this.props.category) {
+      $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
+    }
+
     $("#progress-orderby").find(".active").removeClass("active");
     $('[data-orderby="' + orderby.by + '"]').parent().addClass("active");
 
