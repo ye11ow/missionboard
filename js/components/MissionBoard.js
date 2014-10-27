@@ -141,10 +141,11 @@ var MissionBoard = React.createClass({
 
   handleCategoryCreate: function(event, confirm) {
     if (confirm === true || event.which === 13) {
-      var title = $("#category-add-title").val();
+      var $input = $(event.target);
+      var title = $input.val()
       if (title && title.length > 0) {
         CategoryActions.create(title);
-        $("#category-add-title").hide();
+        $input.hide();
       }
     }
   },

@@ -108,6 +108,24 @@ function doit(id, current) {
   }
 }
 
+function finish(id) {
+  var progress = _progresses[id];
+  if (progress) {
+    progress.current = progress.total;
+    progress.completed = true;
+
+    $.ajax({
+      type: "PUT",
+      url: SERVER + "/missions/" + id + "/finish",
+      data: progress
+    }).done(function( data ) {
+      console.log(data);
+
+      ProgressStore.emitChange();
+    });
+  }
+}
+
 var ProgressStore = merge(EventEmitter.prototype, {
 
   setProgresses: function(progresses, length) {
@@ -190,6 +208,10 @@ AppDispatcher.register(function(payload) {
 
     case ProgressConstants.PROGRESS_DOIT:
       doit(action.id, action.current);
+      break;
+
+    case ProgressConstants.PROGRESS_FINISH: 
+      finish(action.id);
       break;
 
     default:

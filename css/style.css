@@ -157,7 +157,7 @@ h3 {
   font-weight:bold;
 }
 
-.btn-add:hover, .btn-edit:hover {
+.btn-add:hover {
   text-decoration: underline;
 }
 
@@ -187,11 +187,12 @@ h3 {
   display: inline;
 }
 
-.progress-edit {
+.progress-edit, .progress-done {
   font-size: 16px;
+  margin-left: 30px;
 }
 
-.progress-edit:hover {
+.progress-edit:hover, .progress-done:hover {
   color: red;
   cursor: pointer;
 }

@@ -39,6 +39,13 @@ var ProgressActions = {
     });
   },
 
+  finish: function(id) {
+    AppDispatcher.handleViewAction({
+      actionType: ProgressConstants.PROGRESS_FINISH,
+      id: id
+    });
+  },
+
   /**
    * @param  {string} id
    */

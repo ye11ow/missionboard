@@ -128,26 +128,21 @@ var ProgressList = React.createClass({
     };
   },
 
-  handleEdit: function (event) {
-    var $btn = $(event.target);
-    if ($btn.attr("data-editing") === "false") {
-      $btn.attr("data-editing", "true");
-      $btn.text("Done");
-      $(".progress-edit").removeClass("hidden");
-      $(".progress-delete").removeClass("hidden");
-    } else {
-      $btn.attr("data-editing", "false");
-      $btn.text("Edit");
-      $(".progress-edit").addClass("hidden");
-      $(".progress-delete").addClass("hidden");
-    }
-  },
+  handlePreAdd: function(event) {
+    if (event.which === 13) {
+      var $input = $(event.target);
+      var title = $input.val();
+      if (typeof title === "string" && title.length > 0) {
+        $("#progress-edit-title").val(title);
 
-  handleAdd: function() {
-    $("#progress-edit").modal("show");
-    $("#progress-edit").attr("data-role", "add");
-    $("#progress-edit").find(".modal-title").text("Add a new item");
-    $("#progress-edit-save").text("Add");
+        $("#progress-edit").modal("show");
+        $("#progress-edit").attr("data-role", "add");
+        $("#progress-edit").find(".modal-title").text("Add a new item");
+        $("#progress-edit-save").text("Add");
+      }
+
+      $input.val("");
+    }
   },
 
   handleSave:function () {
@@ -364,16 +359,15 @@ var ProgressList = React.createClass({
           </div>
         </div>
 
-        <div className="panel panel-default" id="progress-list">
+        <div className="panel panel-default">
           <div className="panel-heading">
             <div className="row">
-            <div className="col-lg-1">
-              <button className="btn btn-link btn-add" onClick={this.handleAdd}>Add</button>
+            <div className="col-lg-4">
+              <div className="form-group">
+                <input type="text" className="form-control" onKeyPress={this.handlePreAdd} placeholder="create a new mission" />
+              </div>
             </div>
             <div className="col-lg-1">
-              <button id="edit-progresses" className="btn btn-link btn-edit" data-editing="false" onClick={this.handleEdit}>Edit</button>
-            </div>
-            <div className="col-lg-offset-2 col-lg-1">
               <h6>Filter </h6>
             </div>
             <div className="col-lg-3">
@@ -395,9 +389,10 @@ var ProgressList = React.createClass({
             </div>
           </div>
           </div>
-          <div className="panel-body">
-            {progressItems}
-          </div>
+        </div>
+
+        <div id="progress-list">
+          {progressItems}
         </div>
       </div>  
     );

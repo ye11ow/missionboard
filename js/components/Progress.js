@@ -16,6 +16,20 @@ var Progress = React.createClass({
     progress: ReactPropTypes.object.isRequired
   },
 
+  handleMouseEnter: function(event) {
+    $panel = $(event.currentTarget);
+    $panel.find(".progress-edit").show(300);
+    $panel.find(".progress-done").show(300);
+    $panel.find(".progress-delete").show(300);
+  },
+
+  handleMouseLeave: function(event) {
+    $panel = $(event.currentTarget);
+    $panel.find(".progress-edit").hide(300);
+    $panel.find(".progress-done").hide(300);
+    $panel.find(".progress-delete").hide(300);
+  },
+
   handleMinus: function () {
     var progress = this.props.progress;
     if (progress.current > 0) {
@@ -66,8 +80,14 @@ var Progress = React.createClass({
     $("#progress-edit").modal("show");
   },
 
+  handleFinish: function() {
+    ProgressActions.finish(this.props.key);
+  },
+
   handleDestroy: function() {
-    ProgressActions.destroy(this.props.key);
+    if (confirm("Do you want to delete this mission?")) {
+      ProgressActions.destroy(this.props.key);
+    }
   },
 
   render: function() {
@@ -77,34 +97,41 @@ var Progress = React.createClass({
     var style = {
       width: percentage + "%"
     };
+    var hidden = {
+      display: "none"
+    };
 
     return (
-      <div className="row" data-completed={progress.completed} data-role="progress">
-        <div className="col-lg-11">
-          <span className="glyphicon glyphicon-edit progress-edit hidden" onClick={this.handleEdit}></span><h5 className="progress-title">{progress.title}</h5>
-          <span className="label label-success label-percent">{style.width}</span>
-          <div className="progress">
-            <div className="progress-bar" style={style}>
-              {progress.current}/{progress.total}
+      <div className="panel panel-default" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+        <div className="panel-body row" data-completed={progress.completed} data-role="progress">
+          <div className="col-lg-11">
+            <h5 className="progress-title">{progress.title}</h5>
+            <span className="glyphicon glyphicon-edit progress-edit" title="edit" style={hidden} onClick={this.handleEdit}></span>
+            <span className="glyphicon glyphicon-check progress-done" title="mark as completed" style={hidden} onClick={this.handleFinish}></span>
+            <span className="label label-success label-percent">{style.width}</span>
+            <div className="progress">
+              <div className="progress-bar" style={style}>
+                {progress.current}/{progress.total}
+              </div>
+            </div>
+            <div className="progress-control">
+              <button className="progress-control-btn-left" 
+                onClick={this.handleMinus}
+                onMouseDown={this.handleMinusing}
+                onMouseUp={this.handleMouseUp}
+                onMouseOut={this.handleMouseUp}
+              >-</button>
+              <button className="progress-control-btn-right" 
+                onClick={this.handlePlus} 
+                onMouseDown={this.handlePlusing}
+                onMouseUp={this.handleMouseUp}
+                onMouseOut={this.handleMouseUp}
+              >+</button>
             </div>
           </div>
-          <div className="progress-control">
-            <button className="progress-control-btn-left" 
-              onClick={this.handleMinus}
-              onMouseDown={this.handleMinusing}
-              onMouseUp={this.handleMouseUp}
-              onMouseOut={this.handleMouseUp}
-            >-</button>
-            <button className="progress-control-btn-right" 
-              onClick={this.handlePlus} 
-              onMouseDown={this.handlePlusing}
-              onMouseUp={this.handleMouseUp}
-              onMouseOut={this.handleMouseUp}
-            >+</button>
+          <div className="col-lg-1">
+            <button className="btn btn-danger progress-delete" style={hidden} onClick={this.handleDestroy}>X</button>
           </div>
-        </div>
-        <div className="col-lg-1">
-          <button className="btn btn-danger progress-delete hidden" onClick={this.handleDestroy}>X</button>
         </div>
       </div>
     );
