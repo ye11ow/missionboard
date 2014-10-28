@@ -39,6 +39,8 @@ function updateOrderby(id, by, type) {
   }).done(function( data ) {
     _categories[id].orderby = orderby;
     console.log(data);
+
+    CategoryStore.emitChange();
   });
 }
 

@@ -55,19 +55,11 @@ function getSorting(order) {
   }
 }
 
-function getOrderby(orderby) {
-  var type = "asc";
-  var by = $("#progress-orderby").find(".active a").attr("data-orderby");
-
-  // switch type
-  if (by === orderby.by) {
-    type = (orderby.type === "asc" ? "desc" : "asc");
-  }
-
+function getOrderby() {
   return {
-    by: by,
-    type: type
-  };
+    by: $("#progress-orderby").val(),
+    type: $("#progress-ordertype").hasClass("glyphicon-arrow-up") ? "asc" : "desc"
+  }
 }
 
 function getOverallProgress(progresses) {
@@ -123,8 +115,7 @@ var ProgressList = React.createClass({
 
   getInitialState: function () {
     return {
-      count: this.props.progresses.count,
-      orderby: this.props.category ? this.props.category.orderby : {by: "createdAt", type: "desc"}
+      count: this.props.progresses.count
     };
   },
 
@@ -177,21 +168,24 @@ var ProgressList = React.createClass({
     $("#progress-edit").modal("hide");
   },
 
-  handleOrderby: function(event) {
-    event.preventDefault();
-    if ($(event.target).attr("data-orderby") === undefined) {
-      return;
+  handleOrderby: function() {
+    var orderby = getOrderby();
+
+    CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type);
+  },
+
+  handleOrdertype: function() {
+    var $target = $(event.target);
+
+    if ($target.hasClass("glyphicon-arrow-up")) {
+      $target.removeClass("glyphicon-arrow-up");
+      $target.addClass("glyphicon-arrow-down");
+    } else {
+      $target.removeClass("glyphicon-arrow-down");
+      $target.addClass("glyphicon-arrow-up");
     }
 
-    var $group = $(event.currentTarget);
-    $group.find(".active").removeClass("active");
-    var $target = $(event.target).parent();
-    $target.addClass("active");
-
-    var orderby = getOrderby(this.props.category.orderby);
-    this.setState({
-      orderby: orderby
-    });
+    var orderby = getOrderby();
 
     CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type);
   },
@@ -218,7 +212,13 @@ var ProgressList = React.createClass({
     var _progresses = [];
     var completed = 0;
     var categories = [];
-    var orderby = this.state.orderby;
+    var orderby = getOrderby();
+    if (this.props.category) {
+      $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
+      orderby = this.props.category.orderby;
+    }
+
+    $('select option[value="' + orderby.by + '"]').attr("selected", true);
 
     for (var i in this.props.categories) {
       categories.push(this.props.categories[i]);
@@ -256,13 +256,6 @@ var ProgressList = React.createClass({
         $('#overall-progress').data('easyPieChart').update(getOverallProgress(progresses));
       }
     }
-
-    if (this.props.category) {
-      $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
-    }
-
-    $("#progress-orderby").find(".active").removeClass("active");
-    $('[data-orderby="' + orderby.by + '"]').parent().addClass("active");
 
     return (
       <div className="container-fluid main-container">
@@ -359,33 +352,34 @@ var ProgressList = React.createClass({
           </div>
         </div>
 
-        <div className="panel panel-default">
-          <div className="panel-heading">
+        <div className="panel panel-default progress-toolbar">
+          <div className="panel-body">
             <div className="row">
-            <div className="col-lg-4">
+            <div className="col-lg-6">
               <div className="form-group">
                 <input type="text" className="form-control" onKeyPress={this.handlePreAdd} placeholder="create a new mission" />
               </div>
             </div>
-            <div className="col-lg-1">
-              <h6>Filter </h6>
+            <div className="col-lg-4">
+              <div className="progress-filter">
+                <label>items</label>
+                <ul id="progress-filter" className="nav nav-tabs" onClick={this.handleFilter}>
+                  <li><a href="#" data-filter="all">All</a></li>
+                  <li className="active"><a href="#" data-filter="current">Current</a></li>
+                  <li><a href="#" data-filter="completed">Completed</a></li>
+                </ul>
+                <label>Showing</label>
+              </div>
             </div>
-            <div className="col-lg-3">
-              <ul id="progress-filter" className="nav nav-tabs" onClick={this.handleFilter}>
-                <li><a href="#" data-filter="all">All</a></li>
-                <li className="active"><a href="#" data-filter="current">Current</a></li>
-                <li><a href="#" data-filter="completed">Completed</a></li>
-              </ul>
-            </div>
-            <div className="col-lg-1">
-              <h6>Order By </h6>
-            </div>
-            <div className="col-lg-3">
-              <ul id="progress-orderby" className="nav nav-tabs" onClick={this.handleOrderby}>
-                <li><a href="#" data-orderby="title">Title</a></li>
-                <li><a href="#" data-orderby="createdAt">Date</a></li>
-                <li className="disabled"><a>Activity</a></li>
-              </ul>
+            <div className="col-lg-2">
+              <div className="progress-orderby">
+                <label for="progress-orderby">Order By</label>
+                <select id="progress-orderby" onChange={this.handleOrderby}>
+                  <option value="title">Title</option>
+                  <option value="createdAt">Date</option>
+                </select>
+                <span id="progress-ordertype" className="glyphicon glyphicon glyphicon-arrow-up" onClick={this.handleOrdertype}></span>
+              </div>
             </div>
           </div>
           </div>
