@@ -254,6 +254,14 @@ h3 {
   cursor: pointer;
 }
 
+#progress-list .panel {
+  margin-bottom: 5px;
+}
+
+.progress {
+  margin-bottom: 0;
+}
+
 .progress-bar {
   line-height: 40px;
   font-size: 18px;
@@ -281,10 +289,6 @@ h3 {
   width: 40px;
   border: 0;
   background-color: transparent;
-}
-
-.progress-control-btn-left {
-
 }
 
 .progress-control-btn-right {

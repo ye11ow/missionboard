@@ -10,7 +10,7 @@ var MissionBoard = require('./components/MissionBoard');
 
 SERVER = "http://localhost:3000" 
 
-React.renderComponent(
+React.render(
   <MissionBoard />,
   document.getElementById('mission-board'),
   function () {

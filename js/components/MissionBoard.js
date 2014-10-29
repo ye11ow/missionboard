@@ -1,6 +1,3 @@
- /**
- * @jsx React.DOM
- */
 var React = require('react');
 var ProgressList = require('./ProgressList');
 var ProgressStore = require('../stores/ProgressStore');

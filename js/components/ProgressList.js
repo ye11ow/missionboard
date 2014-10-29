@@ -1,7 +1,3 @@
- /**
- * @jsx React.DOM
- */
-
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var ProgressActions = require('../actions/ProgressActions');
@@ -296,7 +292,7 @@ var ProgressList = React.createClass({
           </div>
         </div>
         
-        <div id="progress-edit" className="modal fade" tabindex="-1" data-role="add">
+        <div id="progress-edit" className="modal fade" tabIndex="-1" data-role="add">
           <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -373,7 +369,7 @@ var ProgressList = React.createClass({
             </div>
             <div className="col-lg-2">
               <div className="progress-orderby">
-                <label for="progress-orderby">Order By</label>
+                <label htmlFor="progress-orderby">Order By</label>
                 <select id="progress-orderby" onChange={this.handleOrderby}>
                   <option value="title">Title</option>
                   <option value="createdAt">Date</option>

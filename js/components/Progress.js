@@ -1,8 +1,3 @@
- /**
- * @jsx React.DOM
- */
-
-
 var React = require('react/addons');
 var ReactPropTypes = React.PropTypes;
 var ProgressActions = require('../actions/ProgressActions');
@@ -81,12 +76,12 @@ var Progress = React.createClass({
   },
 
   handleFinish: function() {
-    ProgressActions.finish(this.props.key);
+    ProgressActions.finish(this.props.progress.id);
   },
 
   handleDestroy: function() {
     if (confirm("Do you want to delete this mission?")) {
-      ProgressActions.destroy(this.props.key);
+      ProgressActions.destroy(this.props.progress.id);
     }
   },
 
