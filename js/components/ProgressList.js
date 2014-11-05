@@ -66,6 +66,10 @@ function getOverallProgress(progresses) {
     count++;
   }
 
+  if (count === 0) {
+    return 0;
+  }
+
   return Math.floor(sum / count);
 }
 
@@ -88,20 +92,6 @@ var ProgressList = React.createClass({
   },
 
   componentDidMount: function() {
-    $('#complete-progress').easyPieChart({
-      size: 120,
-      onStep: function(from, to, percent) {
-        $(this.el).find('.percent').text(Math.round(percent));
-      }
-    });
-    $('#complete-progress').data('easyPieChart').update(0);
-    $('#overall-progress').easyPieChart({
-      size: 120,
-      onStep: function(from, to, percent) {
-        $(this.el).find('.percent').text(Math.round(percent));
-      }
-    });
-    $('#overall-progress').data('easyPieChart').update(0);
   },
 
   componentDidUpdate: function() {
@@ -237,61 +227,11 @@ var ProgressList = React.createClass({
       progressItems.push(<Progress key={p.id} progress={p} />);
     });
 
-    if ($('#complete-progress').data('easyPieChart')) {
-      var length = _progresses.length;
-      if (length === 0) {
-        $('#complete-progress').data('easyPieChart').update(0);
-      } else {
-        $('#complete-progress').data('easyPieChart').update(Math.floor(completed * 100 / _progresses.length));
-      }
-    }
-    if ($('#overall-progress').data('easyPieChart')) {
-      if (length === 0) {
-        $('#overall-progress').data('easyPieChart').update(0);
-      } else {
-        $('#overall-progress').data('easyPieChart').update(getOverallProgress(progresses));
-      }
-    }
+    $("#progress-count").text(_progresses.length);
+    $("#overall-progress").text(getOverallProgress(progresses) + "%");
 
     return (
       <div className="container-fluid main-container">
-        <div className="row progress-dashboard">
-          <div className="col-lg-6">
-            <div className="panel panel-default">
-              <div className="panel-body row">
-                <div className="col-md-6 col-left">
-                  <h3>Total Items</h3>
-                  <div className="alert alert-info alert-state">{_progresses.length}</div>
-                </div>
-                <div className="col-md-6">
-                  <h3>Completed Items</h3>
-                  <div className="alert alert-success alert-state">{completed}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h3>Completed Progress</h3>
-                <div id="complete-progress" className="progress-chart">
-                  <span className="percent"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h3>Overall Progress</h3>
-                <div id="overall-progress" className="progress-chart">
-                  <span className="percent"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
         <div id="progress-edit" className="modal fade" tabIndex="-1" data-role="add">
           <div className="modal-dialog modal-lg">
             <div className="modal-content">

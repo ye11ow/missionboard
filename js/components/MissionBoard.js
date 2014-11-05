@@ -110,11 +110,16 @@ var MissionBoard = React.createClass({
       <div>
 
         <nav className="navbar navbar-default banner">
-          <div className="container-fluid">
             <div className="navbar-header">
               <a className="navbar-brand" href="#">MissionBoard</a>
             </div>
-            <div className="collapse navbar-collapse">
+             <div className="navbar-collapse collapse navbar-inverse-collapse">
+              <ul className="nav navbar-nav">
+                <li id="progress-count" className="navbar-value"></li>
+                <li className="navbar-title">Missions</li>
+                <li id="overall-progress" className="navbar-value"></li>
+                <li className="navbar-title">Overall Progress</li>
+              </ul>
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="#">Start Tour</a></li>
                 <li className="dropdown">
@@ -127,7 +132,6 @@ var MissionBoard = React.createClass({
                 </li>
               </ul>
             </div>
-          </div>
         </nav>
 
         <CategoryList category={category} categories={this.state.categories}

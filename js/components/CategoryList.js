@@ -39,9 +39,8 @@ var CategoryList = React.createClass({
       return;
     }
 
-    var $category = $(event.currentTarget);
+    var $category = $("#main-menu");
 
-    console.log($category);
     $category.find(".active").removeClass("active");
     var $target = $(event.target).parent();
     $target.addClass("active");
