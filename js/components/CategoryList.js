@@ -19,6 +19,7 @@ function resetCategoryControl() {
 
   $(".category .glyphicon").css("display", "none");
   $(".category a").css("margin-left", "0");
+  $(".category a").css("pointer-events", "auto");
 }
 
 var CategoryList = React.createClass({
@@ -33,19 +34,39 @@ var CategoryList = React.createClass({
     };
   },
 
-  handleCategorySwitch: function() {
-    var newCategory = $(event.target).parent().attr("data-category");
-    if (newCategory === undefined || newCategory === this.state.category) {
+  componentDidUpdate: function() {
+    if ($("#main-menu .glyphicon-trash").css("display") !== "none") {
+      this.handleCategoryEdit();
+    }
+  },
+
+  handleCategoryClick: function(event) {
+    var $target = $(event.target);
+    var targetCategory = $(event.target).parent().attr("data-category");
+
+    if (!targetCategory) {
       return;
     }
 
-    var $category = $("#main-menu");
+    if ($target.hasClass("glyphicon-chevron-up")) {
+      var prevCategory = $(event.target).parent().prev().attr("data-category");
+      CategoryActions.updateOrder(targetCategory, prevCategory);
+    } else if ($target.hasClass("glyphicon-chevron-down")) {
+      var nextCategory = $(event.target).parent().next().attr("data-category");
+      CategoryActions.updateOrder(targetCategory, nextCategory);
+    } else {
+      if (targetCategory === this.state.category) {
+        return;
+      }
 
-    $category.find(".active").removeClass("active");
-    var $target = $(event.target).parent();
-    $target.addClass("active");
+      var $category = $("#main-menu");
 
-    this.props.onCategorySwitch(newCategory);
+      $category.find(".active").removeClass("active");
+      var $target = $(event.target).parent();
+      $target.addClass("active");
+
+      this.props.onCategorySwitch(targetCategory);
+    }
   },
 
   handleCategoryAdd: function() {
@@ -60,11 +81,18 @@ var CategoryList = React.createClass({
   handleCategoryEdit: function() {
     $(".category .glyphicon").css("display", "block");
     $(".category a").css("margin-left", "25px");
+    $(".category a").css("pointer-events", "none");
 
     $("#category-add").css("visibility", "hidden");
     $("#category-confirm").css("visibility", "visible");
     $("#category-cancel").css("visibility", "hidden");
     $("#category-edit").css("visibility", "hidden");
+
+    var length = $("#main-menu > ul li").length;
+    if (length > 2) {
+      $("#main-menu > ul li:nth-child(2) .glyphicon-chevron-up").hide();
+      $("#main-menu > ul li:nth-child(" + (length - 1) + ") .glyphicon-chevron-down").hide();
+    }
   },
 
   handleCategoryDestroy: function(event) {
@@ -125,13 +153,13 @@ var CategoryList = React.createClass({
     categories.sort(sortCategory);
 
     return (
-      <div id="main-menu" className="main-menu" onClick={this.handleCategorySwitch}>
+      <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
         <ul className="nav nav-pills nav-stacked">
           {categories.map(function(category) {
             if (category.system === false) {
-              return <li className="category" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}</a></li>;
+              return <li className="category" draggable="true" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}</a><span className="glyphicon glyphicon-chevron-down"></span><span className="glyphicon glyphicon-chevron-up"></span></li>;
             } else {
-              return <li className="category active" key={category.id} data-category={category.id}><a href="#">{category.title}</a></li>;
+              return <li className="category active" draggable="true" key={category.id} data-category={category.id}><a href="#">{category.title}</a></li>;
             }
           })}
           <li className="category-title">

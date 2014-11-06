@@ -98,6 +98,18 @@ h3 {
   background-color: white;
 }
 
+.category .glyphicon-chevron-up {
+  top: -28px;
+  float: right;
+  right: 5px;
+}
+
+.category .glyphicon-chevron-down {
+  top: -28px;
+  float: right;
+  right: 5px;
+}
+
 .banner {
   width: 100%; 
   top: 0px;

@@ -44,6 +44,41 @@ function updateOrderby(id, by, type) {
   });
 }
 
+function updateOrder(id, targetId) {
+  var category = _categories[id],
+      targetCategory = _categories[targetId];
+
+  var tmp = category.order;
+  category.order = targetCategory.order;
+  targetCategory.order = tmp;
+
+  var order = {
+    order: category.order
+  };
+
+  $.ajax({
+    type: "PUT",
+    url: SERVER + "/categories/" + id + "/order",
+    data: order
+  }).done(function( data ) {
+    console.log(data);
+  });
+
+  order = {
+    order: targetCategory.order
+  };
+
+  $.ajax({
+    type: "PUT",
+    url: SERVER + "/categories/" + targetId + "/order",
+    data: order
+  }).done(function( data ) {
+    console.log(data);
+  });
+
+  CategoryStore.emitChange();
+}
+
 function destroy(id) {
   $.ajax({
     type: "DELETE",
@@ -100,6 +135,10 @@ AppDispatcher.register(function(payload) {
 
     case CategoryConstants.CATEGORY_ORDERBY_UPDATE:
       updateOrderby(action.id, action.by, action.type);
+      break;
+
+    case CategoryConstants.CATEGORY_ORDER_UPDATE:
+      updateOrder(action.id, action.targetId);
       break;
 
     case CategoryConstants.CATEGORY_DESTROY:

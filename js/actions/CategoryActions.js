@@ -22,6 +22,14 @@ var CategoryActions = {
     });
   },
 
+  updateOrder: function(id, targetId) {
+    AppDispatcher.handleViewAction({
+      actionType: CategoryConstants.CATEGORY_ORDER_UPDATE,
+      id: id,
+      targetId: targetId
+    });
+  },
+
   /**
    * @param  {string} id
    */
