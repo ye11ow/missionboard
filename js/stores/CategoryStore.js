@@ -8,9 +8,11 @@ var CHANGE_EVENT = 'change';
 var _categories = {};
 var _length = 0;
 
-function create(title) {
+function create(title, order) {
   var category = {
-    title: title
+    title: title,
+    system: false,
+    order: order
   };
   $.post( SERVER + "/categories/", category, function(data) {
     if (data && typeof data === "string") {
@@ -129,7 +131,7 @@ AppDispatcher.register(function(payload) {
     case CategoryConstants.CATEGORY_CREATE:
       title = action.title.trim();
       if (title !== '') {
-        create(title);
+        create(title, action.order);
       }
       break;
 

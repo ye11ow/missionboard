@@ -86,7 +86,7 @@ var MissionBoard = React.createClass({
 
   handleCategoryCreate: function(category) {
     // no set state here, the setState will be triggered by changeListener.
-    CategoryActions.create(category.title);
+    CategoryActions.create(category.title, category.order);
   },
 
   render: function() {

@@ -6,10 +6,11 @@ var CategoryActions = {
   /**
    * @param  {string} title
    */
-  create: function(title) {
+  create: function(title, order) {
     AppDispatcher.handleViewAction({
       actionType: CategoryConstants.CATEGORY_CREATE,
-      title: title
+      title: title,
+      order: order
     });
   },
 

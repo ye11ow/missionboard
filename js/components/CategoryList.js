@@ -97,6 +97,7 @@ var CategoryList = React.createClass({
 
   handleCategoryDestroy: function(event) {
     event.preventDefault();
+    event.stopPropagation();
     if (confirm("Do you want to delete this category?")) {
       var $target = $(event.target).parent();
       var id = $target.attr("data-category");
@@ -116,7 +117,13 @@ var CategoryList = React.createClass({
       var $input = $(event.target);
       var title = $input.val()
       if (title && title.length > 0) {
-        this.props.onCategoryCreate({title: title});
+        var length = $("#main-menu > ul li").length;
+        var id = $("#main-menu > ul li:nth-child(" + (length - 1) + ")").attr("data-category");
+        var order = this.props.categories[id].order + 1;
+        this.props.onCategoryCreate({
+          title: title,
+          order: order
+        });
         $input.hide();
         resetCategoryControl();
       }
