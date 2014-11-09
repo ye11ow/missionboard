@@ -80,6 +80,9 @@ var MissionBoard = React.createClass({
   },
 
   handleCategoryDestroy: function(id) {
+    if (id === this.state.category) {
+      $("#main-menu > ul li:first-child").addClass("active");
+    }
     // no set state here, the setState will be triggered by changeListener.
     CategoryActions.destroy(id);
   },

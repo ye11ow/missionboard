@@ -71,6 +71,7 @@ var CategoryList = React.createClass({
 
   handleCategoryAdd: function() {
     $("#category-add-title").show(300);
+    $("#category-add-title").focus();
 
     $("#category-add").css("visibility", "hidden");
     $("#category-confirm").css("visibility", "visible");

@@ -12,7 +12,8 @@ function create(title, order) {
   var category = {
     title: title,
     system: false,
-    order: order
+    order: order,
+    orderby: null
   };
   $.post( SERVER + "/categories/", category, function(data) {
     if (data && typeof data === "string") {
@@ -21,6 +22,7 @@ function create(title, order) {
     var id = data["_id"]["$oid"]
     if (id && id.length > 0) {
       category["id"] = data["_id"]["$oid"];
+      category["orderby"] = data["orderby"];
       _categories[id] = category;
       _length++;
 
