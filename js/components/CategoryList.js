@@ -162,6 +162,7 @@ var CategoryList = React.createClass({
 
     return (
       <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
+        <div className="category-header">Categories</div>
         <ul className="nav nav-pills nav-stacked">
           {categories.map(function(category) {
             if (category.system === false) {

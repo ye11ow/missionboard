@@ -29,6 +29,13 @@ h3 {
   margin-right: 50px;
 }
 
+.category-header {
+  margin-left: 16px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .category .glyphicon {
   display: none;
   font-size: 16px;
@@ -83,19 +90,27 @@ h3 {
 }
 
 .nav-pills>li>a {
-  color: #5A656B;
+  color: #dddddd;
   font-weight: bold;
   border-radius: 0;
 }
 
 .nav-pills>li.active>a {
   color: white;
-  background-color: #35424B;
+  background-color: #2D3134;
+}
+
+.nav-pills>li>a:hover {
+  color: #2D3134;
+  background-color: white;
 }
 
 .nav-pills>li.active>a:hover {
-  color: #35424B;
-  background-color: white;
+  background-color: #2D3134;
+}
+
+a.list-group-item.active>.badge, .nav-pills>.active>a>.badge {
+  float: right;
 }
 
 .category .glyphicon-chevron-up {
@@ -122,7 +137,7 @@ h3 {
   padding-top: 84px;
   width: 15%;
   height: 100%;
-  background-color: #2D383E;
+  background-color: #383D40;
 }
 
 .main-container {
