@@ -20,6 +20,7 @@ function resetCategoryControl() {
   $(".category .glyphicon").css("display", "none");
   $(".category a").css("margin-left", "0");
   $(".category a").css("pointer-events", "auto");
+  $(".category .badge").css("visibility", "visible");
 }
 
 var CategoryList = React.createClass({
@@ -83,6 +84,7 @@ var CategoryList = React.createClass({
     $(".category .glyphicon").css("display", "block");
     $(".category a").css("margin-left", "25px");
     $(".category a").css("pointer-events", "none");
+    $(".category .badge").css("visibility", "hidden");
 
     $("#category-add").css("visibility", "hidden");
     $("#category-confirm").css("visibility", "visible");
@@ -166,9 +168,9 @@ var CategoryList = React.createClass({
         <ul className="nav nav-pills nav-stacked">
           {categories.map(function(category) {
             if (category.system === false) {
-              return <li className="category" draggable="true" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}</a><span className="glyphicon glyphicon-chevron-down"></span><span className="glyphicon glyphicon-chevron-up"></span></li>;
+              return <li className="category" draggable="true" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}<span className="badge">{category.count}</span></a><span className="glyphicon glyphicon-chevron-down"></span><span className="glyphicon glyphicon-chevron-up"></span></li>;
             } else {
-              return <li className="category active" draggable="true" key={category.id} data-category={category.id}><a href="#">{category.title}</a></li>;
+              return <li className="category active" draggable="true" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
           })}
           <li className="category-title">

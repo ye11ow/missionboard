@@ -64,6 +64,23 @@ var MissionBoard = React.createClass({
 
         var state = getProgressState();
         state["category"] = categoryId;
+
+        var progresses = state.progresses;
+        var categories = state.categories;
+        categories[categoryId].count = 0;
+
+        for (var key in progresses) {
+          var category = categories[progresses[key].category];
+          if (!category.completed) {
+            if (typeof category.count === "undefined") {
+              category.count = 1;
+            } else {
+              category.count++;
+            }
+            categories[categoryId].count++;
+          }
+        }
+
         this.setState(state);
       }
 
