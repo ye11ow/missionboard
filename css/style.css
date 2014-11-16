@@ -260,14 +260,18 @@ h3 {
   display: inline;
 }
 
-.progress-edit, .progress-done {
+.progress-edit, .progress-done, .progress-delete {
   font-size: 16px;
   margin-left: 30px;
 }
 
-.progress-edit:hover, .progress-done:hover {
+.progress-edit:hover, .progress-done:hover, .progress-delete {
   color: red;
   cursor: pointer;
+}
+
+.progress-delete {
+  color: red;
 }
 
 #progress-list .panel {
@@ -278,40 +282,19 @@ h3 {
   margin-bottom: 0;
 }
 
-.progress-bar {
-  line-height: 40px;
-  font-size: 18px;
+.progress-slider {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-.label-percent {
+.label-progress {
   margin-bottom: 10px;
   height: 24px;
   font-size: 16px;
-  width: 60px;
+  width: 120px;
   float: right;
 }
 
-.progress-control {
-  position: absolute;
-  top: 34px;
-  z-index: 1;
-  height: 40px;
-  width: 100%;
-}
-
-.progress-control button {
-  font-size: 18px;
-  height: 40px;
-  width: 40px;
-  border: 0;
-  background-color: transparent;
-}
-
-.progress-control-btn-right {
-  position: absolute;
-  right: 30px;
-}
-
-.progress-delete {
-  margin-top: 35px;
+.noUi-handle {
+  cursor: move;
 }
