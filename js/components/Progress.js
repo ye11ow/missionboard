@@ -13,16 +13,10 @@ var Progress = React.createClass({
 
   handleMouseEnter: function(event) {
     $panel = $(event.currentTarget);
-    $panel.find(".progress-edit").show(300);
-    $panel.find(".progress-done").show(300);
-    $panel.find(".progress-delete").show(300);
   },
 
   handleMouseLeave: function(event) {
     $panel = $(event.currentTarget);
-    $panel.find(".progress-edit").hide(300);
-    $panel.find(".progress-done").hide(300);
-    $panel.find(".progress-delete").hide(300);
   },
 
   handleEdit: function() {
@@ -65,13 +59,21 @@ var Progress = React.createClass({
     });
 
     $slider.on('slide', function(){
-      var $progress = $(this).parent().parent().find('[data-role="progress"]');
-      $progress.find('[data-role="current"]').text(parseInt($(this).val()));
+      var val = parseInt($(this).val());
+      var $container = $(this).parent().parent();
+
+      $container.find('[data-role="current"]').text(val);
+      var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
+      $tips.text(val);
+      $tips.css("left", $(this).find(".noUi-origin").css("left"));
+      $tips.show();
     });
 
     $slider.on('change', function(){
       progress.current = parseInt($(this).val());
       ProgressActions.doit(progress.id, progress.current);
+      var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
+      $tips.hide();
     });
   },
 
@@ -89,18 +91,22 @@ var Progress = React.createClass({
     return (
       <div id={progress.id} className="panel panel-default" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         <div className="panel-body row" data-completed={progress.completed} data-role="progress">
-          <div className="col-lg-12">
+          <div className="col-lg-10">
             <h5 className="progress-title">{progress.title}</h5>
-            <span className="glyphicon glyphicon-edit progress-edit" title="edit" style={hidden} onClick={this.handleEdit}></span>
-            <span className="glyphicon glyphicon-check progress-done" title="mark as completed" style={hidden} onClick={this.handleFinish}></span>
-            <span className="glyphicon glyphicon-trash progress-delete" title="delete" style={hidden} onClick={this.handleDestroy}></span>
-            <span data-role="progress" className="label label-success label-progress">
-              <span data-role="current">{progress.current}</span>
-              /{progress.total}&nbsp;&nbsp;
-              <small>{style.width}</small>
-            </span>
             <div data-role="slider" className="progress-slider">
             </div>
+            <div className="slider-tip">
+              <span data-role="slider-current"></span>
+            </div>
+          </div>
+          <div className="col-lg-2">
+            <span data-role="progress" className="label label-success label-progress">
+              <span data-role="current">{progress.current}</span>/{progress.total}&nbsp;&nbsp;
+              <small>{style.width}</small>
+            </span>
+            <span className="glyphicon glyphicon-edit progress-edit" title="edit" onClick={this.handleEdit}></span>
+            <span className="glyphicon glyphicon-check progress-done" title="mark as completed" onClick={this.handleFinish}></span>
+            <span className="glyphicon glyphicon-trash progress-delete" title="delete" onClick={this.handleDestroy}></span>
           </div>
         </div>
       </div>

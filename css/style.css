@@ -295,6 +295,53 @@ h3 {
   float: right;
 }
 
+.noUi-target.noUi-connect {
+  box-shadow: none;
+  border: none;
+}
+
+.noUi-connect {
+  background: #2196f3;
+  height: 6px;
+}
+
 .noUi-handle {
   cursor: move;
+  border-radius: 100%;
+  width: 24px !important;
+  height: 24px !important;
+  background-color: #2196f3;
+  border-color: #2196f3;
+  border: 0;
+  top: -9px !important;
+  transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  box-shadow: none;
 }
+
+.noUi-active {
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+}
+
+.noUi-handle:before, .noUi-handle:after {
+  background: none;
+}
+
+.slider-tip {
+  width: 100%;
+  background-color: yellow;
+}
+
+.slider-tip > span {
+  display: none;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  line-height: 24px;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+
