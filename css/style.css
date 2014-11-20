@@ -274,6 +274,19 @@ h3 {
   color: red;
 }
 
+.progress-percentage {
+  font-weight: bold;
+  color: #4caf50;
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 0;
+}
+
+.progress-control {
+  clear: both;
+  padding-top: 15px;
+}
+
 #progress-list .panel {
   margin-bottom: 5px;
 }
@@ -288,10 +301,9 @@ h3 {
 }
 
 .label-progress {
-  margin-bottom: 10px;
   height: 24px;
   font-size: 16px;
-  width: 120px;
+  width: 100px;
   float: right;
 }
 

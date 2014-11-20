@@ -100,13 +100,17 @@ var Progress = React.createClass({
             </div>
           </div>
           <div className="col-lg-2">
-            <span data-role="progress" className="label label-success label-progress">
-              <span data-role="current">{progress.current}</span>/{progress.total}&nbsp;&nbsp;
-              <small>{style.width}</small>
-            </span>
-            <span className="glyphicon glyphicon-edit progress-edit" title="edit" onClick={this.handleEdit}></span>
-            <span className="glyphicon glyphicon-check progress-done" title="mark as completed" onClick={this.handleFinish}></span>
-            <span className="glyphicon glyphicon-trash progress-delete" title="delete" onClick={this.handleDestroy}></span>
+            <div>
+              <span data-role="progress" className="label label-success label-progress">
+                <span data-role="current">{progress.current}</span>/{progress.total}&nbsp;&nbsp;
+              </span>
+              <label className="progress-percentage">{style.width}</label>
+            </div>
+            <div className="progress-control">
+              <span className="glyphicon glyphicon-edit progress-edit" title="edit" onClick={this.handleEdit}></span> 
+              <span className="glyphicon glyphicon-check progress-done" title="mark as completed" onClick={this.handleFinish}></span>
+              <span className="glyphicon glyphicon-trash progress-delete" title="delete" onClick={this.handleDestroy}></span>
+            </div>
           </div>
         </div>
       </div>
