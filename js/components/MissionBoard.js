@@ -15,6 +15,34 @@ function getProgressState() {
   };
 }
 
+function processRawData(categories, progresses, categoryId) {
+  if (this.isMounted()) {
+    ProgressStore.setProgresses(progresses);
+    CategoryStore.setCategories(categories);
+
+    var state = getProgressState();
+    state["category"] = categoryId;
+
+    var progresses = state.progresses;
+    var categories = state.categories;
+    categories[categoryId].count = 0;
+
+    for (var key in progresses) {
+      var category = categories[progresses[key].category];
+      if (!category.completed) {
+        if (typeof category.count === "undefined") {
+          category.count = 1;
+        } else {
+          category.count++;
+        }
+        categories[categoryId].count++;
+      }
+    }
+
+    this.setState(state);
+  }
+}
+
 var MissionBoard = React.createClass({
 
   getInitialState: function() {
@@ -25,66 +53,60 @@ var MissionBoard = React.createClass({
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
-    $.when( 
-      $.get(SERVER + "/missions/"),
-      $.get(SERVER + "/categories/") 
-    ).done(function(progresses, categories){
-      if (progresses[0]) {
-        progresses = progresses[0];
-      }
-      if (categories[0]) {
-        categories = categories[0];
-      }
-
-      var _progresses = {};
-      var _categories = {}
-
-      $.each(progresses, function(i, d) {
-        d.id = d["_id"]["$oid"];
-        delete d["_id"];
-        _progresses[d.id] = d;
-        length++;
-      });
-
-      var categoryId = null;
-
-      $.each(categories, function(i, d) {
-        d.id = d["_id"]["$oid"];
-        delete d["_id"];
-        delete d.orderby["_id"];
-        _categories[d.id] = d;
-        if (d.system === true) {
-          categoryId = d.id;
+    if (!LOCAL_MODE) {
+      $.when( 
+        $.get(SERVER + "/missions/"),
+        $.get(SERVER + "/categories/")
+      ).done(function(progresses, categories) {
+        if (progresses[0]) {
+          progresses = progresses[0];
         }
-      });
+        if (categories[0]) {
+          categories = categories[0];
+        }
 
-      if (this.isMounted()) {
-        ProgressStore.setProgresses(_progresses, length);
-        CategoryStore.setCategories(_categories);
+        var _progresses = {};
+        var _categories = {}
 
-        var state = getProgressState();
-        state["category"] = categoryId;
+        $.each(progresses, function(i, d) {
+          d.id = d["_id"]["$oid"];
+          delete d["_id"];
+          _progresses[d.id] = d;
+          length++;
+        });
 
-        var progresses = state.progresses;
-        var categories = state.categories;
-        categories[categoryId].count = 0;
+        var categoryId = null;
 
-        for (var key in progresses) {
-          var category = categories[progresses[key].category];
-          if (!category.completed) {
-            if (typeof category.count === "undefined") {
-              category.count = 1;
-            } else {
-              category.count++;
-            }
-            categories[categoryId].count++;
+        $.each(categories, function(i, d) {
+          d.id = d["_id"]["$oid"];
+          delete d["_id"];
+          delete d.orderby["_id"];
+          _categories[d.id] = d;
+          if (d.system === true) {
+            categoryId = d.id;
           }
-        }
+        });
 
-        this.setState(state);
+        console.log(_categories, _progresses);
+
+        localStorage["categories"] = JSON.stringify(_categories);
+        localStorage["progresses"] = JSON.stringify(_progresses);
+        localStorage["categoryId"] = categoryId;
+
+        processRawData.call(this, _categories, _progresses, categoryId)
+      }.bind(this));
+    } else {
+      try {
+        var categories = JSON.parse(localStorage["categories"]);
+        var progresses = JSON.parse(localStorage["progresses"]);
+        var categoryId = localStorage["categoryId"];
+
+        processRawData.call(this, categories, progresses, categoryId)
+      } catch (err) {
+        return;
       }
+    }
 
-    }.bind(this));
   },
 
   componentWillUnmount: function() {

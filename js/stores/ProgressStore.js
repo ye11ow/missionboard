@@ -128,9 +128,13 @@ function finish(id) {
 
 var ProgressStore = merge(EventEmitter.prototype, {
 
-  setProgresses: function(progresses, length) {
+  setProgresses: function(progresses) {
     _progresses = progresses;
-    _length = length;
+    if (progresses && typeof progresses === "object") {
+      _length = Object.keys(progresses).length;
+    } else {
+      _length = 0;
+    }
   },
 
   getAll: function() {

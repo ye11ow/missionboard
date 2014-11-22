@@ -8,7 +8,8 @@ var ProgressActions = require('./actions/ProgressActions');
 
 var MissionBoard = require('./components/MissionBoard');
 
-SERVER = "http://localhost:3000" 
+LOCAL_MODE = false;
+SERVER = "http://localhost:3000"
 
 React.render(
   <MissionBoard />,
