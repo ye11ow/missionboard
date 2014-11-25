@@ -29,7 +29,7 @@ function processRawData(categories, progresses, categoryId) {
 
     for (var key in progresses) {
       var category = categories[progresses[key].category];
-      if (!category.completed) {
+      if (!progresses[key].completed) {
         if (typeof category.count === "undefined") {
           category.count = 1;
         } else {
@@ -68,6 +68,8 @@ var MissionBoard = React.createClass({
         var _progresses = {};
         var _categories = {}
 
+        console.log(_categories, progresses);
+
         $.each(progresses, function(i, d) {
           d.id = d["_id"]["$oid"];
           delete d["_id"];
@@ -78,7 +80,7 @@ var MissionBoard = React.createClass({
         var categoryId = null;
 
         $.each(categories, function(i, d) {
-          d.id = d["_id"]["$oid"];
+          d.id = d["_id"];
           delete d["_id"];
           delete d.orderby["_id"];
           _categories[d.id] = d;
@@ -87,7 +89,6 @@ var MissionBoard = React.createClass({
           }
         });
 
-        console.log(_categories, _progresses);
 
         localStorage["categories"] = JSON.stringify(_categories);
         localStorage["progresses"] = JSON.stringify(_progresses);

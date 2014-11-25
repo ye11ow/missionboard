@@ -1,51 +1,42 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var CategoryConstants = require('../constants/CategoryConstants');
+var utils = require('../helpers/Utils.js');
 var merge = require('react/lib/merge');
 
 var CHANGE_EVENT = 'change';
 
 var _categories = {};
+var _syncList = {};
 var _length = 0;
 
 function create(title, order) {
   var category = {
+    id: utils.UUID(),
     title: title,
-    system: false,
     order: order,
-    orderby: null
+    system: false,
+    orderby: {
+      by: "title",
+      type: "asc"
+    },
+    lastChange: Date.now(),
+    lastSync: -1,
+    lifecycle: "inited"
   };
-  $.post( SERVER + "/categories/", category, function(data) {
-    if (data && typeof data === "string") {
-      data = JSON.parse(data);
-    }
-    var id = data["_id"]["$oid"]
-    if (id && id.length > 0) {
-      category["id"] = data["_id"]["$oid"];
-      category["orderby"] = data["orderby"];
-      _categories[id] = category;
-      _length++;
 
-      CategoryStore.emitChange();
-    }
-  });
+  _categories[category.id] = category;
+  _length++;
+
+  return category.id;
 }
 
 function updateOrderby(id, by, type) {
   var orderby = {
     by: by,
-    type:type
+    type: type
   }
-  $.ajax({
-    type: "PUT",
-    url: SERVER + "/categories/" + id + "/orderby",
-    data: orderby
-  }).done(function( data ) {
-    _categories[id].orderby = orderby;
-    console.log(data);
-
-    CategoryStore.emitChange();
-  });
+  _categories[id].orderby = orderby;
 }
 
 function updateOrder(id, targetId) {
@@ -55,44 +46,11 @@ function updateOrder(id, targetId) {
   var tmp = category.order;
   category.order = targetCategory.order;
   targetCategory.order = tmp;
-
-  var order = {
-    order: category.order
-  };
-
-  $.ajax({
-    type: "PUT",
-    url: SERVER + "/categories/" + id + "/order",
-    data: order
-  }).done(function( data ) {
-    console.log(data);
-  });
-
-  order = {
-    order: targetCategory.order
-  };
-
-  $.ajax({
-    type: "PUT",
-    url: SERVER + "/categories/" + targetId + "/order",
-    data: order
-  }).done(function( data ) {
-    console.log(data);
-  });
-
-  CategoryStore.emitChange();
 }
 
 function destroy(id) {
-  $.ajax({
-    type: "DELETE",
-    url: SERVER + "/categories/" + id
-  }).done(function( data ) {
-    delete _categories[id];
-    _length--;
-
-    CategoryStore.emitChange();
-  });
+  delete _categories[id];
+  _length--;
 }
 
 var CategoryStore = merge(EventEmitter.prototype, {
@@ -105,8 +63,22 @@ var CategoryStore = merge(EventEmitter.prototype, {
     return _categories;
   },
 
-  emitChange: function() {
+  emitChange: function(id, action) {
     this.emit(CHANGE_EVENT);
+
+    if (_syncList[id]) {
+      if (_syncList[id].action === CategoryConstants.CATEGORY_CREATE) {
+        if (action === CategoryConstants.CATEGORY_DESTROY) {
+          delete _syncList[id];
+        } else {
+          return;
+        }
+      }
+    } else {
+      _syncList[id] = {
+        action: action
+      }
+    }
   },
 
   /**
@@ -121,6 +93,47 @@ var CategoryStore = merge(EventEmitter.prototype, {
    */
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
+  },
+
+  sync: function() {
+    for (var id in _syncList) {
+      var action = _syncList[id].action;
+      var category = _categories[id]
+
+      switch(action) {
+        case CategoryConstants.CATEGORY_CREATE:
+          $.post( SERVER + "/categories/", category, function(data) {
+            delete _syncList[id];
+            console.log(data);
+          });
+          break;
+
+        case CategoryConstants.CATEGORY_ORDERBY_UPDATE:
+        case CategoryConstants.CATEGORY_ORDER_UPDATE:
+          $.ajax({
+            type: "PUT",
+            url: SERVER + "/categories/" + id,
+            data: category
+          }).done(function( data ) {
+            delete _syncList[id];
+            console.log(data);
+          });
+          break;
+
+        case CategoryConstants.CATEGORY_DESTROY:
+          $.ajax({
+            type: "DELETE",
+            url: SERVER + "/categories/" + id
+          }).done(function( data ) {
+            delete _syncList[id];
+            console.log(data);
+          });
+          break;
+
+        default:
+          return true;
+      }
+    }
   }
 
 });
@@ -133,7 +146,7 @@ AppDispatcher.register(function(payload) {
     case CategoryConstants.CATEGORY_CREATE:
       title = action.title.trim();
       if (title !== '') {
-        create(title, action.order);
+        action.id = create(title, action.order);
       }
       break;
 
@@ -143,6 +156,8 @@ AppDispatcher.register(function(payload) {
 
     case CategoryConstants.CATEGORY_ORDER_UPDATE:
       updateOrder(action.id, action.targetId);
+      // too hacky here.
+      CategoryStore.emitChange(action.targetId, action.actionType);
       break;
 
     case CategoryConstants.CATEGORY_DESTROY:
@@ -152,6 +167,9 @@ AppDispatcher.register(function(payload) {
     default:
       return true;
   }
+
+
+  CategoryStore.emitChange(action.id, action.actionType);
 
   return true; // No errors.  Needed by promise in Dispatcher.
 });

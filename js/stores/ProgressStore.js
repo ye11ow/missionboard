@@ -181,6 +181,16 @@ var ProgressStore = merge(EventEmitter.prototype, {
    */
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
+  },
+
+  sync: function() {
+    for (var item in _progresses) {
+      var progress = _progresses[item];
+
+      if (progress.synced) {
+        update(progress.id, progress.title, progress.current, progress.total, progress.category, progress.type, progress.description);
+      }
+    }
   }
 
 });
