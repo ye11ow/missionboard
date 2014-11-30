@@ -5,6 +5,7 @@ SERVER = "http://localhost:3000"
 
 var start = function() {
   CategoryStore.sync();
+  //ProgressStore.sync();
 }
 
 module.exports = {

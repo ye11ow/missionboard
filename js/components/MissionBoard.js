@@ -11,6 +11,7 @@ function getProgressState() {
     progresses: ProgressStore.getAll(),
     length: ProgressStore.getLength(),
     categories: CategoryStore.getAll(),
+    syncs: CategoryStore.getSyncs(),
     category: $("#main-menu").find(".active").attr("data-category"),
   };
 }
@@ -53,7 +54,7 @@ var MissionBoard = React.createClass({
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
-    if (!LOCAL_MODE) {
+    //if (!LOCAL_MODE) {
       $.when( 
         $.get(SERVER + "/missions/"),
         $.get(SERVER + "/categories/")
@@ -68,7 +69,7 @@ var MissionBoard = React.createClass({
         var _progresses = {};
         var _categories = {}
 
-        console.log(_categories, progresses);
+        //console.log(_categories, progresses);
 
         $.each(progresses, function(i, d) {
           d.id = d["_id"]["$oid"];
@@ -96,7 +97,8 @@ var MissionBoard = React.createClass({
 
         processRawData.call(this, _categories, _progresses, categoryId)
       }.bind(this));
-    } else {
+
+    /*} else {
       try {
         var categories = JSON.parse(localStorage["categories"]);
         var progresses = JSON.parse(localStorage["progresses"]);
@@ -106,7 +108,7 @@ var MissionBoard = React.createClass({
       } catch (err) {
         return;
       }
-    }
+    }*/
 
   },
 
@@ -136,6 +138,9 @@ var MissionBoard = React.createClass({
     var progresses = this.state.progresses;
     var _progresses = {};
     var category = null;
+    var syncs = this.state.syncs;
+    var syncStatus = "";
+    var syncIcon = "glyphicon glyphicon-ok-sign";
 
     if (this.state.category) {
       category = this.state.categories[this.state.category];
@@ -149,12 +154,20 @@ var MissionBoard = React.createClass({
       }
     }
 
+    for (var key in syncs) {
+      syncStatus += key + ";"
+      syncIcon = "glyphicon glyphicon-warning-sign";
+    }
+
     return (
       <div>
 
         <nav className="navbar navbar-default banner">
             <div className="navbar-header">
-              <a className="navbar-brand" href="#">MissionBoard</a>
+              <a className="navbar-brand" href="#">
+                MissionBoard
+                <span id="sync-status" className={syncIcon} title={syncStatus}></span>
+              </a>
             </div>
              <div className="navbar-collapse collapse navbar-inverse-collapse">
               <ul className="nav navbar-nav">

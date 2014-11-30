@@ -19,10 +19,7 @@ function create(title, order) {
     orderby: {
       by: "title",
       type: "asc"
-    },
-    lastChange: Date.now(),
-    lastSync: -1,
-    lifecycle: "inited"
+    }
   };
 
   _categories[category.id] = category;
@@ -32,11 +29,10 @@ function create(title, order) {
 }
 
 function updateOrderby(id, by, type) {
-  var orderby = {
+  _categories[id].orderby = {
     by: by,
     type: type
-  }
-  _categories[id].orderby = orderby;
+  };
 }
 
 function updateOrder(id, targetId) {
@@ -63,22 +59,12 @@ var CategoryStore = merge(EventEmitter.prototype, {
     return _categories;
   },
 
-  emitChange: function(id, action) {
-    this.emit(CHANGE_EVENT);
+  getSyncs: function() {
+    return _syncList;
+  },
 
-    if (_syncList[id]) {
-      if (_syncList[id].action === CategoryConstants.CATEGORY_CREATE) {
-        if (action === CategoryConstants.CATEGORY_DESTROY) {
-          delete _syncList[id];
-        } else {
-          return;
-        }
-      }
-    } else {
-      _syncList[id] = {
-        action: action
-      }
-    }
+  emitChange: function() {
+    this.emit(CHANGE_EVENT);
   },
 
   /**
@@ -97,14 +83,15 @@ var CategoryStore = merge(EventEmitter.prototype, {
 
   sync: function() {
     for (var id in _syncList) {
-      var action = _syncList[id].action;
+      var actionType = _syncList[id].actionType;
       var category = _categories[id]
 
-      switch(action) {
+      switch(actionType) {
         case CategoryConstants.CATEGORY_CREATE:
           $.post( SERVER + "/categories/", category, function(data) {
             delete _syncList[id];
             console.log(data);
+            CategoryStore.emitChange();
           });
           break;
 
@@ -117,6 +104,7 @@ var CategoryStore = merge(EventEmitter.prototype, {
           }).done(function( data ) {
             delete _syncList[id];
             console.log(data);
+            CategoryStore.emitChange();
           });
           break;
 
@@ -127,6 +115,7 @@ var CategoryStore = merge(EventEmitter.prototype, {
           }).done(function( data ) {
             delete _syncList[id];
             console.log(data);
+            CategoryStore.emitChange();
           });
           break;
 
@@ -157,7 +146,20 @@ AppDispatcher.register(function(payload) {
     case CategoryConstants.CATEGORY_ORDER_UPDATE:
       updateOrder(action.id, action.targetId);
       // too hacky here.
-      CategoryStore.emitChange(action.targetId, action.actionType);
+      if (_syncList[action.targetId]) {
+        if (_syncList[action.targetId].actionType === CategoryConstants.CATEGORY_CREATE) {
+          if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
+            delete _syncList[action.targetId];
+          } else {
+            return;
+          }
+        }
+      } else {
+        _syncList[action.targetId] = {
+          actionType: action.actionType
+        }
+      }
+
       break;
 
     case CategoryConstants.CATEGORY_DESTROY:
@@ -168,8 +170,21 @@ AppDispatcher.register(function(payload) {
       return true;
   }
 
+  if (_syncList[action.id]) {
+    if (_syncList[action.id].actionType === CategoryConstants.CATEGORY_CREATE) {
+      if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
+        delete _syncList[action.id];
+      } else {
+        return;
+      }
+    }
+  } else {
+    _syncList[action.id] = {
+      actionType: action.actionType
+    }
+  }
 
-  CategoryStore.emitChange(action.id, action.actionType);
+  CategoryStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.
 });
