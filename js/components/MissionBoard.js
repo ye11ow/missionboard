@@ -11,7 +11,10 @@ function getProgressState() {
     progresses: ProgressStore.getAll(),
     length: ProgressStore.getLength(),
     categories: CategoryStore.getAll(),
-    syncs: CategoryStore.getSyncs(),
+    syncs: {
+      categories: CategoryStore.getSyncs(),
+      progresses: ProgressStore.getSyncs()
+    },
     category: $("#main-menu").find(".active").attr("data-category"),
   };
 }
@@ -90,7 +93,6 @@ var MissionBoard = React.createClass({
           }
         });
 
-
         localStorage["categories"] = JSON.stringify(_categories);
         localStorage["progresses"] = JSON.stringify(_progresses);
         localStorage["categoryId"] = categoryId;
@@ -154,10 +156,17 @@ var MissionBoard = React.createClass({
       }
     }
 
-    for (var key in syncs) {
-      syncStatus += key + ";"
-      syncIcon = "glyphicon glyphicon-warning-sign";
+    if (syncs) {
+      for (var key in syncs.categories) {
+        syncStatus += key + ";"
+        syncIcon = "glyphicon glyphicon-warning-sign";
+      }
+      for (var key in syncs.progresses) {
+        syncStatus += key + ";"
+        syncIcon = "glyphicon glyphicon-warning-sign";
+      }
     }
+
 
     return (
       <div>

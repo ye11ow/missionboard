@@ -36,7 +36,7 @@ var Progress = React.createClass({
   },
 
   handleFinish: function() {
-    ProgressActions.finish(this.props.progress.id);
+    ProgressActions.updateProgress(this.props.progress.id, -1);
   },
 
   handleDestroy: function() {
@@ -71,7 +71,7 @@ var Progress = React.createClass({
 
     $slider.on('change', function(){
       progress.current = parseInt($(this).val());
-      ProgressActions.doit(progress.id, progress.current);
+      ProgressActions.updateProgress(progress.id, progress.current);
       var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
       $tips.hide();
     });

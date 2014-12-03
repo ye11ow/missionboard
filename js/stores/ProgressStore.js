@@ -1,21 +1,22 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ProgressConstants = require('../constants/ProgressConstants');
+var utils = require('../helpers/Utils.js');
 var merge = require('react/lib/merge');
 
 var CHANGE_EVENT = 'change';
 
 var _progresses = {};
+var _syncList = {};
 var _length = 0;
+
 
 /**
  * Create a Progress.
  */
 function create(title, current, total, category, type, description) {
-  // Hand waving here -- not showing how this interacts with XHR or persistent
-  // server-side storage.
-  // Using the current timestamp in place of a real id.
   var progress = {
+    id: utils.UUID(),
     title: title,
     current: current,
     total: total,
@@ -25,17 +26,11 @@ function create(title, current, total, category, type, description) {
     description: description,
     createdAt: Date.now(),
   };
-  $.post( SERVER + "/missions/", progress, function(data) {
-    var id = data["_id"]["$oid"]
-    if (id && id.length > 0) {
-      progress["id"] = data["_id"]["$oid"];
-      progress["createdAt"] = data["createdAt"];
-      _progresses[id] = progress;
-      _length++;
+     
+  _progresses[progress.id] = progress;
+  _length++;
 
-      ProgressStore.emitChange();
-    }
-  });
+  return progress.id;
 }
 
 /**
@@ -43,15 +38,8 @@ function create(title, current, total, category, type, description) {
  * @param  {string} id
  */
 function destroy(id) {
-  $.ajax({
-    type: "DELETE",
-    url: SERVER + "/missions/" + id
-  }).done(function( data ) {
-    delete _progresses[id];
-    _length--;
-
-    ProgressStore.emitChange();
-  });
+  delete _progresses[id];
+  _length--;
 }
 
 function update(id, title, current, total, category, type, description) {
@@ -89,40 +77,16 @@ function update(id, title, current, total, category, type, description) {
   });
 }
 
-function doit(id, current) {
+function updateProgress(id, current) {
   var progress = _progresses[id];
   if (progress) {
     if (current && typeof current === "number") {
+      if (current === -1) {
+        current = progress.total;
+      }
       progress.current = current;
     }
     progress.completed = (progress.current >= progress.total);
-    $.ajax({
-      type: "PUT",
-      url: SERVER + "/missions/" + id + "/doit",
-      data: progress
-    }).done(function( data ) {
-      console.log(data);
-
-      ProgressStore.emitChange();
-    });
-  }
-}
-
-function finish(id) {
-  var progress = _progresses[id];
-  if (progress) {
-    progress.current = progress.total;
-    progress.completed = true;
-
-    $.ajax({
-      type: "PUT",
-      url: SERVER + "/missions/" + id + "/finish",
-      data: progress
-    }).done(function( data ) {
-      console.log(data);
-
-      ProgressStore.emitChange();
-    });
   }
 }
 
@@ -165,6 +129,10 @@ var ProgressStore = merge(EventEmitter.prototype, {
     return completed;
   },
 
+  getSyncs: function() {
+    return _syncList;
+  },
+
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -184,15 +152,59 @@ var ProgressStore = merge(EventEmitter.prototype, {
   },
 
   sync: function() {
-    for (var item in _progresses) {
-      var progress = _progresses[item];
+    for (var id in _syncList) {
+      var actionType = _syncList[id].actionType;
+      var progress = _progresses[id];
 
-      if (progress.synced) {
-        update(progress.id, progress.title, progress.current, progress.total, progress.category, progress.type, progress.description);
+      switch(actionType) {
+        case ProgressConstants.PROGRESS_CREATE:
+          $.post( SERVER + "/missions/", progress, function(data) {
+            delete _syncList[id];
+            console.log(data);
+            ProgressStore.emitChange();
+          });
+          break;
+
+        case ProgressConstants.PROGRESS_UPDATE:
+          $.ajax({
+            type: "PUT",
+            url: SERVER + "/categories/" + id,
+            data: category
+          }).done(function( data ) {
+            delete _syncList[id];
+            console.log(data);
+            CategoryStore.emitChange();
+          });
+          break;
+
+        case ProgressConstants.PROGRESS_UPDATE_PROGRESS:
+          $.ajax({
+            type: "PUT",
+            url: SERVER + "/missions/" + id + "/progress",
+            data: progress
+          }).done(function( data ) {
+            delete _syncList[id];
+            console.log(data);
+            ProgressStore.emitChange();
+          });
+          break;
+
+        case ProgressConstants.PROGRESS_DESTROY:
+          $.ajax({
+            type: "DELETE",
+            url: SERVER + "/missions/" + id
+          }).done(function( data ) {
+            delete _syncList[id];
+            console.log(data);
+            ProgressStore.emitChange();
+          });
+          break;
+
+        default:
+          return true;
       }
     }
   }
-
 });
 
 AppDispatcher.register(function(payload) {
@@ -203,7 +215,7 @@ AppDispatcher.register(function(payload) {
     case ProgressConstants.PROGRESS_CREATE:
       title = action.title.trim();
       if (title !== '') {
-        create(title, action.current, action.total, action.category, action.type, action.description);
+        action.id = create(title, action.current, action.total, action.category, action.type, action.description);
       }
       break;
 
@@ -220,17 +232,29 @@ AppDispatcher.register(function(payload) {
       }
       break;
 
-    case ProgressConstants.PROGRESS_DOIT:
-      doit(action.id, action.current);
-      break;
-
-    case ProgressConstants.PROGRESS_FINISH: 
-      finish(action.id);
+    case ProgressConstants.PROGRESS_UPDATE_PROGRESS:
+      updateProgress(action.id, action.current);
       break;
 
     default:
       return true;
   }
+
+  if (_syncList[action.id]) {
+    if (_syncList[action.id].actionType === ProgressConstants.CATEGORY_CREATE) {
+      if (action.actionType === ProgressConstants.CATEGORY_DESTROY) {
+        delete _syncList[action.id];
+      } else {
+        return;
+      }
+    }
+  } else {
+    _syncList[action.id] = {
+      actionType: action.actionType
+    }
+  }
+
+  ProgressStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.
 });

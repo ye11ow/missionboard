@@ -10,6 +10,10 @@ var _categories = {};
 var _syncList = {};
 var _length = 0;
 
+
+/**
+ * Create a Category.
+ */
 function create(title, order) {
   var category = {
     id: utils.UUID(),
@@ -44,6 +48,10 @@ function updateOrder(id, targetId) {
   targetCategory.order = tmp;
 }
 
+/**
+ * Delete a Category.
+ * @param  {string} id
+ */
 function destroy(id) {
   delete _categories[id];
   _length--;
@@ -84,7 +92,7 @@ var CategoryStore = merge(EventEmitter.prototype, {
   sync: function() {
     for (var id in _syncList) {
       var actionType = _syncList[id].actionType;
-      var category = _categories[id]
+      var category = _categories[id];
 
       switch(actionType) {
         case CategoryConstants.CATEGORY_CREATE:

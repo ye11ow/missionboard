@@ -31,18 +31,11 @@ var ProgressActions = {
     });
   },
 
-  doit: function(id, current) {
+  updateProgress: function(id, current) {
     AppDispatcher.handleViewAction({
-      actionType: ProgressConstants.PROGRESS_DOIT,
+      actionType: ProgressConstants.PROGRESS_UPDATE_PROGRESS,
       id: id,
       current: current
-    });
-  },
-
-  finish: function(id) {
-    AppDispatcher.handleViewAction({
-      actionType: ProgressConstants.PROGRESS_FINISH,
-      id: id
     });
   },
 
