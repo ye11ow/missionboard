@@ -61,6 +61,13 @@ var CategoryStore = merge(EventEmitter.prototype, {
 
   setCategories: function(categories) {
     _categories = categories;
+    if (localStorage["categories"] && localStorage["categories.sync"]) {
+      var localCategories = JSON.parse(localStorage["categories"]);
+      _syncList = JSON.parse(localStorage["categories.sync"]);
+      for (var id in _syncList) {
+        _categories[id] = localCategories[id];
+      }
+    }
   },
 
   getAll: function() {
@@ -131,6 +138,16 @@ var CategoryStore = merge(EventEmitter.prototype, {
           return true;
       }
     }
+  },
+
+  persist: function() {
+    localStorage["categories"] = JSON.stringify(_categories);
+    localStorage["categories.sync"] = JSON.stringify(_syncList);
+  },
+
+  clear: function() {
+    localStorage["categories"] = "";
+    localStorage["categories.sync"] = "";
   }
 
 });

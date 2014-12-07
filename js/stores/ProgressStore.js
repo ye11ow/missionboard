@@ -99,6 +99,15 @@ var ProgressStore = merge(EventEmitter.prototype, {
     } else {
       _length = 0;
     }
+    if (localStorage["progresses"] && localStorage["progresses.sync"]) {
+      var localProgresses = JSON.parse(localStorage["progresses"]);
+      _syncList = JSON.parse(localStorage["progresses.sync"]);
+      for (var id in _syncList) {
+        if (localProgresses[id]) {
+          _progresses[id] = localProgresses[id];
+        }
+      }
+    }
   },
 
   getAll: function() {
@@ -204,7 +213,18 @@ var ProgressStore = merge(EventEmitter.prototype, {
           return true;
       }
     }
+  },
+
+  persist: function() {
+    localStorage["progresses"] = JSON.stringify(_progresses);
+    localStorage["progresses.sync"] = JSON.stringify(_syncList);
+  },
+
+  clear: function() {
+    localStorage["progresses"] = "";
+    localStorage["progresses.sync"] = "";
   }
+
 });
 
 AppDispatcher.register(function(payload) {

@@ -10,8 +10,14 @@ var start = function() {
   ProgressStore.sync();
 }
 
+var clear = function() {
+  CategoryStore.clear();
+  ProgressStore.clear();
+}
+
 module.exports = {
-  start: start
+  start: start,
+  clear: clear
 };
 
 

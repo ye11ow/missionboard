@@ -71,11 +71,13 @@ var MissionBoard = React.createClass({
 
         var _progresses = {};
         var _categories = {}
-
-        //console.log(_categories, progresses);
-
         $.each(progresses, function(i, d) {
-          d.id = d["_id"]["$oid"];
+          // to be deleted
+          if (d["_id"]["$oid"]) {
+            d.id = d["_id"]["$oid"];
+          } else {
+            d.id = d["_id"];
+          }
           delete d["_id"];
           _progresses[d.id] = d;
           length++;
@@ -93,11 +95,7 @@ var MissionBoard = React.createClass({
           }
         });
 
-        localStorage["categories"] = JSON.stringify(_categories);
-        localStorage["progresses"] = JSON.stringify(_progresses);
-        localStorage["categoryId"] = categoryId;
-
-        processRawData.call(this, _categories, _progresses, categoryId)
+        processRawData.call(this, _categories, _progresses, categoryId);
       }.bind(this));
 
     /*} else {
@@ -165,6 +163,8 @@ var MissionBoard = React.createClass({
         syncStatus += key + ";"
         syncIcon = "glyphicon glyphicon-warning-sign";
       }
+      CategoryStore.persist();
+      ProgressStore.persist();
     }
 
 
