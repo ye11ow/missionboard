@@ -8,6 +8,7 @@ var CHANGE_EVENT = 'change';
 
 var _progresses = {};
 var _syncList = {};
+var _syncCount = 0;
 var _length = 0;
 
 
@@ -142,6 +143,10 @@ var ProgressStore = merge(EventEmitter.prototype, {
     return _syncList;
   },
 
+  getSyncCount: function() {
+    return _syncCount;
+  },
+
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -164,11 +169,13 @@ var ProgressStore = merge(EventEmitter.prototype, {
     for (var id in _syncList) {
       var actionType = _syncList[id].actionType;
       var progress = _progresses[id];
+      _syncCount++;
 
       switch(actionType) {
         case ProgressConstants.PROGRESS_CREATE:
           $.post( SERVER + "/missions/", progress, function(data) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             ProgressStore.emitChange();
           });
@@ -181,6 +188,7 @@ var ProgressStore = merge(EventEmitter.prototype, {
             data: category
           }).done(function( data ) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             CategoryStore.emitChange();
           });
@@ -193,6 +201,7 @@ var ProgressStore = merge(EventEmitter.prototype, {
             data: progress
           }).done(function( data ) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             ProgressStore.emitChange();
           });
@@ -204,6 +213,7 @@ var ProgressStore = merge(EventEmitter.prototype, {
             url: SERVER + "/missions/" + id
           }).done(function( data ) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             ProgressStore.emitChange();
           });

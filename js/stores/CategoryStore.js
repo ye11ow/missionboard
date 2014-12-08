@@ -8,6 +8,7 @@ var CHANGE_EVENT = 'change';
 
 var _categories = {};
 var _syncList = {};
+var _syncCount = 0;
 var _length = 0;
 
 
@@ -78,6 +79,10 @@ var CategoryStore = merge(EventEmitter.prototype, {
     return _syncList;
   },
 
+  getSyncCount: function() {
+    return _syncCount;
+  },
+
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -100,11 +105,13 @@ var CategoryStore = merge(EventEmitter.prototype, {
     for (var id in _syncList) {
       var actionType = _syncList[id].actionType;
       var category = _categories[id];
+      _syncCount++;
 
       switch(actionType) {
         case CategoryConstants.CATEGORY_CREATE:
           $.post( SERVER + "/categories/", category, function(data) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             CategoryStore.emitChange();
           });
@@ -118,6 +125,7 @@ var CategoryStore = merge(EventEmitter.prototype, {
             data: category
           }).done(function( data ) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             CategoryStore.emitChange();
           });
@@ -129,6 +137,7 @@ var CategoryStore = merge(EventEmitter.prototype, {
             url: SERVER + "/categories/" + id
           }).done(function( data ) {
             delete _syncList[id];
+            _syncCount--;
             console.log(data);
             CategoryStore.emitChange();
           });

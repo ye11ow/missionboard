@@ -18,3 +18,5 @@ React.render(
   }
 );
 
+SyncDaemon.start();
+
