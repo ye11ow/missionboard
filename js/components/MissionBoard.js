@@ -29,21 +29,27 @@ function processRawData(categories, progresses, categoryId) {
 
     var progresses = state.progresses;
     var categories = state.categories;
-    categories[categoryId].count = 0;
-
-    for (var key in progresses) {
-      var category = categories[progresses[key].category];
-      if (!progresses[key].completed) {
-        if (typeof category.count === "undefined") {
-          category.count = 1;
-        } else {
-          category.count++;
-        }
-        categories[categoryId].count++;
-      }
-    }
 
     this.setState(state);
+  }
+}
+
+function calcCategoryCount(categories, progresses) {
+  var allId = null;
+  for (var key in categories) {
+    var category = categories[key];
+    category.count = 0;
+    if (category.system) {
+      allId = key;
+    }
+  }
+
+  for (var key in progresses) {
+    var category = categories[progresses[key].category];
+    if (!progresses[key].completed) {
+      category.count++;
+      categories[allId].count++;
+    }
   }
 }
 
@@ -57,59 +63,45 @@ var MissionBoard = React.createClass({
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
-    //if (!LOCAL_MODE) {
-      $.when( 
-        $.get(SERVER + "/missions/"),
-        $.get(SERVER + "/categories/")
-      ).done(function(progresses, categories) {
-        if (progresses[0]) {
-          progresses = progresses[0];
-        }
-        if (categories[0]) {
-          categories = categories[0];
-        }
-
-        var _progresses = {};
-        var _categories = {}
-        $.each(progresses, function(i, d) {
-          // to be deleted
-          if (d["_id"]["$oid"]) {
-            d.id = d["_id"]["$oid"];
-          } else {
-            d.id = d["_id"];
-          }
-          delete d["_id"];
-          _progresses[d.id] = d;
-          length++;
-        });
-
-        var categoryId = null;
-
-        $.each(categories, function(i, d) {
-          d.id = d["_id"];
-          delete d["_id"];
-          delete d.orderby["_id"];
-          _categories[d.id] = d;
-          if (d.system === true) {
-            categoryId = d.id;
-          }
-        });
-
-        processRawData.call(this, _categories, _progresses, categoryId);
-      }.bind(this));
-
-    /*} else {
-      try {
-        var categories = JSON.parse(localStorage["categories"]);
-        var progresses = JSON.parse(localStorage["progresses"]);
-        var categoryId = localStorage["categoryId"];
-
-        processRawData.call(this, categories, progresses, categoryId)
-      } catch (err) {
-        return;
+    $.when( 
+      $.get(SERVER + "/missions/"),
+      $.get(SERVER + "/categories/")
+    ).done(function(progresses, categories) {
+      if (progresses[0]) {
+        progresses = progresses[0];
       }
-    }*/
+      if (categories[0]) {
+        categories = categories[0];
+      }
 
+      var _progresses = {};
+      var _categories = {}
+      $.each(progresses, function(i, d) {
+        // to be deleted
+        if (d["_id"]["$oid"]) {
+          d.id = d["_id"]["$oid"];
+        } else {
+          d.id = d["_id"];
+        }
+        delete d["_id"];
+        _progresses[d.id] = d;
+        length++;
+      });
+
+      var categoryId = null;
+
+      $.each(categories, function(i, d) {
+        d.id = d["_id"];
+        delete d["_id"];
+        delete d.orderby["_id"];
+        _categories[d.id] = d;
+        if (d.system === true) {
+          categoryId = d.id;
+        }
+      });
+
+      processRawData.call(this, _categories, _progresses, categoryId);
+    }.bind(this));
   },
 
   componentWillUnmount: function() {
@@ -136,6 +128,7 @@ var MissionBoard = React.createClass({
 
   render: function() {
     var progresses = this.state.progresses;
+    var categories = this.state.categories;
     var _progresses = {};
     var category = null;
     var syncs = this.state.syncs;
@@ -143,7 +136,7 @@ var MissionBoard = React.createClass({
     var syncIcon = "glyphicon glyphicon-ok-sign";
 
     if (this.state.category) {
-      category = this.state.categories[this.state.category];
+      category = categories[this.state.category];
     }
 
     // a key is need here for Progress.
@@ -153,6 +146,8 @@ var MissionBoard = React.createClass({
         _progresses[key] = progresses[key];
       }
     }
+
+    calcCategoryCount(categories, progresses);
 
     if (syncs) {
       for (var key in syncs.categories) {

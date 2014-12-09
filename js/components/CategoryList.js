@@ -167,7 +167,7 @@ var CategoryList = React.createClass({
         <div className="category-header">Categories</div>
         <ul className="nav nav-pills nav-stacked">
           {categories.map(function(category) {
-            if (category.system === false) {
+            if (!category.system) {
               return <li className="category" draggable="true" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}<span className="badge">{category.count}</span></a><span className="glyphicon glyphicon-chevron-down"></span><span className="glyphicon glyphicon-chevron-up"></span></li>;
             } else {
               return <li className="category active" draggable="true" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;

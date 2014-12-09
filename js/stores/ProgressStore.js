@@ -66,16 +66,6 @@ function update(id, title, current, total, category, type, description) {
     }
     progress.completed = (progress.current >= progress.total);
   }
-
-  $.ajax({
-    type: "PUT",
-    url: SERVER + "/missions/" + id,
-    data: progress
-  }).done(function( data ) {
-    console.log(data);
-
-    ProgressStore.emitChange();
-  });
 }
 
 function updateProgress(id, current) {
