@@ -1,7 +1,8 @@
 var CategoryStore = require('../stores/CategoryStore');
 var ProgressStore = require('../stores/ProgressStore');
 
-SERVER = "http://localhost:3000"
+//SERVER = "http://localhost:3000";
+SERVER = "";
 
 var start = function() {
   if (SERVER === "") {

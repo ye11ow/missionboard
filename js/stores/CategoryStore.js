@@ -1,6 +1,8 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var CategoryConstants = require('../constants/CategoryConstants');
+var CategoryActions = require('../actions/CategoryActions');
+
 var utils = require('../helpers/Utils.js');
 var merge = require('react/lib/merge');
 
@@ -11,6 +13,19 @@ var _syncList = {};
 var _syncCount = 0;
 var _length = 0;
 
+
+
+var categoryAll = {
+  id: CategoryConstants.CATEGORY_ALLID,
+  title: "All",
+  order: 0,
+  count: 0,
+  system: true,
+  orderby: {
+    by: "title",
+    type: "asc"
+  }
+};
 
 /**
  * Create a Category.
@@ -62,13 +77,27 @@ var CategoryStore = merge(EventEmitter.prototype, {
 
   setCategories: function(categories) {
     _categories = categories;
+    _categories[categoryAll.id] = categoryAll;
+    _length++;
+
     if (localStorage["categories"] && localStorage["categories.sync"]) {
       var localCategories = JSON.parse(localStorage["categories"]);
       _syncList = JSON.parse(localStorage["categories.sync"]);
       for (var id in _syncList) {
         _categories[id] = localCategories[id];
       }
+    } else {
+      // First time initilization
+      if (_length === 1 && localStorage["inited"] !== "true") {
+        CategoryActions.create("Video", 1);
+        CategoryActions.create("Book", 2);
+        CategoryActions.create("Other", 3);
+        CategoryStore.persist();
+        localStorage["inited"] = "true";
+      }
     }
+
+    return _categories;
   },
 
   getAll: function() {

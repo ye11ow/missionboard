@@ -5,6 +5,7 @@ var ProgressStore = require('../stores/ProgressStore');
 
 var CategoryStore = require('../stores/CategoryStore');
 var CategoryActions = require('../actions/CategoryActions');
+var CategoryConstants = require('../constants/CategoryConstants');
 
 function getProgressState() {
   return {
@@ -19,13 +20,13 @@ function getProgressState() {
   };
 }
 
-function processRawData(categories, progresses, categoryId) {
+function processRawData(categories, progresses) {
   if (this.isMounted()) {
     ProgressStore.setProgresses(progresses);
-    CategoryStore.setCategories(categories);
+    categories = CategoryStore.setCategories(categories);
 
     var state = getProgressState();
-    state["category"] = categoryId;
+    state["category"] = CategoryConstants.CATEGORY_ALLID;
 
     var progresses = state.progresses;
     var categories = state.categories;
@@ -63,45 +64,49 @@ var MissionBoard = React.createClass({
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
-    $.when( 
-      $.get(SERVER + "/missions/"),
-      $.get(SERVER + "/categories/")
-    ).done(function(progresses, categories) {
-      if (progresses[0]) {
-        progresses = progresses[0];
-      }
-      if (categories[0]) {
-        categories = categories[0];
-      }
+    if (SERVER) {
+      $.when( 
+        $.get(SERVER + "/missions/"),
+        $.get(SERVER + "/categories/")
+      ).done(function(progresses, categories) {
+        if (progresses[0]) {
+          progresses = progresses[0];
+        }
+        if (categories[0]) {
+          categories = categories[0];
+        }
 
-      var _progresses = {};
-      var _categories = {}
-      $.each(progresses, function(i, d) {
-        // to be deleted
-        if (d["_id"]["$oid"]) {
-          d.id = d["_id"]["$oid"];
-        } else {
+        var _progresses = {};
+        var _categories = {}
+        $.each(progresses, function(i, d) {
+          // to be deleted
+          if (d["_id"]["$oid"]) {
+            d.id = d["_id"]["$oid"];
+          } else {
+            d.id = d["_id"];
+          }
+          delete d["_id"];
+          _progresses[d.id] = d;
+          length++;
+        });
+
+        var categoryId = null;
+
+        $.each(categories, function(i, d) {
           d.id = d["_id"];
-        }
-        delete d["_id"];
-        _progresses[d.id] = d;
-        length++;
-      });
+          delete d["_id"];
+          delete d.orderby["_id"];
+          _categories[d.id] = d;
+          if (d.system === true) {
+            categoryId = d.id;
+          }
+        });
+        processRawData.call(this, _categories, _progresses);
+      }.bind(this));
+    } else {
+      processRawData.call(this, {}, {});
+    }
 
-      var categoryId = null;
-
-      $.each(categories, function(i, d) {
-        d.id = d["_id"];
-        delete d["_id"];
-        delete d.orderby["_id"];
-        _categories[d.id] = d;
-        if (d.system === true) {
-          categoryId = d.id;
-        }
-      });
-
-      processRawData.call(this, _categories, _progresses, categoryId);
-    }.bind(this));
   },
 
   componentWillUnmount: function() {
