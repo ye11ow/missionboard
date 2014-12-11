@@ -47,8 +47,7 @@ var ProgressActions = {
       actionType: ProgressConstants.PROGRESS_DESTROY,
       id: id
     });
-  },
-
+  }
 };
 
 module.exports = ProgressActions;

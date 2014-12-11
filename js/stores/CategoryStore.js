@@ -13,8 +13,6 @@ var _syncList = {};
 var _syncCount = 0;
 var _length = 0;
 
-
-
 var categoryAll = {
   id: CategoryConstants.CATEGORY_ALLID,
   title: "All",
@@ -214,7 +212,7 @@ AppDispatcher.register(function(payload) {
           if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
             delete _syncList[action.targetId];
           } else {
-            return;
+            break;
           }
         }
       } else {
@@ -237,8 +235,6 @@ AppDispatcher.register(function(payload) {
     if (_syncList[action.id].actionType === CategoryConstants.CATEGORY_CREATE) {
       if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
         delete _syncList[action.id];
-      } else {
-        return;
       }
     }
   } else {

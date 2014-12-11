@@ -266,7 +266,9 @@ var ProgressList = React.createClass({
                     <div className="col-sm-10">
                       <select id="progress-edit-category" className="form-control">
                         {categories.map(function(category) {
-                          return <option key={category.id} value={category.id}>{category.title}</option>;
+                          if (!category.system) {
+                            return <option key={category.id} value={category.id}>{category.title}</option>;
+                          }
                         })}
                       </select>
                     </div>

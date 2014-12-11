@@ -82,6 +82,7 @@ var CategoryList = React.createClass({
 
   handleCategoryEdit: function() {
     $(".category .glyphicon").css("display", "block");
+    $(".category .glyphicon").css("visibility", "visible");
     $(".category a").css("margin-left", "25px");
     $(".category a").css("pointer-events", "none");
     $(".category .badge").css("visibility", "hidden");
@@ -93,8 +94,8 @@ var CategoryList = React.createClass({
 
     var length = $("#main-menu > ul li").length;
     if (length > 2) {
-      $("#main-menu > ul li:nth-child(2) .glyphicon-chevron-up").hide();
-      $("#main-menu > ul li:nth-child(" + (length - 1) + ") .glyphicon-chevron-down").hide();
+      $("#main-menu > ul li:nth-child(2) .glyphicon-chevron-up").css("visibility", "hidden");
+      $("#main-menu > ul li:nth-child(" + (length - 1) + ") .glyphicon-chevron-down").css("visibility", "hidden");
     }
   },
 

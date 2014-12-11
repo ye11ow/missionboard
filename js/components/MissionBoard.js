@@ -1,6 +1,7 @@
 var React = require('react');
 var ProgressList = require('./ProgressList');
 var CategoryList = require('./CategoryList');
+var ProgressActions = require('../actions/ProgressActions');
 var ProgressStore = require('../stores/ProgressStore');
 
 var CategoryStore = require('../stores/CategoryStore');
@@ -123,6 +124,12 @@ var MissionBoard = React.createClass({
       $("#main-menu > ul li:first-child").addClass("active");
     }
     // no set state here, the setState will be triggered by changeListener.
+    var progresses = this.state.progresses;
+    for (var key in progresses) {
+      if (progresses[key].category === id) {
+        ProgressActions.destroy(key);
+      }
+    }
     CategoryActions.destroy(id);
   },
 
