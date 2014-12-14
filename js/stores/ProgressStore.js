@@ -1,6 +1,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ProgressConstants = require('../constants/ProgressConstants');
+
 var utils = require('../helpers/Utils.js');
 var merge = require('react/lib/merge');
 

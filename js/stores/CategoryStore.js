@@ -84,15 +84,6 @@ var CategoryStore = merge(EventEmitter.prototype, {
       for (var id in _syncList) {
         _categories[id] = localCategories[id];
       }
-    } else {
-      // First time initilization
-      if (_length === 1 && localStorage["inited"] !== "true") {
-        CategoryActions.create("Video", 1);
-        CategoryActions.create("Book", 2);
-        CategoryActions.create("Other", 3);
-        CategoryStore.persist();
-        localStorage["inited"] = "true";
-      }
     }
 
     return _categories;

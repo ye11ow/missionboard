@@ -24,7 +24,47 @@ function getProgressState() {
 function processRawData(categories, progresses) {
   if (this.isMounted()) {
     ProgressStore.setProgresses(progresses);
-    categories = CategoryStore.setCategories(categories);
+    CategoryStore.setCategories(categories);
+
+    // First time initilization
+    if (localStorage["inited"] !== "true") {
+      var vId = CategoryActions.create("Videos", 1);
+      var bId = CategoryActions.create("Books", 2);
+      var oId = CategoryActions.create("Others", 3);
+
+      /*
+      ProgressActions.create(
+        "My Favorite Anime", 
+        0, 
+        12,
+        vId,
+        null,
+        "This is my favorite anime"
+      );
+
+      ProgressActions.create(
+        "My Favorite Book", 
+        0, 
+        600,
+        bId,
+        null,
+        "This is my favorite book"
+      );
+
+      ProgressActions.create(
+        "Learn Mission Board", 
+        0, 
+        10,
+        oId,
+        null,
+        "Learn some basic usage of Mission Board"
+      );
+      ProgressStore.persist();
+      */
+
+      CategoryStore.persist();
+      localStorage["inited"] = "true";
+    }
 
     var state = getProgressState();
     state["category"] = CategoryConstants.CATEGORY_ALLID;
@@ -174,6 +214,9 @@ var MissionBoard = React.createClass({
       ProgressStore.persist();
     }
 
+    if (SERVER === "") {
+      syncIcon += " hidden";
+    }
 
     return (
       <div>
