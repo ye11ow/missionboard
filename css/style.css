@@ -8,24 +8,140 @@ h3 {
   margin: 0;
 }
 
+.navbar-header {
+  width: 15%;
+  text-align: center;
+  margin-right: 10px;
+}
+
+#sync-status {
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+#sync-status.glyphicon-ok-sign {
+  color: #3c763d;
+}
+
+#sync-status.glyphicon-warning-sign {
+  color: #8a6d3b;
+}
+
+.navbar-value {
+  font-size: 24px;
+  line-height: 64px;
+  text-align: center;
+  height: 64px;
+  color: black;
+}
+
+.navbar-title {
+  margin-left: 10px;
+  line-height: 64px;
+  height: 64px;
+  margin-right: 50px;
+}
+
+.category-header {
+  margin-left: 16px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.category .glyphicon {
+  display: none;
+  font-size: 16px;
+  top: 15px;
+  margin-left: 5px;
+  cursor: pointer;
+  color: white;
+  float: left;
+}
+
+.category .glyphicon:hover {
+  color: red;
+}
+
+.category-control {
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+}
+
+.category-control:hover {
+  color: red;
+}
+
+.category-confirm,
+.category-cancel {
+  visibility: hidden;
+}
+
+.category-edit {
+}
+
+.category-title {
+  height: 43px;
+}
+
+#category-add-title {
+  color: white;
+  padding-left: 15px;
+  display: none;
+}
+
+.category-dashboard {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
 .navbar {
   border-radius: 0;
 }
 
 .nav-pills>li>a {
-  color: #5A656B;
+  color: #dddddd;
   font-weight: bold;
   border-radius: 0;
 }
 
 .nav-pills>li.active>a {
   color: white;
-  background-color: #35424B;
+  background-color: #2D3134;
+}
+
+.nav-pills>li>a:hover {
+  color: #2D3134;
+  background-color: white;
 }
 
 .nav-pills>li.active>a:hover {
-  color: #35424B;
-  background-color: white;
+  background-color: #2D3134;
+}
+
+.nav-pills>li>a>.badge, .nav-pills>.active>a>.badge {
+  float: right;
+  background-color: #20B2CB;
+  color: white;
+  width: 36px;
+  padding: 3px 5px;
+  font-weight: bold;
+  margin-top: 3px;
+}
+
+.category .glyphicon-chevron-up {
+  top: -28px;
+  float: right;
+  right: 5px;
+}
+
+.category .glyphicon-chevron-down {
+  top: -28px;
+  float: right;
+  right: 5px;
 }
 
 .banner {
@@ -40,7 +156,7 @@ h3 {
   padding-top: 84px;
   width: 15%;
   height: 100%;
-  background-color: #2D383E;
+  background-color: #383D40;
 }
 
 .main-container {
@@ -50,18 +166,6 @@ h3 {
   padding-top: 84px;
   padding-left: 5%;
   padding-right: 5%;
-}
-
-.progress-dashboard {
-  height: 210px;
-}
-
-.progress-dashboard h3{
-  margin-top: -5px;
-}
-
-.progress-dashboard .panel {
-  height: 180px;
 }
 
 .col-left {
@@ -77,30 +181,26 @@ h3 {
   text-align: center;
 }
 
-.progress-chart {
-  margin-top: 15px;
-  position: relative;
-  display: inline-block;
-  width: 120px;
-  height: 120px;
-  text-align: center;
-}
-.progress-chart canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
+.progress-toolbar .panel-body {
+  padding: 10px 15px;
 }
 
-.percent {
-  font-size: 18px;
-  display: inline-block;
-  line-height: 120px;
-  z-index: 2;
+.progress-toolbar .btn-primary {
+  padding: 3px 16px;
+  height: 30px;
 }
-.percent:after {
-  content: '%';
-  margin-left: 0.1em;
-  font-size: .8em;
+
+.progress-toolbar .form-group {
+  margin-bottom: 0;
+}
+
+.progress-toolbar input {
+  height: 30px;
+}
+
+.progress-toolbar h6 {
+  margin-top: 5.5px;
+  margin-bottom: 9.5px;
 }
 
 .btn-add {
@@ -108,16 +208,51 @@ h3 {
   font-weight:bold;
 }
 
-.btn-add:hover, .btn-edit:hover {
+.btn-add:hover {
   text-decoration: underline;
 }
 
-#progress-filter.nav>li>a {
-  padding: 6px 15px;
+.progress-filter {
+  height: 30px;
 }
 
-#progress-orderby.nav>li>a {
-  padding: 6px 15px;
+.progress-filter label{
+  padding-top: 3px;
+  float:right;
+  height: 30px;
+}
+
+#progress-filter {
+  margin-left: 10px;
+  margin-right: 10px;
+  float: right;
+}
+
+#progress-filter.nav>li>a {
+  padding: 3px 15px;
+  color: #aaa;
+}
+
+#progress-filter .active a{
+  font-weight: bold;
+  color: #2196f3 !important;
+}
+
+.progress-orderby {
+  padding-top: 3px;
+}
+
+#progress-orderby {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#progress-ordertype {
+  cursor: pointer;
+}
+
+#progress-ordertype:hover {
+  text-decoration: underline;
 }
 
 .progress-current {
@@ -138,53 +273,100 @@ h3 {
   display: inline;
 }
 
-.progress-edit {
+.progress-edit, .progress-done, .progress-delete {
   font-size: 16px;
+  margin-left: 30px;
 }
 
-.progress-edit:hover {
+.progress-edit:hover, .progress-done:hover, .progress-delete {
   color: red;
   cursor: pointer;
 }
 
-.progress-bar {
-  line-height: 40px;
-  font-size: 18px;
+.progress-delete {
+  color: red;
 }
 
-.label-percent {
-  margin-bottom: 10px;
-  height: 24px;
+.progress-percentage {
+  font-weight: bold;
+  color: #4caf50;
   font-size: 16px;
-  width: 60px;
-  float: right;
+  line-height: 22px;
+  margin-bottom: 0;
 }
 
 .progress-control {
-  position: absolute;
-  top: 34px;
-  z-index: 1;
-  height: 40px;
-  width: 100%;
+  clear: both;
+  padding-top: 15px;
 }
 
-.progress-control button {
-  font-size: 18px;
-  height: 40px;
-  width: 40px;
+#progress-list .panel {
+  margin-bottom: 5px;
+}
+
+.progress {
+  margin-bottom: 0;
+}
+
+.progress-slider {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.label-progress {
+  height: 24px;
+  font-size: 16px;
+  width: 100px;
+  float: right;
+}
+
+.noUi-target.noUi-connect {
+  box-shadow: none;
+  border: none;
+}
+
+.noUi-connect {
+  background: #2196f3;
+  height: 6px;
+}
+
+.noUi-handle {
+  cursor: move;
+  border-radius: 100%;
+  width: 24px !important;
+  height: 24px !important;
+  background-color: #2196f3;
+  border-color: #2196f3;
   border: 0;
-  background-color: transparent;
+  top: -9px !important;
+  transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  box-shadow: none;
 }
 
-.progress-control-btn-left {
-
+.noUi-active {
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
 }
 
-.progress-control-btn-right {
+.noUi-handle:before, .noUi-handle:after {
+  background: none;
+}
+
+.slider-tip {
+  width: 100%;
+  background-color: yellow;
+}
+
+.slider-tip > span {
+  display: none;
   position: absolute;
-  right: 30px;
+  top: 52px;
+  left: 0;
+  line-height: 24px;
+  font-weight: bold;
+  margin-left: 2px;
 }
 
-.progress-delete {
-  margin-top: 35px;
-}
+
