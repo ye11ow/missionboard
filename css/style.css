@@ -50,7 +50,6 @@ h3 {
 }
 
 .category .glyphicon {
-  display: none;
   font-size: 16px;
   top: 15px;
   margin-left: 5px;
@@ -63,6 +62,11 @@ h3 {
   color: red;
 }
 
+.category a.editing {
+  margin-left: 25px;
+  pointer-events: none;
+}
+
 .category-control {
   cursor: pointer;
   color: white;
@@ -73,11 +77,6 @@ h3 {
   color: red;
 }
 
-.category-confirm,
-.category-cancel {
-  visibility: hidden;
-}
-
 .category-edit {
 }
 
@@ -85,10 +84,9 @@ h3 {
   height: 43px;
 }
 
-#category-add-title {
-  color: white;
-  padding-left: 15px;
-  display: none;
+.category-title > input {
+  color: white !important;
+  padding-left: 15px !important;
 }
 
 .category-dashboard {

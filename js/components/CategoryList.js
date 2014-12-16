@@ -8,20 +8,9 @@ function sortCategory(cA, cB) {
   return cA.order - cB.order;
 }
 
-function resetCategoryControl() {
-  $("#category-add").css("visibility", "visible");
-  $("#category-confirm").css("visibility", "hidden");
-  $("#category-cancel").css("visibility", "hidden");
-  $("#category-edit").css("visibility", "visible");
-
-  $("#category-add-title").val("");
-  $("#category-add-title").hide(300);
-
-  $(".category .glyphicon").css("display", "none");
-  $(".category a").css("margin-left", "0");
-  $(".category a").css("pointer-events", "auto");
-  $(".category .badge").css("visibility", "visible");
-}
+var MODE_NORMAL  = 1,
+    MODE_ADDING  = 2,
+    MODE_EDITING = 3;
 
 var CategoryList = React.createClass({
 
@@ -31,14 +20,8 @@ var CategoryList = React.createClass({
 
   getInitialState: function() {
     return {
-
+      mode: MODE_NORMAL
     };
-  },
-
-  componentDidUpdate: function() {
-    if ($("#main-menu .glyphicon-trash").css("display") !== "none") {
-      this.handleCategoryEdit();
-    }
   },
 
   handleCategoryClick: function(event) {
@@ -70,33 +53,30 @@ var CategoryList = React.createClass({
     }
   },
 
-  handleCategoryAdd: function() {
-    $("#category-add-title").show(300);
-    $("#category-add-title").focus();
+  resetCategoryControl: function() {
+    var $title = $(this.refs.categoryAddTitle.getDOMNode());
+    $title.val("");
+    //$title.hide(300);
 
-    $("#category-add").css("visibility", "hidden");
-    $("#category-confirm").css("visibility", "visible");
-    $("#category-cancel").css("visibility", "visible");
-    $("#category-edit").css("visibility", "hidden");
+    this.setState({ mode: MODE_NORMAL });
+  },
+
+  handleCategoryAdd: function() {
+    var $title = $(this.refs.categoryAddTitle.getDOMNode());
+    //$title.show(300);
+    $title.focus();
+
+    this.setState({ mode: MODE_ADDING });
   },
 
   handleCategoryEdit: function() {
-    $(".category .glyphicon").css("display", "block");
-    $(".category .glyphicon").css("visibility", "visible");
-    $(".category a").css("margin-left", "25px");
-    $(".category a").css("pointer-events", "none");
-    $(".category .badge").css("visibility", "hidden");
-
-    $("#category-add").css("visibility", "hidden");
-    $("#category-confirm").css("visibility", "visible");
-    $("#category-cancel").css("visibility", "hidden");
-    $("#category-edit").css("visibility", "hidden");
-
     var length = $("#main-menu > ul li").length;
     if (length > 2) {
       $("#main-menu > ul li:nth-child(2) .glyphicon-chevron-up").css("visibility", "hidden");
       $("#main-menu > ul li:nth-child(" + (length - 1) + ") .glyphicon-chevron-down").css("visibility", "hidden");
     }
+
+    this.setState({ mode: MODE_EDITING });
   },
 
   handleCategoryDestroy: function(event) {
@@ -129,26 +109,28 @@ var CategoryList = React.createClass({
           order: order
         });
         $input.hide();
-        resetCategoryControl();
+        this.resetCategoryControl();
       }
     }
   },
 
   handleCategoryConfirm: function() {
-    if ($("#category-add-title").css("display") !== "none") {
+    var $title = $(this.refs.categoryAddTitle.getDOMNode());
+    if (this.state.mode === MODE_ADDING) {
       var e = $.Event("keypress");
       e.which = 13;
-      e.target = $("#category-add-title")[0];
+      e.target = $title[0];
       this.handleCategoryCreate(e);
     }
-    resetCategoryControl();
+    this.resetCategoryControl();
   },
 
   handleCategoryCancel: function() {
-    resetCategoryControl();
+    this.resetCategoryControl();
   },
 
   render: function() {
+    var mode = this.state.mode;
     var categories = [];
 
     for (var i in this.props.categories) {
@@ -163,26 +145,43 @@ var CategoryList = React.createClass({
     }
     categories.sort(sortCategory);
 
+    var visibleEditing = mode === MODE_EDITING ? "" : "invisible",
+        hiddenEditing = mode !== MODE_EDITING ? "" : "invisible",
+        visibleNormal = mode === MODE_NORMAL ? "" : "invisible",
+        hiddenNormal = mode !== MODE_NORMAL ? "" : "invisible",
+        visibleAdding = mode === MODE_ADDING ? "" : "invisible",
+        blockEditing = mode === MODE_EDITING ? "" : "hidden";
+
     return (
       <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
         <div className="category-header">Categories</div>
         <ul className="nav nav-pills nav-stacked">
           {categories.map(function(category) {
             if (!category.system) {
-              return <li className="category" draggable="true" key={category.id} data-category={category.id}><span className="glyphicon glyphicon-trash"></span><a href="#">{category.title}<span className="badge">{category.count}</span></a><span className="glyphicon glyphicon-chevron-down"></span><span className="glyphicon glyphicon-chevron-up"></span></li>;
+              return (
+                <li className="category" draggable="true" key={category.id} data-category={category.id}>
+                  <span className={visibleEditing + " " + blockEditing + " glyphicon glyphicon-trash"}></span>
+                  <a className={mode === MODE_EDITING ? "editing" : ""} href="#">
+                    {category.title}
+                    <span className={hiddenEditing + " badge"}>{category.count}</span>
+                  </a>
+                  <span className={blockEditing + " glyphicon glyphicon-chevron-down"}></span>
+                  <span className={blockEditing + " glyphicon glyphicon-chevron-up"}></span>
+                </li>
+              );
             } else {
               return <li className="category active" draggable="true" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
           })}
-          <li className="category-title">
-            <input id="category-add-title" type="text" className="form-control" placeholder="title" onKeyPress={this.handleCategoryCreate} />
+          <li className={visibleAdding + " category-title"}>
+            <input ref="categoryAddTitle" type="text" className="form-control" placeholder="title" onKeyPress={this.handleCategoryCreate} />
           </li>
         </ul>
         <div className="category-dashboard row">
-          <span id="category-confirm" className="glyphicon glyphicon-ok col-sm-3 category-control category-confirm" onClick={this.handleCategoryConfirm}></span>
-          <span id="category-cancel" className="glyphicon glyphicon-remove col-sm-3 category-control category-cancel" onClick={this.handleCategoryCancel}></span>
-          <span id="category-add" className="glyphicon glyphicon-plus col-sm-3 category-control category-add" onClick={this.handleCategoryAdd}></span>
-          <span id="category-edit" className="glyphicon glyphicon-cog col-sm-3 category-control category-edit" onClick={this.handleCategoryEdit}></span>
+          <span className={hiddenNormal  + " glyphicon glyphicon-ok col-sm-3 category-control category-confirm"} onClick={this.handleCategoryConfirm}></span>
+          <span className={hiddenNormal  + " glyphicon glyphicon-remove col-sm-3 category-control category-cancel"} onClick={this.handleCategoryCancel}></span>
+          <span className={visibleNormal + " glyphicon glyphicon-plus col-sm-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
+          <span className={visibleNormal + " glyphicon glyphicon-cog col-sm-3 category-control category-edit"} onClick={this.handleCategoryEdit}></span>
         </div>
       </div>
     );
