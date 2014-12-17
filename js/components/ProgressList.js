@@ -51,13 +51,6 @@ function getSorting(order) {
   }
 }
 
-function getOrderby() {
-  return {
-    by: $("#progress-orderby").val(),
-    type: $("#progress-ordertype").hasClass("glyphicon-arrow-up") ? "asc" : "desc"
-  }
-}
-
 function getOverallProgress(progresses) {
   var sum = 0;
   var count = 0;
@@ -124,25 +117,17 @@ var ProgressList = React.createClass({
 
   handleSave:function () {
     if (validate($("#progress-edit-title"), $("#progress-edit-current"), $("#progress-edit-total"))) {
+      var title = $("#progress-edit-title").val(),
+          current = parseInt($("#progress-edit-current").val()),
+          total = parseInt($("#progress-edit-total").val()),
+          category = $("#progress-edit-category").val(),
+          description = $("#progress-edit-description").val();
+
       if ($("#progress-edit").attr("data-role") === "add") {
-        ProgressActions.create(
-          $("#progress-edit-title").val(), 
-          parseInt($("#progress-edit-current").val()), 
-          parseInt($("#progress-edit-total").val()),
-          $("#progress-edit-category").val(),
-          null,
-          $("#progress-edit-description").val()
-        );
+        ProgressActions.create(title, current, total, category, null, description);
       } else if ($("#progress-edit").attr("data-role") === "edit") {
-        ProgressActions.update(
-          $("#progress-edit").attr("data-id"),
-          $("#progress-edit-title").val(), 
-          parseInt($("#progress-edit-current").val()), 
-          parseInt($("#progress-edit-total").val()),
-          $("#progress-edit-category").val(),
-          null,
-          $("#progress-edit-description").val()
-        );
+        ProgressActions.update($("#progress-edit").attr("data-id"),
+          title, current, total, category, null, description);
       }
 
       $("#progress-edit-form").trigger('reset');
@@ -154,26 +139,14 @@ var ProgressList = React.createClass({
     $("#progress-edit").modal("hide");
   },
 
-  handleOrderby: function() {
-    var orderby = getOrderby();
-
-    CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type);
+  handleOrderby: function(event) {
+    CategoryActions.updateOrderby(this.props.category.id, event.target.value, this.props.category.orderby.type);
   },
 
   handleOrdertype: function() {
-    var $target = $(event.target);
+    var orderby = this.props.category.orderby;
 
-    if ($target.hasClass("glyphicon-arrow-up")) {
-      $target.removeClass("glyphicon-arrow-up");
-      $target.addClass("glyphicon-arrow-down");
-    } else {
-      $target.removeClass("glyphicon-arrow-down");
-      $target.addClass("glyphicon-arrow-up");
-    }
-
-    var orderby = getOrderby();
-
-    CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type);
+    CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type === "asc" ? "desc" : "asc");
   },
 
   handleFilter: function(event) {
@@ -192,43 +165,51 @@ var ProgressList = React.createClass({
   },
 
   render: function() {
-    var self = this;
-    var progresses = this.props.progresses;
-    var progressItems = [];
-    var _progresses = [];
-    var completed = 0;
-    var categories = [];
-    var orderby = getOrderby();
+    var self = this,
+        progresses = this.props.progresses,
+        progressItems = [],
+        _progresses = [],
+        completed = 0,
+        categories = [],
+        orderby = null,
+        orderIcon = null;
+
     if (this.props.category) {
       $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
       orderby = this.props.category.orderby;
-    }
+      orderIcon = orderby.type === "asc" ? "glyphicon-arrow-up" : "glyphicon-arrow-down";
 
-    $('select option[value="' + orderby.by + '"]').attr("selected", true);
-
-    for (var i in this.props.categories) {
-      categories.push(this.props.categories[i]);
-    }
-
-    // a key is need here for Progress.
-    // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-    for (var key in progresses) {
-      if (progresses[key].completed === true) {
-        completed++;
+      for (var i in this.props.categories) {
+        categories.push(this.props.categories[i]);
       }
 
-      _progresses.push(progresses[key]);
+      // a key is need here for Progress.
+      // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+      for (var key in progresses) {
+        if (progresses[key].completed === true) {
+          completed++;
+        }
+
+        _progresses.push(progresses[key]);
+      }
+
+      var sortProgress = getSorting(orderby);
+      _progresses.sort(sortProgress);
+
+      _progresses.forEach(function(p) {
+        progressItems.push(<Progress key={p.id} progress={p} />);
+      });
+
+      $("#progress-count").text(_progresses.length);
+      $("#overall-progress").text(getOverallProgress(progresses) + "%");
+    } else {
+      orderby = {
+        by: "title",
+        type: "asc"
+      }
     }
 
-    var sortProgress = getSorting(orderby);
-    _progresses.sort(sortProgress);
-
-    _progresses.forEach(function(p) {
-      progressItems.push(<Progress key={p.id} progress={p} />);
-    });
-
-    $("#progress-count").text(_progresses.length);
-    $("#overall-progress").text(getOverallProgress(progresses) + "%");
+    console.log(orderby);
 
     return (
       <div className="container-fluid main-container">
@@ -312,11 +293,11 @@ var ProgressList = React.createClass({
             <div className="col-lg-2">
               <div className="progress-orderby">
                 <label htmlFor="progress-orderby">Order By</label>
-                <select id="progress-orderby" onChange={this.handleOrderby}>
+                <select id="progress-orderby" onChange={this.handleOrderby} value={orderby.by}>
                   <option value="title">Title</option>
                   <option value="createdAt">Date</option>
                 </select>
-                <span id="progress-ordertype" className="glyphicon glyphicon glyphicon-arrow-up" onClick={this.handleOrdertype}></span>
+                <span id="progress-ordertype" className={"glyphicon glyphicon " + orderIcon} onClick={this.handleOrdertype}></span>
               </div>
             </div>
           </div>
