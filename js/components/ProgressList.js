@@ -55,7 +55,7 @@ function getOverallProgress(progresses) {
   var sum = 0;
   var count = 0;
   for (var i in progresses) {
-    sum += progresses[i].current * 100 / progresses[i].total;
+    sum += progresses[i].percent;
     count++;
   }
 
@@ -186,11 +186,14 @@ var ProgressList = React.createClass({
       // a key is need here for Progress.
       // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
       for (var key in progresses) {
-        if (progresses[key].completed === true) {
+        var progress = progresses[key];
+        if (progress.completed === true) {
           completed++;
         }
 
-        _progresses.push(progresses[key]);
+        progress.percent = progress.current * 100 / progress.total; 
+
+        _progresses.push(progress);
       }
 
       var sortProgress = getSorting(orderby);
@@ -290,10 +293,11 @@ var ProgressList = React.createClass({
             </div>
             <div className="col-lg-2">
               <div className="progress-orderby">
-                <label htmlFor="progress-orderby">Order By</label>
+                <label htmlFor="progress-orderby">Sort</label>
                 <select id="progress-orderby" onChange={this.handleOrderby} value={orderby.by}>
                   <option value="title">Title</option>
                   <option value="createdAt">Date</option>
+                  <option value="percent">Progress</option>
                 </select>
                 <span id="progress-ordertype" className={"glyphicon glyphicon " + orderIcon} onClick={this.handleOrdertype}></span>
               </div>

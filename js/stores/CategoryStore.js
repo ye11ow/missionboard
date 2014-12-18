@@ -222,15 +222,17 @@ AppDispatcher.register(function(payload) {
       return true;
   }
 
-  if (_syncList[action.id]) {
-    if (_syncList[action.id].actionType === CategoryConstants.CATEGORY_CREATE) {
-      if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
-        delete _syncList[action.id];
+  if (action.id !== CategoryConstants.CATEGORY_ALLID) {
+    if (_syncList[action.id]) {
+      if (_syncList[action.id].actionType === CategoryConstants.CATEGORY_CREATE) {
+        if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
+          delete _syncList[action.id];
+        }
       }
-    }
-  } else {
-    _syncList[action.id] = {
-      actionType: action.actionType
+    } else {
+      _syncList[action.id] = {
+        actionType: action.actionType
+      }
     }
   }
 

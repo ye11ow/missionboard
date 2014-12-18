@@ -64,6 +64,8 @@ function processRawData(categories, progresses) {
 
       CategoryStore.persist();
       localStorage["inited"] = "true";
+
+      this.startTour();
     }
 
     var state = getProgressState();
@@ -155,6 +157,51 @@ var MissionBoard = React.createClass({
     CategoryStore.removeChangeListener(this._onChange);
   },
 
+  startTour: function() {
+    var ehint = new EnjoyHint({});
+    var ehintSteps = [
+      {
+        selector: '#progress-list',
+        event: 'click',
+        description: 'List of all your missions',
+        event_type: "next"
+      },
+      {
+        selector: '.progress-toolbar input[type="text"]',
+        event: 'click',
+        description: 'Create a new mission by entering its title here',
+        event_type: "next"
+      },
+      {
+        selector: '.progress-filter',
+        event: 'click',
+        description: 'Filter missions',
+        event_type: "next"
+      },
+      {
+        selector: '.progress-orderby',
+        event: 'click',
+        description: 'Sort missions',
+        event_type: "next"
+      },
+      {
+        selector: '.nav.nav-pills.nav-stacked',
+        event: 'click',
+        description: 'All categories',
+        event_type: "next"
+      }, 
+      {
+        selector: '.category-dashboard',
+        event: 'click',
+        description: 'Add/Edit category',
+        event_type: "next"
+      }
+    ];
+
+    ehint.setScript(ehintSteps);
+    ehint.runScript();
+  },
+
   handleCategorySwitch: function(id) {
     this.setState({category: id});
   },
@@ -236,9 +283,9 @@ var MissionBoard = React.createClass({
                 <li className="navbar-title">Overall Progress</li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
-                <li><a href="#">Start Tour</a></li>
+                <li><a href="#" onClick={this.startTour}>Start Tour</a></li>
                 <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">ye11ow <span className="caret"></span></a>
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">User <span className="caret"></span></a>
                   <ul className="dropdown-menu" role="menu">
                     <li><a href="#">Perference</a></li>
                     <li className="divider"></li>
