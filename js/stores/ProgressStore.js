@@ -3,7 +3,7 @@ var EventEmitter = require('events').EventEmitter;
 var ProgressConstants = require('../constants/ProgressConstants');
 
 var utils = require('../helpers/Utils.js');
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
@@ -82,7 +82,7 @@ function updateProgress(id, current) {
   }
 }
 
-var ProgressStore = merge(EventEmitter.prototype, {
+var ProgressStore = assign({}, EventEmitter.prototype, {
 
   setProgresses: function(progresses) {
     _progresses = progresses;

@@ -4,7 +4,7 @@ var CategoryConstants = require('../constants/CategoryConstants');
 var CategoryActions = require('../actions/CategoryActions');
 
 var utils = require('../helpers/Utils.js');
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
@@ -71,7 +71,7 @@ function destroy(id) {
   _length--;
 }
 
-var CategoryStore = merge(EventEmitter.prototype, {
+var CategoryStore = assign({}, EventEmitter.prototype, {
 
   setCategories: function(categories) {
     _categories = categories;

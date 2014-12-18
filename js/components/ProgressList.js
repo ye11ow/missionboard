@@ -209,8 +209,6 @@ var ProgressList = React.createClass({
       }
     }
 
-    console.log(orderby);
-
     return (
       <div className="container-fluid main-container">
         <div id="progress-edit" className="modal fade" tabIndex="-1" data-role="add">

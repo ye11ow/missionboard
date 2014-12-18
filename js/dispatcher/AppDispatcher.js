@@ -20,9 +20,9 @@
 
 var Dispatcher = require('./Dispatcher');
 
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
-var AppDispatcher = merge(Dispatcher.prototype, {
+var AppDispatcher = assign(new Dispatcher(), {
 
   /**
    * A bridge function between the views and the dispatcher, marking the action
