@@ -2,4 +2,5 @@
 .DS_Store
 /js/bundle.js
 /js/bundle.min.js
+demo
 node_modules
