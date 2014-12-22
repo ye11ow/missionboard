@@ -11,7 +11,6 @@ var CategoryConstants = require('../constants/CategoryConstants');
 function getProgressState() {
   return {
     progresses: ProgressStore.getAll(),
-    length: ProgressStore.getLength(),
     categories: CategoryStore.getAll(),
     syncs: {
       categories: CategoryStore.getSyncs(),
@@ -130,7 +129,6 @@ var MissionBoard = React.createClass({
           }
           delete d["_id"];
           _progresses[d.id] = d;
-          length++;
         });
 
         var categoryId = null;

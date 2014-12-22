@@ -203,7 +203,7 @@ var ProgressList = React.createClass({
         progressItems.push(<Progress key={p.id} progress={p} />);
       });
 
-      $("#progress-count").text(_progresses.length);
+      $("#progress-count").text(Object.keys(_progresses).length);
       $("#overall-progress").text(getOverallProgress(progresses) + "%");
     } else {
       orderby = {

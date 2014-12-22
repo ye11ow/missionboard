@@ -11,7 +11,6 @@ var CHANGE_EVENT = 'change';
 var _categories = {};
 var _syncList = {};
 var _syncCount = 0;
-var _length = 0;
 
 var categoryAll = {
   id: CategoryConstants.CATEGORY_ALLID,
@@ -41,7 +40,6 @@ function create(title, order) {
   };
 
   _categories[category.id] = category;
-  _length++;
 
   return category.id;
 }
@@ -68,7 +66,6 @@ function updateOrder(id, targetId) {
  */
 function destroy(id) {
   delete _categories[id];
-  _length--;
 }
 
 var CategoryStore = assign({}, EventEmitter.prototype, {
@@ -76,7 +73,6 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
   setCategories: function(categories) {
     _categories = categories;
     _categories[categoryAll.id] = categoryAll;
-    _length++;
 
     if (localStorage["categories"] && localStorage["categories.sync"]) {
       var localCategories = JSON.parse(localStorage["categories"]);

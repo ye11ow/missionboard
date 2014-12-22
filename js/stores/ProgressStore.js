@@ -10,7 +10,6 @@ var CHANGE_EVENT = 'change';
 var _progresses = {};
 var _syncList = {};
 var _syncCount = 0;
-var _length = 0;
 
 
 /**
@@ -30,7 +29,6 @@ function create(title, current, total, category, type, description) {
   };
      
   _progresses[progress.id] = progress;
-  _length++;
 
   return progress.id;
 }
@@ -41,7 +39,6 @@ function create(title, current, total, category, type, description) {
  */
 function destroy(id) {
   delete _progresses[id];
-  _length--;
 }
 
 function update(id, title, current, total, category, type, description) {
@@ -86,11 +83,7 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
 
   setProgresses: function(progresses) {
     _progresses = progresses;
-    if (progresses && typeof progresses === "object") {
-      _length = Object.keys(progresses).length;
-    } else {
-      _length = 0;
-    }
+
     if (localStorage["progresses"] && localStorage["progresses.sync"]) {
       var localProgresses = JSON.parse(localStorage["progresses"]);
       _syncList = JSON.parse(localStorage["progresses.sync"]);
@@ -114,10 +107,6 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
       }
     }
     return length;
-  },
-
-  getLength: function() {
-    return _length;
   },
 
   getCompleted: function() {
