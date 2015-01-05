@@ -9,7 +9,7 @@ var ProgressActions = require('./actions/ProgressActions');
 var MissionBoard = require('./components/MissionBoard');
 
 var CategoryStore = require('./stores/CategoryStore');
-SyncDaemon = require('./helpers/SyncHelper');
+//SyncDaemon = require('./helpers/SyncHelper');
 
 React.render(
   <MissionBoard />,
@@ -18,5 +18,5 @@ React.render(
   }
 );
 
-SyncDaemon.start();
+//SyncDaemon.start();
 

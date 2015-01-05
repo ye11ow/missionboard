@@ -9,8 +9,6 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _categories = {};
-var _syncList = {};
-var _syncCount = 0;
 
 var categoryAll = {
   id: CategoryConstants.CATEGORY_ALLID,
@@ -70,31 +68,20 @@ function destroy(id) {
 
 var CategoryStore = assign({}, EventEmitter.prototype, {
 
-  setCategories: function(categories) {
-    _categories = categories;
-    _categories[categoryAll.id] = categoryAll;
+  loadCategories: function(categories) {
 
-    if (localStorage["categories"] && localStorage["categories.sync"]) {
-      var localCategories = JSON.parse(localStorage["categories"]);
-      _syncList = JSON.parse(localStorage["categories.sync"]);
-      for (var id in _syncList) {
-        _categories[id] = localCategories[id];
-      }
-    }
+     chrome.storage.sync.get('_categories', function(categories){
+      _categories = categories['_categories'];
+      console.log(categories);
+    });
 
     return _categories;
   },
 
   getAll: function() {
+    _categories[categoryAll.id] = categoryAll;
+
     return _categories;
-  },
-
-  getSyncs: function() {
-    return _syncList;
-  },
-
-  getSyncCount: function() {
-    return _syncCount;
   },
 
   emitChange: function() {
@@ -115,62 +102,15 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  sync: function() {
-    for (var id in _syncList) {
-      var actionType = _syncList[id].actionType;
-      var category = _categories[id];
-      _syncCount++;
-
-      switch(actionType) {
-        case CategoryConstants.CATEGORY_CREATE:
-          $.post( SERVER + "/categories/", category, function(data) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            CategoryStore.emitChange();
-          });
-          break;
-
-        case CategoryConstants.CATEGORY_ORDERBY_UPDATE:
-        case CategoryConstants.CATEGORY_ORDER_UPDATE:
-          $.ajax({
-            type: "PUT",
-            url: SERVER + "/categories/" + id,
-            data: category
-          }).done(function( data ) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            CategoryStore.emitChange();
-          });
-          break;
-
-        case CategoryConstants.CATEGORY_DESTROY:
-          $.ajax({
-            type: "DELETE",
-            url: SERVER + "/categories/" + id
-          }).done(function( data ) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            CategoryStore.emitChange();
-          });
-          break;
-
-        default:
-          return true;
-      }
-    }
-  },
-
   persist: function() {
-    localStorage["categories"] = JSON.stringify(_categories);
-    localStorage["categories.sync"] = JSON.stringify(_syncList);
+    chrome.storage.sync.set({'_categories': _categories});
+    //localStorage["categories"] = JSON.stringify(_categories);
+    //localStorage["categories.sync"] = JSON.stringify(_syncList);
   },
 
   clear: function() {
-    localStorage["categories"] = "";
-    localStorage["categories.sync"] = "";
+    //localStorage["categories"] = "";
+    //localStorage["categories.sync"] = "";
   }
 
 });
@@ -193,21 +133,6 @@ AppDispatcher.register(function(payload) {
 
     case CategoryConstants.CATEGORY_ORDER_UPDATE:
       updateOrder(action.id, action.targetId);
-      // too hacky here.
-      if (_syncList[action.targetId]) {
-        if (_syncList[action.targetId].actionType === CategoryConstants.CATEGORY_CREATE) {
-          if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
-            delete _syncList[action.targetId];
-          } else {
-            break;
-          }
-        }
-      } else {
-        _syncList[action.targetId] = {
-          actionType: action.actionType
-        }
-      }
-
       break;
 
     case CategoryConstants.CATEGORY_DESTROY:
@@ -216,20 +141,6 @@ AppDispatcher.register(function(payload) {
 
     default:
       return true;
-  }
-
-  if (action.id !== CategoryConstants.CATEGORY_ALLID) {
-    if (_syncList[action.id]) {
-      if (_syncList[action.id].actionType === CategoryConstants.CATEGORY_CREATE) {
-        if (action.actionType === CategoryConstants.CATEGORY_DESTROY) {
-          delete _syncList[action.id];
-        }
-      }
-    } else {
-      _syncList[action.id] = {
-        actionType: action.actionType
-      }
-    }
   }
 
   CategoryStore.emitChange();

@@ -20,61 +20,52 @@ function getProgressState() {
   };
 }
 
-function processRawData(categories, progresses) {
-  if (this.isMounted()) {
-    ProgressStore.setProgresses(progresses);
-    CategoryStore.setCategories(categories);
+function init() {
+  console.log("init");
+  //var vId = CategoryActions.create("Videos", 1);
+  console.log(vId);
+  //var bId = CategoryActions.create("Books", 2);
+  //var oId = CategoryActions.create("Others", 3);
 
-    // First time initilization
-    if (localStorage["inited"] !== "true") {
-      var vId = CategoryActions.create("Videos", 1);
-      var bId = CategoryActions.create("Books", 2);
-      var oId = CategoryActions.create("Others", 3);
+  /*
+  ProgressActions.create(
+    "My Favorite Anime", 
+    0, 
+    12,
+    vId,
+    null,
+    "This is my favorite anime"
+  );
 
-      /*
-      ProgressActions.create(
-        "My Favorite Anime", 
-        0, 
-        12,
-        vId,
-        null,
-        "This is my favorite anime"
-      );
+  ProgressActions.create(
+    "My Favorite Book", 
+    0, 
+    600,
+    bId,
+    null,
+    "This is my favorite book"
+  );
 
-      ProgressActions.create(
-        "My Favorite Book", 
-        0, 
-        600,
-        bId,
-        null,
-        "This is my favorite book"
-      );
+  ProgressActions.create(
+    "Learn Mission Board", 
+    0, 
+    10,
+    oId,
+    null,
+    "Learn some basic usage of Mission Board"
+  );
+  ProgressStore.persist();
+  */
 
-      ProgressActions.create(
-        "Learn Mission Board", 
-        0, 
-        10,
-        oId,
-        null,
-        "Learn some basic usage of Mission Board"
-      );
-      ProgressStore.persist();
-      */
+  //this.startTour();
 
-      CategoryStore.persist();
-      localStorage["inited"] = "true";
+  var state = getProgressState();
+  state["category"] = CategoryConstants.CATEGORY_ALLID;
 
-      this.startTour();
-    }
+  var progresses = state.progresses;
+  var categories = state.categories;
 
-    var state = getProgressState();
-    state["category"] = CategoryConstants.CATEGORY_ALLID;
-
-    var progresses = state.progresses;
-    var categories = state.categories;
-
-    this.setState(state);
-  }
+  this.setState(state);
 }
 
 function calcCategoryCount(categories, progresses) {
@@ -106,48 +97,18 @@ var MissionBoard = React.createClass({
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
-    if (SERVER) {
-      $.when( 
-        $.get(SERVER + "/missions/"),
-        $.get(SERVER + "/categories/")
-      ).done(function(progresses, categories) {
-        if (progresses[0]) {
-          progresses = progresses[0];
-        }
-        if (categories[0]) {
-          categories = categories[0];
-        }
-
-        var _progresses = {};
-        var _categories = {}
-        $.each(progresses, function(i, d) {
-          // to be deleted
-          if (d["_id"]["$oid"]) {
-            d.id = d["_id"]["$oid"];
-          } else {
-            d.id = d["_id"];
-          }
-          delete d["_id"];
-          _progresses[d.id] = d;
-        });
-
-        var categoryId = null;
-
-        $.each(categories, function(i, d) {
-          d.id = d["_id"];
-          delete d["_id"];
-          delete d.orderby["_id"];
-          _categories[d.id] = d;
-          if (d.system === true) {
-            categoryId = d.id;
-          }
-        });
-        processRawData.call(this, _categories, _progresses);
-      }.bind(this));
-    } else {
-      processRawData.call(this, {}, {});
-    }
-
+    chrome.storage.sync.get('_inited', function(inited){
+      if ('_inited' in inited && inited['_inited'] === true) {
+        console.log("inited");
+        ProgressStore.loadProgresses();
+        CategoryStore.loadCateogries();
+      } else {
+        init.call(this);
+        chrome.storage.sync.set({'_inited': true}); 
+        chrome.storage.sync.remove('_inited'); 
+      }
+      console.log(inited);
+    });
   },
 
   componentWillUnmount: function() {
@@ -156,6 +117,8 @@ var MissionBoard = React.createClass({
   },
 
   startTour: function() {
+    console.log("EnjoyHint is not available");
+    /*
     var ehint = new EnjoyHint({});
     var ehintSteps = [
       {
@@ -198,6 +161,7 @@ var MissionBoard = React.createClass({
 
     ehint.setScript(ehintSteps);
     ehint.runScript();
+    */
   },
 
   handleCategorySwitch: function(id) {
@@ -257,10 +221,6 @@ var MissionBoard = React.createClass({
       }
       CategoryStore.persist();
       ProgressStore.persist();
-    }
-
-    if (SERVER === "") {
-      syncIcon += " hidden";
     }
 
     return (

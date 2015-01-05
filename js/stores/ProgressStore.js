@@ -81,18 +81,11 @@ function updateProgress(id, current) {
 
 var ProgressStore = assign({}, EventEmitter.prototype, {
 
-  setProgresses: function(progresses) {
-    _progresses = progresses;
-
-    if (localStorage["progresses"] && localStorage["progresses.sync"]) {
-      var localProgresses = JSON.parse(localStorage["progresses"]);
-      _syncList = JSON.parse(localStorage["progresses.sync"]);
-      for (var id in _syncList) {
-        if (localProgresses[id]) {
-          _progresses[id] = localProgresses[id];
-        }
-      }
-    }
+  loadProgresses: function() {
+    chrome.storage.sync.get('_progresses', function(progresses){
+      _progresses = progresses['_progresses'];
+      console.log(progresses);
+    });
   },
 
   getAll: function() {
@@ -119,14 +112,6 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
     return completed;
   },
 
-  getSyncs: function() {
-    return _syncList;
-  },
-
-  getSyncCount: function() {
-    return _syncCount;
-  },
-
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -145,74 +130,15 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  sync: function() {
-    for (var id in _syncList) {
-      var actionType = _syncList[id].actionType;
-      var progress = _progresses[id];
-      _syncCount++;
-
-      switch(actionType) {
-        case ProgressConstants.PROGRESS_CREATE:
-          $.post( SERVER + "/missions/", progress, function(data) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            ProgressStore.emitChange();
-          });
-          break;
-
-        case ProgressConstants.PROGRESS_UPDATE:
-          $.ajax({
-            type: "PUT",
-            url: SERVER + "/categories/" + id,
-            data: category
-          }).done(function( data ) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            CategoryStore.emitChange();
-          });
-          break;
-
-        case ProgressConstants.PROGRESS_UPDATE_PROGRESS:
-          $.ajax({
-            type: "PUT",
-            url: SERVER + "/missions/" + id + "/progress",
-            data: progress
-          }).done(function( data ) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            ProgressStore.emitChange();
-          });
-          break;
-
-        case ProgressConstants.PROGRESS_DESTROY:
-          $.ajax({
-            type: "DELETE",
-            url: SERVER + "/missions/" + id
-          }).done(function( data ) {
-            delete _syncList[id];
-            _syncCount--;
-            console.log(data);
-            ProgressStore.emitChange();
-          });
-          break;
-
-        default:
-          return true;
-      }
-    }
-  },
-
   persist: function() {
-    localStorage["progresses"] = JSON.stringify(_progresses);
-    localStorage["progresses.sync"] = JSON.stringify(_syncList);
+    chrome.storage.sync.set({'_progresses': _progresses});
+    //localStorage["progresses"] = JSON.stringify(_progresses);
+    //localStorage["progresses.sync"] = JSON.stringify(_syncList);
   },
 
   clear: function() {
-    localStorage["progresses"] = "";
-    localStorage["progresses.sync"] = "";
+    //localStorage["progresses"] = "";
+    //localStorage["progresses.sync"] = "";
   }
 
 });
@@ -248,20 +174,6 @@ AppDispatcher.register(function(payload) {
 
     default:
       return true;
-  }
-
-  if (_syncList[action.id]) {
-    if (_syncList[action.id].actionType === ProgressConstants.CATEGORY_CREATE) {
-      if (action.actionType === ProgressConstants.CATEGORY_DESTROY) {
-        delete _syncList[action.id];
-      } else {
-        return;
-      }
-    }
-  } else {
-    _syncList[action.id] = {
-      actionType: action.actionType
-    }
   }
 
   ProgressStore.emitChange();
