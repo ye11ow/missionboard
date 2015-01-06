@@ -69,13 +69,7 @@ function destroy(id) {
 var CategoryStore = assign({}, EventEmitter.prototype, {
 
   loadCategories: function(categories) {
-
-     chrome.storage.sync.get('_categories', function(categories){
-      _categories = categories['_categories'];
-      console.log(categories);
-    });
-
-    return _categories;
+    _categories = categories;
   },
 
   getAll: function() {
@@ -104,13 +98,10 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
 
   persist: function() {
     chrome.storage.sync.set({'_categories': _categories});
-    //localStorage["categories"] = JSON.stringify(_categories);
-    //localStorage["categories.sync"] = JSON.stringify(_syncList);
   },
 
   clear: function() {
-    //localStorage["categories"] = "";
-    //localStorage["categories.sync"] = "";
+    chrome.storage.sync.remove('_categories');
   }
 
 });
@@ -143,6 +134,7 @@ AppDispatcher.register(function(payload) {
       return true;
   }
 
+  CategoryStore.persist();
   CategoryStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.

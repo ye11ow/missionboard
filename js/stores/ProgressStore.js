@@ -81,11 +81,8 @@ function updateProgress(id, current) {
 
 var ProgressStore = assign({}, EventEmitter.prototype, {
 
-  loadProgresses: function() {
-    chrome.storage.sync.get('_progresses', function(progresses){
-      _progresses = progresses['_progresses'];
-      console.log(progresses);
-    });
+  loadProgresses: function(progresses) {
+    _progresses = progresses;
   },
 
   getAll: function() {
@@ -176,6 +173,7 @@ AppDispatcher.register(function(payload) {
       return true;
   }
 
+  ProgressStore.persist();
   ProgressStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.

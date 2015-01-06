@@ -3,7 +3,6 @@ var ReactPropTypes = React.PropTypes;
 var ProgressStore = require('../stores/ProgressStore');
 var CategoryActions = require('../actions/CategoryActions');
 
-
 function sortCategory(cA, cB) {
   return cA.order - cB.order;
 }

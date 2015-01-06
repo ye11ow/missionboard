@@ -12,20 +12,14 @@ function getProgressState() {
   return {
     progresses: ProgressStore.getAll(),
     categories: CategoryStore.getAll(),
-    syncs: {
-      categories: CategoryStore.getSyncs(),
-      progresses: ProgressStore.getSyncs()
-    },
     category: $("#main-menu").find(".active").attr("data-category"),
   };
 }
 
 function init() {
-  console.log("init");
-  //var vId = CategoryActions.create("Videos", 1);
-  console.log(vId);
-  //var bId = CategoryActions.create("Books", 2);
-  //var oId = CategoryActions.create("Others", 3);
+  var vId = CategoryActions.create("Videos", 1);
+  var bId = CategoryActions.create("Books", 2);
+  var oId = CategoryActions.create("Others", 3);
 
   /*
   ProgressActions.create(
@@ -62,9 +56,6 @@ function init() {
   var state = getProgressState();
   state["category"] = CategoryConstants.CATEGORY_ALLID;
 
-  var progresses = state.progresses;
-  var categories = state.categories;
-
   this.setState(state);
 }
 
@@ -90,24 +81,31 @@ function calcCategoryCount(categories, progresses) {
 var MissionBoard = React.createClass({
 
   getInitialState: function() {
-    return {};
+    return getProgressState();
   },
 
   componentDidMount: function() {
+    var self = this;
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
     chrome.storage.sync.get('_inited', function(inited){
       if ('_inited' in inited && inited['_inited'] === true) {
-        console.log("inited");
-        ProgressStore.loadProgresses();
-        CategoryStore.loadCateogries();
+        chrome.storage.sync.get(['_categories', '_progresses'], function(data){
+          // promise here
+          CategoryStore.loadCategories(data._categories);
+          ProgressStore.loadProgresses(data._progresses);
+
+          var state = getProgressState();
+          state["category"] = CategoryConstants.CATEGORY_ALLID;
+
+          self.setState(state);
+        });
       } else {
-        init.call(this);
         chrome.storage.sync.set({'_inited': true}); 
-        chrome.storage.sync.remove('_inited'); 
+        //chrome.storage.sync.remove('_inited'); 
+        init.call(this);
       }
-      console.log(inited);
     });
   },
 
@@ -192,8 +190,6 @@ var MissionBoard = React.createClass({
     var categories = this.state.categories;
     var _progresses = {};
     var category = null;
-    var syncs = this.state.syncs;
-    var syncStatus = "";
     var syncIcon = "glyphicon glyphicon-ok-sign";
 
     if (this.state.category) {
@@ -210,19 +206,6 @@ var MissionBoard = React.createClass({
 
     calcCategoryCount(categories, progresses);
 
-    if (syncs) {
-      for (var key in syncs.categories) {
-        syncStatus += key + ";"
-        syncIcon = "glyphicon glyphicon-warning-sign";
-      }
-      for (var key in syncs.progresses) {
-        syncStatus += key + ";"
-        syncIcon = "glyphicon glyphicon-warning-sign";
-      }
-      CategoryStore.persist();
-      ProgressStore.persist();
-    }
-
     return (
       <div>
 
@@ -230,7 +213,7 @@ var MissionBoard = React.createClass({
             <div className="navbar-header">
               <a className="navbar-brand" href="#">
                 MissionBoard
-                <span id="sync-status" className={syncIcon} title={syncStatus}></span>
+                <span id="sync-status" className={syncIcon}></span>
               </a>
             </div>
              <div className="navbar-collapse collapse navbar-inverse-collapse">
