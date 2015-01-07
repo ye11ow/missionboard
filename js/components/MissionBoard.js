@@ -190,7 +190,6 @@ var MissionBoard = React.createClass({
     var categories = this.state.categories;
     var _progresses = {};
     var category = null;
-    var syncIcon = "glyphicon glyphicon-ok-sign";
 
     if (this.state.category) {
       category = categories[this.state.category];
@@ -213,7 +212,7 @@ var MissionBoard = React.createClass({
             <div className="navbar-header">
               <a className="navbar-brand" href="#">
                 MissionBoard
-                <span id="sync-status" className={syncIcon}></span>
+                <span id="sync-status"></span>
               </a>
             </div>
              <div className="navbar-collapse collapse navbar-inverse-collapse">
@@ -226,11 +225,9 @@ var MissionBoard = React.createClass({
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="#" onClick={this.startTour}>Start Tour</a></li>
                 <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">User <span className="caret"></span></a>
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Settings <span className="caret"></span></a>
                   <ul className="dropdown-menu" role="menu">
-                    <li><a href="#">Perference</a></li>
-                    <li className="divider"></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="#">Reset Data</a></li>
                   </ul>
                 </li>
               </ul>

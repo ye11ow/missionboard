@@ -40,9 +40,9 @@ var Progress = React.createClass({
   },
 
   handleDestroy: function() {
-    if (confirm("Do you want to delete this mission?")) {
+    //if (confirm("Do you want to delete this mission?")) {
       ProgressActions.destroy(this.props.progress.id);
-    }
+    //}
   },
 
   componentDidMount: function() {
@@ -107,9 +107,9 @@ var Progress = React.createClass({
               <label className="progress-percentage">{style.width}</label>
             </div>
             <div className="progress-control">
-              <span className="glyphicon glyphicon-edit progress-edit" title="edit" onClick={this.handleEdit}></span> 
-              <span className="glyphicon glyphicon-check progress-done" title="mark as completed" onClick={this.handleFinish}></span>
-              <span className="glyphicon glyphicon-trash progress-delete" title="delete" onClick={this.handleDestroy}></span>
+              <i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish}></i>
+              <i className="fa fa-pencil fa-lg progress-edit" title="edit" onClick={this.handleEdit}></i> 
+              <i className="fa fa-trash  fa-lg progress-delete" title="delete" onClick={this.handleDestroy}></i>
             </div>
           </div>
         </div>

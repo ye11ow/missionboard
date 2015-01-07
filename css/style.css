@@ -19,10 +19,6 @@ h3 {
   margin-left: 5px;
 }
 
-#sync-status.glyphicon-ok-sign {
-  color: #3c763d;
-}
-
 #sync-status.glyphicon-warning-sign {
   color: #8a6d3b;
 }

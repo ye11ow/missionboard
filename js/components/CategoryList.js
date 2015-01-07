@@ -81,18 +81,18 @@ var CategoryList = React.createClass({
   handleCategoryDestroy: function(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (confirm("Do you want to delete this category?")) {
+    //if (confirm("Do you want to delete this category?")) {
       var $target = $(event.target).parent();
       var id = $target.attr("data-category");
 
       if (ProgressStore.getLengthByCategory(id) > 0 ) {
-        if (!confirm("There are some progresses under this cateogry, do you really want to delete it?")) {
-          return;
-        }
+        //if (!confirm("There are some progresses under this cateogry, do you really want to delete it?")) {
+        //  return;
+        //}
       }
 
       this.props.onCategoryDestroy(id);
-    }
+    //}
   },
 
   handleCategoryCreate: function(event) {

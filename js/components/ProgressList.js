@@ -171,13 +171,11 @@ var ProgressList = React.createClass({
         _progresses = [],
         completed = 0,
         categories = [],
-        orderby = null,
-        orderIcon = null;
+        orderby = null;
 
     if (this.props.category) {
       $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
       orderby = this.props.category.orderby;
-      orderIcon = orderby.type === "asc" ? "glyphicon-arrow-up" : "glyphicon-arrow-down";
 
       for (var i in this.props.categories) {
         categories.push(this.props.categories[i]);
@@ -299,7 +297,7 @@ var ProgressList = React.createClass({
                   <option value="createdAt">Date</option>
                   <option value="percent">Progress</option>
                 </select>
-                <span id="progress-ordertype" className={"glyphicon glyphicon " + orderIcon} onClick={this.handleOrdertype}></span>
+                <span id="progress-ordertype" className={"fa fa-lg fa-sort-amount-" + orderby.type} onClick={this.handleOrdertype}></span>
               </div>
             </div>
           </div>
