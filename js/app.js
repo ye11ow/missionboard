@@ -1,15 +1,5 @@
-/**
- *
- * @jsx React.DOM
- */
-
-var React = require('react');
-var ProgressActions = require('./actions/ProgressActions');
-
-var MissionBoard = require('./components/MissionBoard');
-
-var CategoryStore = require('./stores/CategoryStore');
-//SyncDaemon = require('./helpers/SyncHelper');
+var React = require('react'),
+    MissionBoard = require('./components/MissionBoard');
 
 React.render(
   <MissionBoard />,

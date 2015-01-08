@@ -5,7 +5,8 @@
   "main": "js/app.js",
   "dependencies": {
     "es6-promise": "~0.1.1",
-    "react": "~0.12.1",
+    "react": "~0.12.2",
+    "flux": "~2.0.1",
     "object-assign": "^1.0.0"
   },
   "devDependencies": {

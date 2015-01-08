@@ -7,7 +7,7 @@ var CategoryActions = {
    * @param  {string} title
    */
   create: function(title, order) {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_CREATE,
       title: title,
       order: order
@@ -15,7 +15,7 @@ var CategoryActions = {
   },
 
   updateOrderby: function(id, by, type) {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDERBY_UPDATE,
       id: id,
       by: by,
@@ -24,7 +24,7 @@ var CategoryActions = {
   },
 
   updateOrder: function(id, targetId) {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDER_UPDATE,
       id: id,
       targetId: targetId
@@ -35,7 +35,7 @@ var CategoryActions = {
    * @param  {string} id
    */
   destroy: function(id) {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_DESTROY,
       id: id
     });

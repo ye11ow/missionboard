@@ -68,6 +68,16 @@ function destroy(id) {
 
 var CategoryStore = assign({}, EventEmitter.prototype, {
 
+  init: function() {
+    var ids = [];
+    ids.push(create("Videos", 1));
+    ids.push(create("Books",  2));
+    ids.push(create("Others", 3));
+    CategoryStore.persist();
+
+    return ids;
+  },
+
   loadCategories: function(categories) {
     _categories = categories;
   },
@@ -106,8 +116,7 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
 
 });
 
-AppDispatcher.register(function(payload) {
-  var action = payload.action;
+AppDispatcher.register(function(action) {
   var title;
 
   switch(action.actionType) {

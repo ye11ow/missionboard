@@ -17,63 +17,21 @@ function getProgressState() {
 }
 
 function init() {
-  var vId = CategoryActions.create("Videos", 1);
-  var bId = CategoryActions.create("Books", 2);
-  var oId = CategoryActions.create("Others", 3);
-
-  /*
-  ProgressActions.create(
-    "My Favorite Anime", 
-    0, 
-    12,
-    vId,
-    null,
-    "This is my favorite anime"
-  );
-
-  ProgressActions.create(
-    "My Favorite Book", 
-    0, 
-    600,
-    bId,
-    null,
-    "This is my favorite book"
-  );
-
-  ProgressActions.create(
-    "Learn Mission Board", 
-    0, 
-    10,
-    oId,
-    null,
-    "Learn some basic usage of Mission Board"
-  );
-  ProgressStore.persist();
-  */
-
-  //this.startTour();
-
-  var state = getProgressState();
-  state["category"] = CategoryConstants.CATEGORY_ALLID;
-
-  this.setState(state);
+  var ids = CategoryStore.init();
+  ProgressStore.init(ids);
 }
 
 function calcCategoryCount(categories, progresses) {
-  var allId = null;
   for (var key in categories) {
     var category = categories[key];
     category.count = 0;
-    if (category.system) {
-      allId = key;
-    }
   }
 
   for (var key in progresses) {
     var category = categories[progresses[key].category];
     if (!progresses[key].completed) {
       category.count++;
-      categories[allId].count++;
+      categories[CategoryConstants.CATEGORY_ALLID].count++;
     }
   }
 }
@@ -185,6 +143,12 @@ var MissionBoard = React.createClass({
     CategoryActions.create(category.title, category.order);
   },
 
+  resetData: function() {
+    chrome.storage.sync.remove('_inited');
+    chrome.storage.sync.remove('_cateogries'); 
+    chrome.storage.sync.remove('_progresses'); 
+  },
+
   render: function() {
     var progresses = this.state.progresses;
     var categories = this.state.categories;
@@ -227,7 +191,7 @@ var MissionBoard = React.createClass({
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Settings <span className="caret"></span></a>
                   <ul className="dropdown-menu" role="menu">
-                    <li><a href="#">Reset Data</a></li>
+                    <li><a href="#" onClick={this.resetData}>Reset Data</a></li>
                   </ul>
                 </li>
               </ul>

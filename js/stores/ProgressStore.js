@@ -81,6 +81,44 @@ function updateProgress(id, current) {
 
 var ProgressStore = assign({}, EventEmitter.prototype, {
 
+  init: function(ids) {
+    create(
+      "My Favorite Anime", 
+      3, 
+      12,
+      ids[0],
+      null,
+      "This is my favorite anime"
+    );
+    create(
+      "My Completed Anime", 
+      24, 
+      24,
+      ids[0],
+      null,
+      ""
+    );
+    create(
+      "My Favorite Book", 
+      350, 
+      600,
+      ids[1],
+      null,
+      "This is my favorite book"
+    );
+    create(
+      "Learn Mission Board", 
+      1, 
+      10,
+      ids[2],
+      null,
+      "Learn some basic usage of Mission Board"
+    );
+
+    ProgressStore.persist();
+    ProgressStore.emitChange();
+  },
+
   loadProgresses: function(progresses) {
     _progresses = progresses;
   },
@@ -129,19 +167,15 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
 
   persist: function() {
     chrome.storage.sync.set({'_progresses': _progresses});
-    //localStorage["progresses"] = JSON.stringify(_progresses);
-    //localStorage["progresses.sync"] = JSON.stringify(_syncList);
   },
 
   clear: function() {
-    //localStorage["progresses"] = "";
-    //localStorage["progresses.sync"] = "";
+    chrome.storage.sync.remove('_progresses');
   }
 
 });
 
-AppDispatcher.register(function(payload) {
-  var action = payload.action;
+AppDispatcher.register(function(action) {
   var title;
 
   switch(action.actionType) {
