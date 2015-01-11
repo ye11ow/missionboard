@@ -40,9 +40,19 @@ var Progress = React.createClass({
   },
 
   handleDestroy: function() {
-    //if (confirm("Do you want to delete this mission?")) {
-      ProgressActions.destroy(this.props.progress.id);
-    //}
+    swal({   
+      title: "Delete Mission?",
+      text: "Do you want to delete this mission?",
+      type: "warning",
+      showCancelButton: true,   
+      confirmButtonColor: "#DD6B55",   
+      confirmButtonText: "Yes!",   
+      cancelButtonText: "No!",   
+    }, function(isConfirm){
+      if (isConfirm) { 
+        ProgressActions.destroy(this.props.progress.id);
+      }
+    });
   },
 
   componentDidMount: function() {
