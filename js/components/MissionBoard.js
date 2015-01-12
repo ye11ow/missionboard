@@ -144,19 +144,21 @@ var MissionBoard = React.createClass({
   },
 
   resetData: function() {
-    swal({   
+    swal({
       title: "Reset Data",
       text: "Do you really want to reset all data?",
-      type: "warning",   
-      showCancelButton: true,   
-      confirmButtonColor: "#DD6B55",   
-      confirmButtonText: "Yes!",   
-      cancelButtonText: "No!",   
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes!",
+      cancelButtonText: "No!",
+      closeOnConfirm: false,
     }, function(isConfirm){
       if (isConfirm) { 
         chrome.storage.sync.remove('_inited');
-        chrome.storage.sync.remove('_cateogries'); 
-        chrome.storage.sync.remove('_progresses'); 
+        chrome.storage.sync.remove('_cateogries');
+        chrome.storage.sync.remove('_progresses');
+        swal("Resetted!", "Please re-launch the MissionBoard.", "success"); 
       }
     });
   },

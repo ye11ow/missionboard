@@ -81,39 +81,26 @@ var CategoryList = React.createClass({
   handleCategoryDestroy: function(event) {
     event.preventDefault();
     event.stopPropagation();
-    var self = this;
+    var self = this,
+        $target = $(event.target).parent(),
+        id = $target.attr("data-category"),
+        text = "Do you want to delete this category?";
+
+    if (ProgressStore.getLengthByCategory(id) > 0 ) {
+      text = "There are some progresses under this cateogry, do you really want to delete it?";
+    }
 
     swal({
       title: "Delete Category",
-      text: "Do you want to delete this category?",
+      text: text,
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
       confirmButtonText: "Yes!",
       cancelButtonText: "No!",
-      closeOnConfirm: false
     }, function(isConfirm){
-      if (isConfirm) {
-        var $target = $(event.target).parent();
-        var id = $target.attr("data-category");
-
-        if (ProgressStore.getLengthByCategory(id) > 0 ) {
-          swal({   
-            title: "Delete Category",
-            text: "There are some progresses under this cateogry, do you really want to delete it?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes!",
-            cancelButtonText: "No!"
-          }, function(isConfirm){
-            if (isConfirm) {
-              self.props.onCategoryDestroy(id);
-            }
-          });
-        } else {
-          self.props.onCategoryDestroy(id);        
-        }
+      if (isConfirm) {       
+        self.props.onCategoryDestroy(id);
       }
     });
   },
