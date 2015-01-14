@@ -1,12 +1,12 @@
-var React = require('react');
-var ProgressList = require('./ProgressList');
-var CategoryList = require('./CategoryList');
-var ProgressActions = require('../actions/ProgressActions');
-var ProgressStore = require('../stores/ProgressStore');
-
-var CategoryStore = require('../stores/CategoryStore');
-var CategoryActions = require('../actions/CategoryActions');
-var CategoryConstants = require('../constants/CategoryConstants');
+var React = require('react'),
+    ProgressList = require('./ProgressList'),
+    CategoryList = require('./CategoryList'),
+    ProgressActions = require('../actions/ProgressActions'),
+    ProgressStore = require('../stores/ProgressStore'),
+    CategoryStore = require('../stores/CategoryStore'),
+    CategoryActions = require('../actions/CategoryActions'),
+    CategoryConstants = require('../constants/CategoryConstants'),
+    introguide = require('../helpers/Introguide');
 
 function getProgressState() {
   return {
@@ -61,7 +61,6 @@ var MissionBoard = React.createClass({
         });
       } else {
         chrome.storage.sync.set({'_inited': true}); 
-        //chrome.storage.sync.remove('_inited'); 
         init.call(this);
       }
     });
@@ -73,51 +72,7 @@ var MissionBoard = React.createClass({
   },
 
   startTour: function() {
-    console.log("EnjoyHint is not available");
-    /*
-    var ehint = new EnjoyHint({});
-    var ehintSteps = [
-      {
-        selector: '#progress-list',
-        event: 'click',
-        description: 'List of all your missions',
-        event_type: "next"
-      },
-      {
-        selector: '.progress-toolbar input[type="text"]',
-        event: 'click',
-        description: 'Create a new mission by entering its title here',
-        event_type: "next"
-      },
-      {
-        selector: '.progress-filter',
-        event: 'click',
-        description: 'Filter missions',
-        event_type: "next"
-      },
-      {
-        selector: '.progress-orderby',
-        event: 'click',
-        description: 'Sort missions',
-        event_type: "next"
-      },
-      {
-        selector: '.nav.nav-pills.nav-stacked',
-        event: 'click',
-        description: 'All categories',
-        event_type: "next"
-      }, 
-      {
-        selector: '.category-dashboard',
-        event: 'click',
-        description: 'Add/Edit category',
-        event_type: "next"
-      }
-    ];
-
-    ehint.setScript(ehintSteps);
-    ehint.runScript();
-    */
+    introguide.startIntro();
   },
 
   handleCategorySwitch: function(id) {
