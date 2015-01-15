@@ -208,6 +208,8 @@ h3 {
 
 .progress-filter {
   height: 30px;
+  padding-top: 15px;
+  margin-right: 50px;
 }
 
 .progress-filter label{
@@ -233,10 +235,12 @@ h3 {
 }
 
 .progress-orderby {
-  padding-top: 3px;
+  padding-top: 15px;
+  margin-right: 20px;
 }
 
 #progress-orderby {
+  height: 30px;
   margin-left: 10px;
   margin-right: 10px;
 }

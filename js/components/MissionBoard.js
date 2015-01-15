@@ -19,6 +19,10 @@ function getProgressState() {
 function init() {
   var ids = CategoryStore.init();
   ProgressStore.init(ids);
+
+  setTimeout(function() {
+    introguide.startIntro();
+  }, 400);
 }
 
 function calcCategoryCount(categories, progresses) {
@@ -33,6 +37,18 @@ function calcCategoryCount(categories, progresses) {
       category.count++;
       categories[CategoryConstants.CATEGORY_ALLID].count++;
     }
+  }
+}
+
+function processFilter(filter) {
+  if (filter === "all") {
+    $('[data-role="progress"]').show();
+  } else if (filter === "current") {
+    $('[data-role="progress"][data-completed="false"]').show();
+    $('[data-role="progress"][data-completed="true"]').hide();
+  } else {
+    $('[data-role="progress"][data-completed="true"]').show();
+    $('[data-role="progress"][data-completed="false"]').hide();
   }
 }
 
@@ -71,8 +87,9 @@ var MissionBoard = React.createClass({
     CategoryStore.removeChangeListener(this._onChange);
   },
 
-  startTour: function() {
-    introguide.startIntro();
+  componentDidUpdate: function() {
+    var filter = $("#progress-filter").find(".active a").attr("data-filter");
+    processFilter(filter);
   },
 
   handleCategorySwitch: function(id) {
@@ -98,6 +115,31 @@ var MissionBoard = React.createClass({
     CategoryActions.create(category.title, category.order);
   },
 
+  handleFilter: function(event) {
+    event.preventDefault();
+    var filter = $(event.target).attr("data-filter");
+    if (filter === undefined) {
+      return;
+    }
+
+    var $group = $(event.currentTarget);
+    $group.find(".active").removeClass("active");
+    var $target = $(event.target).parent();
+    $target.addClass("active");
+
+    processFilter(filter);
+  },
+
+  handleOrderby: function(event) {
+    var orderby = this.state.categories[this.state.category].orderby;
+    CategoryActions.updateOrderby(this.state.category, event.target.value, orderby.type);
+  },
+
+  handleOrdertype: function() {
+    var orderby = this.state.categories[this.state.category].orderby;
+    CategoryActions.updateOrderby(this.state.category, orderby.by, orderby.type === "asc" ? "desc" : "asc");
+  },
+
   resetData: function() {
     swal({
       title: "Reset Data",
@@ -119,13 +161,20 @@ var MissionBoard = React.createClass({
   },
 
   render: function() {
-    var progresses = this.state.progresses;
-    var categories = this.state.categories;
-    var _progresses = {};
-    var category = null;
+    var progresses = this.state.progresses,
+        categories = this.state.categories,
+        _progresses = {},
+        category = null,
+        orderby = null;
 
     if (this.state.category) {
       category = categories[this.state.category];
+      orderby = category.orderby;
+    } else {
+      orderby = {
+        type: "desc",
+        by: "title"
+      }
     }
 
     // a key is need here for Progress.
@@ -140,7 +189,6 @@ var MissionBoard = React.createClass({
 
     return (
       <div>
-
         <nav className="navbar navbar-default banner">
             <div className="navbar-header">
               <a className="navbar-brand" href="#">
@@ -156,7 +204,28 @@ var MissionBoard = React.createClass({
                 <li className="navbar-title">Overall Progress</li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
-                <li><a href="#" onClick={this.startTour}>Start Tour</a></li>
+                <li>
+                  <div className="progress-filter">
+                    <label>items</label>
+                    <ul id="progress-filter" className="nav nav-tabs" onClick={this.handleFilter}>
+                      <li><a href="#" data-filter="all">All</a></li>
+                      <li className="active"><a href="#" data-filter="current">Active</a></li>
+                      <li><a href="#" data-filter="completed">Completed</a></li>
+                    </ul>
+                    <label>Showing</label>
+                  </div>
+                </li>
+                <li>
+                  <div className="progress-orderby">
+                    <label htmlFor="progress-orderby">Sort</label>
+                    <select id="progress-orderby" onChange={this.handleOrderby} value={orderby.by}>
+                      <option value="title">Title</option>
+                      <option value="createdAt">Date</option>
+                      <option value="percent">Progress</option>
+                    </select>
+                    <span id="progress-ordertype" className={"fa fa-lg fa-sort-amount-" + orderby.type} onClick={this.handleOrdertype}></span>
+                  </div>
+                </li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Settings <span className="caret"></span></a>
                   <ul className="dropdown-menu" role="menu">

@@ -66,18 +66,6 @@ function getOverallProgress(progresses) {
   return Math.floor(sum / count);
 }
 
-function processFilter(filter) {
-  if (filter === "all") {
-    $('[data-role="progress"]').show();
-  } else if (filter === "current") {
-    $('[data-role="progress"][data-completed="false"]').show();
-    $('[data-role="progress"][data-completed="true"]').hide();
-  } else {
-    $('[data-role="progress"][data-completed="true"]').show();
-    $('[data-role="progress"][data-completed="false"]').hide();
-  }
-}
-
 var ProgressList = React.createClass({
 
   propTypes: {
@@ -85,11 +73,6 @@ var ProgressList = React.createClass({
   },
 
   componentDidMount: function() {
-  },
-
-  componentDidUpdate: function() {
-    var filter = $("#progress-filter").find(".active a").attr("data-filter");
-    processFilter(filter);
   },
 
   getInitialState: function () {
@@ -137,31 +120,6 @@ var ProgressList = React.createClass({
 
   handleCancel: function() {
     $("#progress-edit").modal("hide");
-  },
-
-  handleOrderby: function(event) {
-    CategoryActions.updateOrderby(this.props.category.id, event.target.value, this.props.category.orderby.type);
-  },
-
-  handleOrdertype: function() {
-    var orderby = this.props.category.orderby;
-
-    CategoryActions.updateOrderby(this.props.category.id, orderby.by, orderby.type === "asc" ? "desc" : "asc");
-  },
-
-  handleFilter: function(event) {
-    event.preventDefault();
-    var filter = $(event.target).attr("data-filter");
-    if (filter === undefined) {
-      return;
-    }
-
-    var $group = $(event.currentTarget);
-    $group.find(".active").removeClass("active");
-    var $target = $(event.target).parent();
-    $target.addClass("active");
-
-    processFilter(filter);
   },
 
   render: function() {
@@ -273,32 +231,12 @@ var ProgressList = React.createClass({
         <div className="panel panel-default progress-toolbar">
           <div className="panel-body">
             <div className="row">
-            <div className="col-lg-6">
+            <div className="col-lg-10">
               <div className="form-group">
                 <input type="text" className="form-control" onKeyPress={this.handlePreAdd} placeholder="create a new mission" />
               </div>
             </div>
-            <div className="col-lg-4">
-              <div className="progress-filter">
-                <label>items</label>
-                <ul id="progress-filter" className="nav nav-tabs" onClick={this.handleFilter}>
-                  <li><a href="#" data-filter="all">All</a></li>
-                  <li className="active"><a href="#" data-filter="current">Current</a></li>
-                  <li><a href="#" data-filter="completed">Completed</a></li>
-                </ul>
-                <label>Showing</label>
-              </div>
-            </div>
             <div className="col-lg-2">
-              <div className="progress-orderby">
-                <label htmlFor="progress-orderby">Sort</label>
-                <select id="progress-orderby" onChange={this.handleOrderby} value={orderby.by}>
-                  <option value="title">Title</option>
-                  <option value="createdAt">Date</option>
-                  <option value="percent">Progress</option>
-                </select>
-                <span id="progress-ordertype" className={"fa fa-lg fa-sort-amount-" + orderby.type} onClick={this.handleOrdertype}></span>
-              </div>
             </div>
           </div>
           </div>

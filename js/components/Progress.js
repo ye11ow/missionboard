@@ -40,6 +40,8 @@ var Progress = React.createClass({
   },
 
   handleDestroy: function() {
+    var id = this.props.progress.id;
+    
     swal({   
       title: "Delete Mission?",
       text: "Do you want to delete this mission?",
@@ -50,7 +52,7 @@ var Progress = React.createClass({
       cancelButtonText: "No!",   
     }, function(isConfirm){
       if (isConfirm) { 
-        ProgressActions.destroy(this.props.progress.id);
+        ProgressActions.destroy(id);
       }
     });
   },

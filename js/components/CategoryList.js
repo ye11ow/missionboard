@@ -42,10 +42,10 @@ var CategoryList = React.createClass({
         return;
       }
 
-      var $category = $("#main-menu");
+      var $category = $("#main-menu"),
+          $target = $(event.target).parent();
 
       $category.find(".active").removeClass("active");
-      var $target = $(event.target).parent();
       $target.addClass("active");
 
       this.props.onCategorySwitch(targetCategory);
@@ -117,7 +117,6 @@ var CategoryList = React.createClass({
           title: title,
           order: order
         });
-        $input.hide();
         this.resetCategoryControl();
       }
     }
