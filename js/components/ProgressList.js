@@ -82,8 +82,8 @@ var ProgressList = React.createClass({
   },
 
   handlePreAdd: function(event) {
-    if (event.which === 13) {
-      var $input = $(event.target);
+    if (event.which === 13 || event.type === "click") {
+      var $input = $(this.refs.progressTitle.getDOMNode());
       var title = $input.val();
       if (typeof title === "string" && title.length > 0) {
         $("#progress-edit-title").val(title);
@@ -231,12 +231,13 @@ var ProgressList = React.createClass({
         <div className="panel panel-default progress-toolbar">
           <div className="panel-body">
             <div className="row">
-            <div className="col-lg-10">
+            <div className="col-lg-11">
               <div className="form-group">
-                <input type="text" className="form-control" onKeyPress={this.handlePreAdd} placeholder="create a new mission" />
+                <input ref="progressTitle" type="text" className="form-control" onKeyPress={this.handlePreAdd} placeholder="create a new mission" />
               </div>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
+              <a href="#" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus"></i></a>
             </div>
           </div>
           </div>

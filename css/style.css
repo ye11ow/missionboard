@@ -176,11 +176,6 @@ h3 {
   padding: 10px 15px;
 }
 
-.progress-toolbar .btn-primary {
-  padding: 3px 16px;
-  height: 30px;
-}
-
 .progress-toolbar .form-group {
   margin-bottom: 0;
 }
@@ -250,6 +245,14 @@ h3 {
   text-decoration: underline;
 }
 
+.create-progress {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  padding: 6px;
+  float: right;
+}
+
 .progress-current {
   margin-left: 16.666% !important;
 }
@@ -270,16 +273,13 @@ h3 {
 
 .progress-edit, .progress-done, .progress-delete {
   font-size: 16px;
-  margin-left: 30px;
+  width: 40px;
 }
 
-.progress-edit:hover, .progress-done:hover, .progress-delete {
+.progress-edit:hover, .progress-done:hover, .progress-delete:hover {
+  font-size: 24px;
   color: red;
   cursor: pointer;
-}
-
-.progress-delete {
-  color: red;
 }
 
 .progress-percentage {
