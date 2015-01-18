@@ -14,7 +14,7 @@ var MODE_NORMAL  = 1,
 var CategoryList = React.createClass({
 
   componentDidMount: function() {
-    $("#main-menu").on("click", ".glyphicon-trash", this.handleCategoryDestroy);
+    $("#main-menu").on("click", ".fa-trash", this.handleCategoryDestroy);
   },
 
   getInitialState: function() {
@@ -31,10 +31,10 @@ var CategoryList = React.createClass({
       return;
     }
 
-    if ($target.hasClass("glyphicon-chevron-up")) {
+    if ($target.hasClass("fa-angle-up")) {
       var prevCategory = $(event.target).parent().prev().attr("data-category");
       CategoryActions.updateOrder(targetCategory, prevCategory);
-    } else if ($target.hasClass("glyphicon-chevron-down")) {
+    } else if ($target.hasClass("fa-angle-down")) {
       var nextCategory = $(event.target).parent().next().attr("data-category");
       CategoryActions.updateOrder(targetCategory, nextCategory);
     } else {
@@ -71,8 +71,8 @@ var CategoryList = React.createClass({
   handleCategoryEdit: function() {
     var length = $("#main-menu > ul li").length;
     if (length > 2) {
-      $("#main-menu > ul li:nth-child(2) .glyphicon-chevron-up").css("visibility", "hidden");
-      $("#main-menu > ul li:nth-child(" + (length - 1) + ") .glyphicon-chevron-down").css("visibility", "hidden");
+      $("#main-menu > ul li:nth-child(2) .fa-angle-up").css("visibility", "hidden");
+      $("#main-menu > ul li:nth-child(" + (length - 1) + ") .fa-angle-down").css("visibility", "hidden");
     }
 
     this.setState({ mode: MODE_EDITING });
@@ -168,13 +168,13 @@ var CategoryList = React.createClass({
             if (!category.system) {
               return (
                 <li className="category" draggable="true" key={category.id} data-category={category.id}>
-                  <span className={visibleEditing + " " + blockEditing + " glyphicon glyphicon-trash"}></span>
+                  <span className={visibleEditing + " " + blockEditing + " fa fa-trash"}></span>
                   <a className={mode === MODE_EDITING ? "editing" : ""} href="#">
                     {category.title}
                     <span className={hiddenEditing + " badge"}>{category.count}</span>
                   </a>
-                  <span className={blockEditing + " glyphicon glyphicon-chevron-down"}></span>
-                  <span className={blockEditing + " glyphicon glyphicon-chevron-up"}></span>
+                  <span className={blockEditing + " fa fa-angle-down"}></span>
+                  <span className={blockEditing + " fa fa-angle-up"}></span>
                 </li>
               );
             } else {
@@ -186,10 +186,10 @@ var CategoryList = React.createClass({
           </li>
         </ul>
         <div className="category-dashboard row">
-          <span className={hiddenNormal  + " glyphicon glyphicon-ok col-sm-3 category-control category-confirm"} onClick={this.handleCategoryConfirm}></span>
-          <span className={hiddenNormal  + " glyphicon glyphicon-remove col-sm-3 category-control category-cancel"} onClick={this.handleCategoryCancel}></span>
-          <span className={visibleNormal + " glyphicon glyphicon-plus col-sm-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
-          <span className={visibleNormal + " glyphicon glyphicon-cog col-sm-3 category-control category-edit"} onClick={this.handleCategoryEdit}></span>
+          <span className={hiddenNormal  + " fa fa-check col-sm-3 category-control category-confirm"} onClick={this.handleCategoryConfirm}></span>
+          <span className={visibleAdding + " fa fa-times col-sm-3 category-control category-cancel"} onClick={this.handleCategoryCancel}></span>
+          <span className={visibleNormal + " fa fa-plus col-sm-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
+          <span className={visibleNormal + " fa fa-cog col-sm-3 category-control category-edit"} onClick={this.handleCategoryEdit}></span>
         </div>
       </div>
     );

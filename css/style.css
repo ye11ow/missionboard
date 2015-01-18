@@ -19,10 +19,6 @@ h3 {
   margin-left: 5px;
 }
 
-#sync-status.glyphicon-warning-sign {
-  color: #8a6d3b;
-}
-
 .navbar-value {
   font-size: 24px;
   line-height: 64px;
@@ -45,16 +41,17 @@ h3 {
   font-weight: bold;
 }
 
-.category .glyphicon {
-  font-size: 16px;
-  top: 15px;
+.category .fa {
+  font-size: 18px;
+  top: 12px;
+  position: relative;
   margin-left: 5px;
   cursor: pointer;
   color: white;
   float: left;
 }
 
-.category .glyphicon:hover {
+.category .fa:hover {
   color: red;
 }
 
@@ -126,14 +123,10 @@ h3 {
   margin-top: 3px;
 }
 
-.category .glyphicon-chevron-up {
-  top: -28px;
-  float: right;
-  right: 5px;
-}
-
-.category .glyphicon-chevron-down {
-  top: -28px;
+.category .fa-angle-up,
+.category .fa-angle-down {
+  top: -36px;
+  font-size: 24px;
   float: right;
   right: 5px;
 }
