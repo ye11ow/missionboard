@@ -81,6 +81,22 @@ var ProgressList = React.createClass({
     };
   },
 
+  handleFocus: function() {
+    $(this.refs.progressTip.getDOMNode()).text("Input the title and press Enter...");
+  },
+
+  handleBlur: function() {
+    var $input = $(this.refs.progressTitle.getDOMNode()),
+        title = $input.val();
+
+    if (title && title.length > 0) {
+      $input.parent().addClass("input--filled");
+    } else {
+      $input.parent().removeClass("input--filled");
+      $(this.refs.progressTip.getDOMNode()).text("Create a new mission from here...");
+    }
+  },
+
   handlePreAdd: function(event) {
     if (event.which === 13 || event.type === "click") {
       var $input = $(this.refs.progressTitle.getDOMNode());
@@ -228,18 +244,19 @@ var ProgressList = React.createClass({
           </div>
         </div>
 
-        <div className="panel panel-default progress-toolbar">
-          <div className="panel-body">
-            <div className="row">
-            <div className="col-lg-11">
-              <div className="form-group">
-                <input ref="progressTitle" type="text" className="form-control" onKeyPress={this.handlePreAdd} placeholder="create a new mission" />
-              </div>
+        <div className="progress-toolbar">
+          <div className="row">
+            <div className="col-lg-7 col-lg-offset-2">
+              <span className="input input--hoshi">
+              <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyPress={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
+                <label className="input__label input__label--hoshi input__label--hoshi-color-1">
+                  <span ref="progressTip" className="input__label-content input__label-content--hoshi">Create a new mission from here...</span>
+                </label>
+              </span>
             </div>
             <div className="col-lg-1">
               <a href="#" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus"></i></a>
             </div>
-          </div>
           </div>
         </div>
 
