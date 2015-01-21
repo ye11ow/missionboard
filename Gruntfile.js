@@ -10,9 +10,20 @@ module.exports = function(grunt) {
       build: {
         src: 'js/bundle.js',
         dest: 'demo/js/bundle.js'
+      },
+      background: {
+        src: 'js/background.js',
+        dest: 'demo/js/background.js'
       }
     },
     copy: {
+      manifest: {
+        expand: true,
+        src: 'manifest.json',
+        dest: 'demo/',
+        flatten: false,
+        filter: 'isFile',
+      },
       css: {
         expand: true,
         cwd: 'css/',
@@ -43,16 +54,28 @@ module.exports = function(grunt) {
         dest: 'demo/js/libs',
         flatten: false,
         filter: 'isFile',
-      },
+      }
     },
+    clean: ["demo"],
+    compress: {
+      main: {
+        options: {
+          archive: 'dist/latest.zip'
+        },
+        files: [
+          {src: ['demo/**'], dest: '/'},
+        ]
+      }
+    }
   });
 
-  // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('buildDemo', ['uglify', 'copy']);
+  grunt.registerTask('build', ['clean', 'uglify', 'copy', 'compress']);
 
 };

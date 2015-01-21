@@ -1,6 +1,6 @@
 {
   "name": "missionboard-client",
-  "version": "0.4.0",
+  "version": "0.1.1",
   "description": "",
   "main": "js/app.js",
   "dependencies": {
@@ -19,8 +19,10 @@
     "jest-cli": "~0.1.18",
     "react-tools": "~0.12.1",
     "grunt": "~0.4.5",
-    "grunt-contrib-uglify": "~0.6.0",
-    "grunt-contrib-copy": "~0.7.0"
+    "grunt-contrib-uglify": "~0.7.0",
+    "grunt-contrib-copy": "~0.7.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-compress": "~0.13.0"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d .",
