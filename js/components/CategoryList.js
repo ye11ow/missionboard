@@ -52,6 +52,33 @@ var CategoryList = React.createClass({
     }
   },
 
+  handleCategoryDoubleClick: function() {
+    var $target = $(event.target);
+
+    if (this.state.mode !== MODE_EDITING || $target.attr("data-role") !== "title") {
+      return;
+    }
+
+    $target.prop("contenteditable", "true");
+    $target.focus();
+  },
+
+  handleUpdateCateogryTitle: function(event) {
+    var nativeEvent = event.nativeEvent;
+
+    if (nativeEvent.charCode === 13) {
+      event.preventDefault();
+      $target = $(nativeEvent.target);
+      $target.blur();
+      $target.prop("contenteditable", false);
+
+      var category = $target.parent().parent().attr("data-category"),
+          title = $target.text();
+
+      CategoryActions.updateTitle(category, title);
+    }
+  },
+
   resetCategoryControl: function() {
     var $title = $(this.refs.categoryAddTitle.getDOMNode());
     $title.val("");
@@ -163,22 +190,22 @@ var CategoryList = React.createClass({
     return (
       <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
         <div className="category-header">Categories</div>
-        <ul className="nav nav-pills nav-stacked">
+        <ul className="nav nav-pills nav-stacked" onDoubleClick={this.handleCategoryDoubleClick} onKeyPress={this.handleUpdateCateogryTitle}>
           {categories.map(function(category) {
             if (!category.system) {
               return (
                 <li className="category" draggable="true" key={category.id} data-category={category.id}>
                   <span className={visibleEditing + " " + blockEditing + " fa fa-trash"}></span>
                   <a className={mode === MODE_EDITING ? "editing" : ""} href="#">
-                    {category.title}
-                    <span className={hiddenEditing + " badge"}>{category.count}</span>
+                    <span data-role="title">{category.title}</span>
+                    <span className={hiddenEditing + " badge"} >{category.count}</span>
                   </a>
                   <span className={blockEditing + " fa fa-angle-down"}></span>
                   <span className={blockEditing + " fa fa-angle-up"}></span>
                 </li>
               );
             } else {
-              return <li className="category active" draggable="true" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
+              return <li className="category active" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
           })}
           <li className={visibleAdding + " category-title"}>

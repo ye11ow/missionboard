@@ -57,7 +57,12 @@ h3 {
 
 .category a.editing {
   margin-left: 25px;
-  pointer-events: none;
+}
+
+.category a.editing:hover {
+  background-color: transparent!important;
+  margin-left: 25px;
+  color: white!important;
 }
 
 .category-control {

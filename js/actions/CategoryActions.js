@@ -14,6 +14,14 @@ var CategoryActions = {
     });
   },
 
+  updateTitle: function(id, title) {
+    AppDispatcher.dispatch({
+      actionType: CategoryConstants.CATEGORY_TITLE_UPDATE,
+      id: id,
+      title: title
+    });
+  },
+
   updateOrderby: function(id, by, type) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDERBY_UPDATE,

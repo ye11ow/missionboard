@@ -42,6 +42,10 @@ function create(title, order) {
   return category.id;
 }
 
+function updateTitle(id, title) {
+  _categories[id].title = title;
+}
+
 function updateOrderby(id, by, type) {
   _categories[id].orderby = {
     by: by,
@@ -124,6 +128,13 @@ AppDispatcher.register(function(action) {
       title = action.title.trim();
       if (title !== '') {
         action.id = create(title, action.order);
+      }
+      break;
+
+    case CategoryConstants.CATEGORY_TITLE_UPDATE:
+      title = action.title.trim();
+      if (title !== '') {
+        updateTitle(action.id, title);
       }
       break;
 
