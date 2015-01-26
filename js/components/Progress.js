@@ -35,9 +35,10 @@ var Progress = React.createClass({
     $("#progress-edit").modal("show");
   },
 
+  /*
   handleFinish: function() {
     ProgressActions.updateProgress(this.props.progress.id, -1);
-  },
+  },*/
 
   handleDestroy: function() {
     var id = this.props.progress.id;
@@ -105,6 +106,7 @@ var Progress = React.createClass({
         <div className="panel-body row" data-completed={progress.completed} data-role="progress">
           <div className="col-lg-10">
             <h5 className="progress-title">{progress.title}</h5>
+            <label className="progress-percentage">{style.width}</label>
             <div data-role="slider" className="progress-slider">
             </div>
             <div className="slider-tip">
@@ -114,12 +116,11 @@ var Progress = React.createClass({
           <div className="col-lg-2">
             <div>
               <span data-role="progress" className="label label-success label-progress">
-                <span data-role="current">{progress.current}</span>/{progress.total}&nbsp;&nbsp;
+                <span data-role="current">{progress.current}</span>/{progress.total}
               </span>
-              <label className="progress-percentage">{style.width}</label>
             </div>
             <div className="progress-control">
-              <i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish}></i>
+              {/*<i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish}></i>*/}
               <i className="fa fa-pencil fa-lg progress-edit" title="edit" onClick={this.handleEdit}></i> 
               <i className="fa fa-trash  fa-lg progress-delete" title="delete" onClick={this.handleDestroy}></i>
             </div>

@@ -83,6 +83,7 @@ var ProgressList = React.createClass({
 
   handleFocus: function() {
     $(this.refs.progressTip.getDOMNode()).text("Input the title and press Enter...");
+    //$(this.refs.createBtn.getDOMNode()).show();
   },
 
   handleBlur: function() {
@@ -93,6 +94,7 @@ var ProgressList = React.createClass({
       $input.parent().addClass("input--filled");
     } else {
       $input.parent().removeClass("input--filled");
+      //$(this.refs.createBtn.getDOMNode()).hide(300);
       $(this.refs.progressTip.getDOMNode()).text("Create a new mission from here...");
     }
   },
@@ -175,8 +177,8 @@ var ProgressList = React.createClass({
         progressItems.push(<Progress key={p.id} progress={p} />);
       });
 
-      $("#progress-count").text(Object.keys(_progresses).length);
-      $("#overall-progress").text(getOverallProgress(progresses) + "%");
+      //$("#progress-count").text(Object.keys(_progresses).length);
+      //$("#overall-progress").text(getOverallProgress(progresses) + "%");
     } else {
       orderby = {
         by: "title",
@@ -253,9 +255,7 @@ var ProgressList = React.createClass({
                   <span ref="progressTip" className="input__label-content input__label-content--hoshi">Create a new mission from here...</span>
                 </label>
               </span>
-            </div>
-            <div className="col-lg-1">
-              <a href="#" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus"></i></a>
+              {/*<a href="#" ref="createBtn" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus"></i></a>*/}
             </div>
           </div>
         </div>

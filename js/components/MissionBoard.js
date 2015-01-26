@@ -197,12 +197,14 @@ var MissionBoard = React.createClass({
               </a>
             </div>
              <div className="navbar-collapse collapse navbar-inverse-collapse">
-              <ul className="nav navbar-nav">
+             
+              {/*<ul className="nav navbar-nav">
                 <li id="progress-count" className="navbar-value"></li>
                 <li className="navbar-title">Missions</li>
                 <li id="overall-progress" className="navbar-value"></li>
                 <li className="navbar-title">Overall Progress</li>
-              </ul>
+              </ul>*/}
+              
               <ul className="nav navbar-nav navbar-right">
                 <li>
                   <div className="progress-filter">

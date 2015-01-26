@@ -26,7 +26,7 @@
         },
         {
           element: $(".nav.nav-pills.nav-stacked")[0],
-          intro: 'All categories',
+          intro: 'All categories, double click on title to edit',
           position: 'right'
         },
         {

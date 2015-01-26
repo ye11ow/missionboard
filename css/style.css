@@ -242,9 +242,12 @@ h3 {
   height: 36px;
   width: 36px;
   border-radius: 50%;
+  position: relative;
   padding: 6px;
+  left: 24px;
+  bottom: 50px;
   float: right;
-  margin-top: 20px;
+  display: none;
 }
 
 .progress-current {
@@ -266,8 +269,17 @@ h3 {
 }
 
 .progress-edit, .progress-done, .progress-delete {
-  font-size: 16px;
+  font-size: 18px;
   width: 40px;
+}
+
+.progress-edit {
+  float: left;
+}
+
+.progress-delete {
+  text-align: right;
+  float: right;
 }
 
 .progress-edit:hover, .progress-done:hover, .progress-delete:hover {
@@ -282,11 +294,14 @@ h3 {
   font-size: 16px;
   line-height: 22px;
   margin-bottom: 0;
+  float: right;
 }
 
 .progress-control {
   clear: both;
-  padding-top: 15px;
+  padding-top: 18px;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 #progress-list .panel {
@@ -305,7 +320,7 @@ h3 {
 .label-progress {
   height: 24px;
   font-size: 16px;
-  width: 100px;
+  width: 100%;
   float: right;
 }
 

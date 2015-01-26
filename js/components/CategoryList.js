@@ -55,7 +55,7 @@ var CategoryList = React.createClass({
   handleCategoryDoubleClick: function() {
     var $target = $(event.target);
 
-    if (this.state.mode !== MODE_EDITING || $target.attr("data-role") !== "title") {
+    if (this.state.mode !== MODE_NORMAL || $target.attr("data-role") !== "title") {
       return;
     }
 
