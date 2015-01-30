@@ -127,17 +127,31 @@ var MissionBoard = React.createClass({
     var $target = $(event.target).parent();
     $target.addClass("active");
 
+    $(this.refs.activeFilter.getDOMNode()).text($target.text());
+
     processFilter(filter);
   },
 
-  handleOrderby: function(event) {
-    var orderby = this.state.categories[this.state.category].orderby;
-    CategoryActions.updateOrderby(this.state.category, event.target.value, orderby.type);
-  },
+  handleOrder: function(event) {
+    event.preventDefault();
 
-  handleOrdertype: function() {
-    var orderby = this.state.categories[this.state.category].orderby;
-    CategoryActions.updateOrderby(this.state.category, orderby.by, orderby.type === "asc" ? "desc" : "asc");
+    var $target = $(event.target);
+    if (!$target.attr("data-orderby")) {
+      $target = $target.parent();
+    }
+
+    var orderby = $target.attr("data-orderby"),
+        ordertype = $target.attr("data-ordertype"),
+        $group = $(event.currentTarget);
+
+    $group.find(".active").removeClass("active");
+    $target.parent().addClass("active");
+
+    $(this.refs.activeOrder.getDOMNode()).text($target.text());
+
+    if (orderby && ordertype) {
+       CategoryActions.updateOrderby(this.state.category, orderby, ordertype); 
+    }
   },
 
   resetData: function() {
@@ -170,6 +184,7 @@ var MissionBoard = React.createClass({
     if (this.state.category) {
       category = categories[this.state.category];
       orderby = category.orderby;
+      $(this.refs.activeOrder.getDOMNode()).text($("[data-orderby='" + orderby.by + "']").eq(0).text());
     } else {
       orderby = {
         type: "desc",
@@ -207,26 +222,34 @@ var MissionBoard = React.createClass({
               
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <div className="progress-filter">
-                    <label>items</label>
-                    <ul id="progress-filter" className="nav nav-tabs" onClick={this.handleFilter}>
-                      <li><a href="#" data-filter="all">All</a></li>
-                      <li className="active"><a href="#" data-filter="current">Active</a></li>
-                      <li><a href="#" data-filter="completed">Completed</a></li>
-                    </ul>
-                    <label>Showing</label>
-                  </div>
+                  <li><a href="#">Showing</a></li>
+                </li>
+                <li id="progress-filter" className="dropdown">
+                  <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">Active</a>
+                  <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
+                    <li><a href="#" data-filter="all">All</a></li>
+                    <li className="active"><a href="#" data-filter="current">Active</a></li>
+                    <li><a href="#" data-filter="completed">Completed</a></li>
+                  </ul>
                 </li>
                 <li>
-                  <div className="progress-orderby">
-                    <label htmlFor="progress-orderby">Sort</label>
-                    <select id="progress-orderby" onChange={this.handleOrderby} value={orderby.by}>
-                      <option value="title">Title</option>
-                      <option value="createdAt">Date</option>
-                      <option value="percent">Progress</option>
-                    </select>
-                    <span id="progress-ordertype" className={"fa fa-lg fa-sort-amount-" + orderby.type} onClick={this.handleOrdertype}></span>
-                  </div>
+                  <li><a href="#">Missions</a></li>
+                </li>
+                <li>
+                  <li><a href="#">Order by</a></li>
+                </li>
+                <li id="progress-order" className="dropdown">
+                  <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">Progress</a>
+                  <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
+                    <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc"></i> Title</a></li>
+                    <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc"></i> Title</a></li>
+                    <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc"></i> Progress</a></li>
+                    <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc"></i> Progress</a></li>
+                    <li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc"></i> Date</a></li>
+                    <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc"></i> Date</a></li>
+                  </ul>
+                </li>
+                <li className="divider">
                 </li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Settings <span className="caret"></span></a>

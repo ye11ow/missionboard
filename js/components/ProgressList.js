@@ -73,6 +73,9 @@ var ProgressList = React.createClass({
   },
 
   componentDidMount: function() {
+    $("#progress-edit").on('shown.bs.modal', function () {
+      $("#progress-edit-current").focus();
+    });
   },
 
   getInitialState: function () {
@@ -104,6 +107,8 @@ var ProgressList = React.createClass({
       var $input = $(this.refs.progressTitle.getDOMNode());
       var title = $input.val();
       if (typeof title === "string" && title.length > 0) {
+        $("#progress-edit-form").trigger('reset');
+
         $("#progress-edit-title").val(title);
 
         $("#progress-edit").modal("show");
