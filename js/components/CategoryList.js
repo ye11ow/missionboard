@@ -180,11 +180,11 @@ var CategoryList = React.createClass({
     }
     categories.sort(sortCategory);
 
-    var visibleEditing = mode === MODE_EDITING ? "" : "invisible",
-        hiddenEditing = mode !== MODE_EDITING ? "" : "invisible",
-        visibleNormal = mode === MODE_NORMAL ? "" : "invisible",
-        hiddenNormal = mode !== MODE_NORMAL ? "" : "invisible",
-        visibleAdding = mode === MODE_ADDING ? "" : "invisible",
+    var visibleEditing = mode === MODE_EDITING ? "" : "ani-invisible",
+        hiddenEditing = mode !== MODE_EDITING ? "" : "ani-invisible",
+        visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",
+        hiddenNormal = mode !== MODE_NORMAL ? "" : "ani-invisible",
+        visibleAdding = mode === MODE_ADDING ? "" : "ani-invisible",
         blockEditing = mode === MODE_EDITING ? "" : "hidden";
 
     return (

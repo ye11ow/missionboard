@@ -8,6 +8,23 @@ h3 {
   margin: 0;
 }
 
+/* helper */
+
+.ani-invisible {
+  opacity: 0;
+}
+
+.ani-visible {
+  opacity: 1;
+}
+
+
+/* top navbar */
+
+.navbar {
+  border-radius: 0;
+}
+
 .navbar-header {
   width: 15%;
   text-align: center;
@@ -33,6 +50,44 @@ h3 {
   height: 64px;
   margin-right: 50px;
 }
+
+.navbar-label > a {
+  cursor: default;
+  padding: 20.5px 5px!important;
+}
+
+#progress-filter {
+  width: 90px;
+  text-align: center;
+  border-bottom: 1px solid;
+}
+
+#progress-order {
+  width: 70px;
+  text-align: center;
+  border-bottom: 1px solid;
+}
+
+#progress-order:hover, #progress-filter:hover  {
+  border-bottom: 3px solid #2196f3;
+}
+
+#progress-filter > a, #progress-order > a {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+
+.nav > .divider {
+  height: 24px;
+  padding-right: 36px;
+  margin-right: 20px;
+  top: 20px;
+  border-right: 1px solid #ddd;
+}
+
+
+/* sidebar category */
 
 .category-header {
   margin-left: 16px;
@@ -80,6 +135,10 @@ h3 {
 
 .category-title {
   height: 43px;
+  -o-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .category-title > input {
@@ -94,8 +153,19 @@ h3 {
   margin-top: 20px;
 }
 
-.navbar {
-  border-radius: 0;
+.category-dashboard > .fa {
+  -o-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.category .fa-angle-up,
+.category .fa-angle-down {
+  top: -36px;
+  font-size: 24px;
+  float: right;
+  right: 5px;
 }
 
 .nav-pills>li>a {
@@ -110,8 +180,7 @@ h3 {
 }
 
 .nav-pills>li>a:hover {
-  color: #2D3134;
-  background-color: white;
+  background-color: #2D3134;
 }
 
 .nav-pills>li.active>a:hover {
@@ -126,14 +195,6 @@ h3 {
   padding: 3px 5px;
   font-weight: bold;
   margin-top: 3px;
-}
-
-.category .fa-angle-up,
-.category .fa-angle-down {
-  top: -36px;
-  font-size: 24px;
-  float: right;
-  right: 5px;
 }
 
 .banner {
@@ -189,34 +250,6 @@ h3 {
 
 .btn-add:hover {
   text-decoration: underline;
-}
-
-#progress-filter {
-  width: 110px;
-  text-align: center;
-  border-bottom: 1px solid;
-}
-
-#progress-order {
-  width: 90px;
-  text-align: center;
-  border-bottom: 1px solid;
-}
-
-#progress-order:hover, #progress-filter:hover  {
-  border-bottom: 3px solid #2196f3;
-}
-
-#progress-filter > a, #progress-order > a {
-  padding-bottom: 5px;
-}
-
-.nav > .divider {
-  height: 24px;
-  padding-right: 36px;
-  margin-right: 20px;
-  top: 20px;
-  border-right: 1px solid #ddd;
 }
 
 .create-progress {

@@ -221,9 +221,7 @@ var MissionBoard = React.createClass({
               </ul>*/}
               
               <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <li><a href="#">Showing</a></li>
-                </li>
+                <li className="navbar-label"><a href="#">Showing</a></li>
                 <li id="progress-filter" className="dropdown">
                   <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">Active</a>
                   <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
@@ -232,12 +230,9 @@ var MissionBoard = React.createClass({
                     <li><a href="#" data-filter="completed">Completed</a></li>
                   </ul>
                 </li>
-                <li>
-                  <li><a href="#">Missions</a></li>
-                </li>
-                <li>
-                  <li><a href="#">Order by</a></li>
-                </li>
+                <li className="navbar-label"><a href="#">Missions</a></li>
+                <li className="divider"></li>
+                <li className="navbar-label"><a href="#">Order by</a></li>
                 <li id="progress-order" className="dropdown">
                   <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">Progress</a>
                   <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
@@ -249,8 +244,7 @@ var MissionBoard = React.createClass({
                     <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc"></i> Date</a></li>
                   </ul>
                 </li>
-                <li className="divider">
-                </li>
+                <li className="divider"></li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Settings <span className="caret"></span></a>
                   <ul className="dropdown-menu" role="menu">
