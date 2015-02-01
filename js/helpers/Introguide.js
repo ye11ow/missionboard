@@ -1,43 +1,52 @@
 
 (function(){
   var startIntro = function() {
-    var intro = introJs();
-    intro.setOptions({
+    var tour = {
+      id: "hello-hopscotch",
+      showPrevButton: true,
+
       steps: [
-        { 
-          intro: "Welcome to MissionBoard! Here is a one-minute guide to walk you around :)"
+        {
+          title: "Welcome",
+          content: "Welcome to MissionBoard! Here is a one-minute guide to walk you around :)",
+          target: ".navbar-brand",
+          placement: "bottom"
         },
         {
-          element: $("#progress-list")[0],
-          intro: "List of all your missions.",
-          position: 'bottom'
+          title: "Missions list",
+          content: "List of all your missions.",
+          target: "#progress-list",
+          placement: "bottom"
         },
         {
-          element: $('.progress-toolbar input[type="text"]')[0],
-          intro: "Create a new mission by entering its title here"
+          title: "Create a new Mission",
+          content: "Create a new mission by entering its title here",
+          target: ".input.input--hoshi",
+          placement: "bottom"
         },
         {
-          element: $(".progress-filter")[0],
-          intro: 'Filter missions',
+          title: "Filter and sort",
+          content: "Filter and sort Missions",
+          target: "#progress-filter",
+          placement: "left"
         },
         {
-          element: $(".progress-orderby")[0],
-          intro: 'Sort missions',
+          title: "Category List",
+          content: "List of your Cateogries",
+          target: ".nav.nav-pills.nav-stacked",
+          placement: "right"
         },
         {
-          element: $(".nav.nav-pills.nav-stacked")[0],
-          intro: 'All categories, double click on title to edit',
-          position: 'right'
-        },
-        {
-          element: $(".category-dashboard")[0],
-          intro: 'Add/Edit category',
-          position: 'right'
+          title: "Category control",
+          content: "Add/Edit/Reorder your Categories",
+          target: ".category-dashboard",
+          placement: "right"
         }
       ]
-    });
 
-    intro.start();
+    };
+
+    hopscotch.startTour(tour);
   }
 
   module.exports.startIntro = startIntro;

@@ -4,3 +4,4 @@
 /js/bundle.min.js
 demo
 node_modules
+/dist
