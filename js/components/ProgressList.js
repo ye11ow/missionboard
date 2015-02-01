@@ -103,7 +103,9 @@ var ProgressList = React.createClass({
   },
 
   handlePreAdd: function(event) {
-    if (event.which === 13 || event.type === "click") {
+    if (event.which === 13) {
+
+      // "ENTER" pressed
       var $input = $(this.refs.progressTitle.getDOMNode());
       var title = $input.val();
       if (typeof title === "string" && title.length > 0) {
@@ -118,6 +120,11 @@ var ProgressList = React.createClass({
       }
 
       $input.val("");
+    } else if (event.which === 27) {
+
+      // "ESC" pressed
+      var $input = $(this.refs.progressTitle.getDOMNode());
+      $input.val("").blur();
     }
   },
 
@@ -255,7 +262,7 @@ var ProgressList = React.createClass({
           <div className="row">
             <div className="col-lg-7 col-lg-offset-2">
               <span className="input input--hoshi">
-              <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyPress={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
+              <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
                 <label className="input__label input__label--hoshi input__label--hoshi-color-1">
                   <span ref="progressTip" className="input__label-content input__label-content--hoshi">Create a new mission from here...</span>
                 </label>
