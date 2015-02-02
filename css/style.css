@@ -31,6 +31,19 @@ h3 {
   margin-right: 10px;
 }
 
+.search {
+  margin-left: 10px;
+  width: 100px;
+  -o-transition: width 0.5s ease-in-out;
+  -moz-transition: width 0.5s ease-in-out;
+  -webkit-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
+}
+
+.search:focus {
+  width: 300px;
+}
+
 #sync-status {
   font-size: 16px;
   margin-left: 5px;

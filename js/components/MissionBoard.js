@@ -13,6 +13,7 @@ function getProgressState() {
     progresses: ProgressStore.getAll(),
     categories: CategoryStore.getAll(),
     category: $("#main-menu").find(".active").attr("data-category"),
+    search: ""
   };
 }
 
@@ -154,6 +155,10 @@ var MissionBoard = React.createClass({
     }
   },
 
+  handleSearch: function(event) {
+    this.setState({ search: event.target.value });
+  },
+
   resetData: function() {
     swal({
       title: "Reset Data",
@@ -179,7 +184,8 @@ var MissionBoard = React.createClass({
         categories = this.state.categories,
         _progresses = {},
         category = null,
-        orderby = null;
+        orderby = null,
+        search = this.state.search;
 
     if (this.state.category) {
       category = categories[this.state.category];
@@ -195,8 +201,14 @@ var MissionBoard = React.createClass({
     // a key is need here for Progress.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
     for (var key in progresses) {
-      if (!category || progresses[key].category === category.id || category.system === true) {
-        _progresses[key] = progresses[key];
+      var progress = progresses[key];
+      if (!category || progress.category === category.id || category.system === true) {
+        if (search.length > 0) {
+          if (progress.title.toLowerCase().indexOf(search.toLowerCase()) === -1) {
+            continue;
+          }
+        }
+        _progresses[key] = progress;
       }
     }
 
@@ -211,7 +223,11 @@ var MissionBoard = React.createClass({
                 <span id="sync-status"></span>
               </a>
             </div>
-             <div className="navbar-collapse collapse navbar-inverse-collapse">
+            <form className="navbar-form navbar-left search-form">
+              <i className="fa fa-search fa-lg"></i>
+              <input ref="searchInput" type="text" className="form-control search" placeholder="Search" onChange={this.handleSearch} />
+            </form>
+            <div className="navbar-collapse collapse navbar-inverse-collapse">
              
               {/*<ul className="nav navbar-nav">
                 <li id="progress-count" className="navbar-value"></li>
@@ -221,6 +237,7 @@ var MissionBoard = React.createClass({
               </ul>*/}
               
               <ul className="nav navbar-nav navbar-right">
+                <li className="divider"></li>
                 <li className="navbar-label"><a href="#">Showing</a></li>
                 <li id="progress-filter" className="dropdown">
                   <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">Active</a>
