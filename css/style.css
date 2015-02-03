@@ -102,6 +102,11 @@ h3 {
 
 /* sidebar category */
 
+li.placeholder { 
+  border: 1px dashed #ddd;
+  color: rgb(225,210,90);
+}
+
 .category-header {
   margin-left: 16px;
   margin-bottom: 10px;
@@ -171,14 +176,6 @@ h3 {
   -moz-transition: all 0.3s;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-}
-
-.category .fa-angle-up,
-.category .fa-angle-down {
-  top: -36px;
-  font-size: 24px;
-  float: right;
-  right: 5px;
 }
 
 .nav-pills>li>a {

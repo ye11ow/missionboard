@@ -11,6 +11,8 @@ var MODE_NORMAL  = 1,
     MODE_ADDING  = 2,
     MODE_EDITING = 3;
 
+var $placeholder = $("<li><a>Drop here</a></li>").addClass("placeholder");
+
 var CategoryList = React.createClass({
 
   componentDidMount: function() {
@@ -24,32 +26,20 @@ var CategoryList = React.createClass({
   },
 
   handleCategoryClick: function(event) {
-    var $target = $(event.target);
-    var targetCategory = $(event.target).parent().attr("data-category");
+    var $target = $(event.target),
+        targetCategory = $(event.target).parent().attr("data-category");
 
-    if (!targetCategory) {
+    if (!targetCategory || targetCategory === this.state.category) {
       return;
     }
 
-    if ($target.hasClass("fa-angle-up")) {
-      var prevCategory = $(event.target).parent().prev().attr("data-category");
-      CategoryActions.updateOrder(targetCategory, prevCategory);
-    } else if ($target.hasClass("fa-angle-down")) {
-      var nextCategory = $(event.target).parent().next().attr("data-category");
-      CategoryActions.updateOrder(targetCategory, nextCategory);
-    } else {
-      if (targetCategory === this.state.category) {
-        return;
-      }
+    var $category = $("#main-menu"),
+        $target = $(event.target).parent();
 
-      var $category = $("#main-menu"),
-          $target = $(event.target).parent();
+    $category.find(".active").removeClass("active");
+    $target.addClass("active");
 
-      $category.find(".active").removeClass("active");
-      $target.addClass("active");
-
-      this.props.onCategorySwitch(targetCategory);
-    }
+    this.props.onCategorySwitch(targetCategory);
   },
 
   handleCategoryDoubleClick: function() {
@@ -82,26 +72,18 @@ var CategoryList = React.createClass({
   resetCategoryControl: function() {
     var $title = $(this.refs.categoryAddTitle.getDOMNode());
     $title.val("");
-    //$title.hide(300);
 
     this.setState({ mode: MODE_NORMAL });
   },
 
   handleCategoryAdd: function() {
     var $title = $(this.refs.categoryAddTitle.getDOMNode());
-    //$title.show(300);
     $title.focus();
 
     this.setState({ mode: MODE_ADDING });
   },
 
   handleCategoryEdit: function() {
-    var length = $("#main-menu > ul li").length;
-    if (length > 2) {
-      $("#main-menu > ul li:nth-child(2) .fa-angle-up").css("visibility", "hidden");
-      $("#main-menu > ul li:nth-child(" + (length - 1) + ") .fa-angle-down").css("visibility", "hidden");
-    }
-
     this.setState({ mode: MODE_EDITING });
   },
 
@@ -164,6 +146,34 @@ var CategoryList = React.createClass({
     this.resetCategoryControl();
   },
 
+  handleDragOver: function(event) {
+    event.preventDefault();
+    this.dragged.hide();
+    if (event.target.className === "placeholder") return;
+    this.over = $(event.target).parent("li");
+    $placeholder.insertBefore(this.over);
+  },
+
+  handleDragStart: function(event) {
+    this.dragged = $(event.currentTarget);
+    event.dataTransfer.effectAllowed = 'move';
+    
+    // Firefox requires dataTransfer data to be set
+    event.dataTransfer.setData("text/html", event.currentTarget);
+  },
+
+  handleDragEnd: function(event) {
+    var from = this.dragged.attr("data-category"),
+        to = this.over.attr("data-category");
+
+    console.log(this.over);
+    
+    this.dragged.show();
+    //this.dragged.parent().find(".placeholder").remove();
+
+    CategoryActions.updateOrder(from, to);
+  },
+
   render: function() {
     var mode = this.state.mode;
     var categories = [];
@@ -190,24 +200,22 @@ var CategoryList = React.createClass({
     return (
       <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
         <div className="category-header">Categories</div>
-        <ul className="nav nav-pills nav-stacked" onDoubleClick={this.handleCategoryDoubleClick} onKeyPress={this.handleUpdateCateogryTitle}>
-          {categories.map(function(category) {
+        <ul className="nav nav-pills nav-stacked" onDoubleClick={this.handleCategoryDoubleClick} onKeyPress={this.handleUpdateCateogryTitle} onDragOver={this.handleDragOver}>
+          {categories.map((function(category) {
             if (!category.system) {
               return (
-                <li className="category" draggable="true" key={category.id} data-category={category.id}>
+                <li className="category" draggable="true" key={category.id} data-category={category.id} onDragEnd={this.handleDragEnd} onDragStart={this.handleDragStart}>
                   <span className={visibleEditing + " " + blockEditing + " fa fa-trash"}></span>
                   <a className={mode === MODE_EDITING ? "editing" : ""} href="#">
                     <span data-role="title">{category.title}</span>
                     <span className={hiddenEditing + " badge"} >{category.count}</span>
                   </a>
-                  <span className={blockEditing + " fa fa-angle-down"}></span>
-                  <span className={blockEditing + " fa fa-angle-up"}></span>
                 </li>
               );
             } else {
               return <li className="category active" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
-          })}
+          }).bind(this))}
           <li className={visibleAdding + " category-title"}>
             <input ref="categoryAddTitle" type="text" className="form-control" placeholder="title" onKeyPress={this.handleCategoryCreate} />
           </li>
