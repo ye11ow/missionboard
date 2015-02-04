@@ -2,6 +2,8 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var ProgressStore = require('../stores/ProgressStore');
 var CategoryActions = require('../actions/CategoryActions');
+var CategoryConstants = require('../constants/CategoryConstants');
+
 
 function sortCategory(cA, cB) {
   return cA.order - cB.order;
@@ -147,10 +149,12 @@ var CategoryList = React.createClass({
   },
 
   handleDragOver: function(event) {
+    var $target = $(event.target).parent("li");
+
     event.preventDefault();
     this.dragged.hide();
-    if (event.target.className === "placeholder") return;
-    this.over = $(event.target).parent("li");
+    if ($target.hasClass("placeholder") || $target.attr("data-category") === CategoryConstants.CATEGORY_ALLID) return;
+    this.over = $target;
     $placeholder.insertBefore(this.over);
   },
 
@@ -164,12 +168,10 @@ var CategoryList = React.createClass({
 
   handleDragEnd: function(event) {
     var from = this.dragged.attr("data-category"),
-        to = this.over.attr("data-category");
+        to = this.dragged.parent().find(".placeholder").prev().attr("data-category");
 
-    console.log(this.over);
-    
     this.dragged.show();
-    //this.dragged.parent().find(".placeholder").remove();
+    this.dragged.parent().find(".placeholder").remove();
 
     CategoryActions.updateOrder(from, to);
   },

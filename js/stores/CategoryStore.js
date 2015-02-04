@@ -55,11 +55,24 @@ function updateOrderby(id, by, type) {
 
 function updateOrder(id, targetId) {
   var category = _categories[id],
-      targetCategory = _categories[targetId];
+      targetCategory = _categories[targetId],
+      originOrder = category.order;
 
-  var tmp = category.order;
-  category.order = targetCategory.order;
-  targetCategory.order = tmp;
+  if (originOrder > targetCategory.order) {
+    category.order = targetCategory.order + 1;
+    for (var key in _categories) {
+      if (_categories[key].order >= category.order && _categories[key].order < originOrder && key !== id) {
+        _categories[key].order++;
+      }
+    }
+  } else {
+    category.order = targetCategory.order
+    for (var key in _categories) {
+      if (_categories[key].order <= category.order && _categories[key].order > originOrder && key !== id) {
+        _categories[key].order--;
+      }
+    }
+  }
 }
 
 /**
