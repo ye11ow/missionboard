@@ -1,26 +1,25 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
-var CategoryConstants = require('../constants/CategoryConstants');
-var CategoryActions = require('../actions/CategoryActions');
+var AppDispatcher = require('../dispatcher/AppDispatcher'),
+    EventEmitter = require('events').EventEmitter,
+    CategoryConstants = require('../constants/CategoryConstants'),
+    CategoryActions = require('../actions/CategoryActions');
 
-var utils = require('../helpers/Utils.js');
-var assign = require('object-assign');
+var utils = require('../helpers/Utils.js'),
+    assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _categories = {};
-
-var categoryAll = {
-  id: CategoryConstants.CATEGORY_ALLID,
-  title: "All",
-  order: 0,
-  count: 0,
-  system: true,
-  orderby: {
-    by: "title",
-    type: "asc"
-  }
-};
+var _categories = {},
+    categoryAll = {
+      id: CategoryConstants.CATEGORY_ALLID,
+      title: "All",
+      order: 0,
+      count: 0,
+      system: true,
+      orderby: {
+        by: "title",
+        type: "asc"
+      }
+    };
 
 /**
  * Create a Category.

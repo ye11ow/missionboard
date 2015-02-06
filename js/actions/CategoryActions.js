@@ -1,5 +1,5 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var CategoryConstants = require('../constants/CategoryConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher'),
+    CategoryConstants = require('../constants/CategoryConstants');
 
 var CategoryActions = {
 

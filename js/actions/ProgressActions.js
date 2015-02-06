@@ -1,5 +1,5 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var ProgressConstants = require('../constants/ProgressConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher'),
+    ProgressConstants = require('../constants/ProgressConstants');
 
 var ProgressActions = {
 

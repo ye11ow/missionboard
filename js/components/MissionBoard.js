@@ -1,4 +1,5 @@
 var React = require('react'),
+    Header = require('./Header'),
     ProgressList = require('./ProgressList'),
     CategoryList = require('./CategoryList'),
     ProgressActions = require('../actions/ProgressActions'),
@@ -7,24 +8,6 @@ var React = require('react'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
     introguide = require('../helpers/Introguide');
-
-function getProgressState() {
-  return {
-    progresses: ProgressStore.getAll(),
-    categories: CategoryStore.getAll(),
-    category: $("#main-menu").find(".active").attr("data-category"),
-    search: ""
-  };
-}
-
-function init() {
-  var ids = CategoryStore.init();
-  ProgressStore.init(ids);
-
-  setTimeout(function() {
-    introguide.startIntro();
-  }, 400);
-}
 
 function calcCategoryCount(categories, progresses) {
   for (var key in categories) {
@@ -41,16 +24,21 @@ function calcCategoryCount(categories, progresses) {
   }
 }
 
-function processFilter(filter) {
-  if (filter === "all") {
-    $('[data-role="progress"]').show();
-  } else if (filter === "current") {
-    $('[data-role="progress"][data-completed="false"]').show();
-    $('[data-role="progress"][data-completed="true"]').hide();
-  } else {
-    $('[data-role="progress"][data-completed="true"]').show();
-    $('[data-role="progress"][data-completed="false"]').hide();
-  }
+function getProgressState() {
+  return {
+    progresses: ProgressStore.getAll(),
+    categories: CategoryStore.getAll(),
+    category: $("#main-menu").find(".active").attr("data-category")
+  };
+}
+
+function init() {
+  var ids = CategoryStore.init();
+  ProgressStore.init(ids);
+
+  setTimeout(function() {
+    introguide.startIntro();
+  }, 400);
 }
 
 var MissionBoard = React.createClass({
@@ -88,11 +76,6 @@ var MissionBoard = React.createClass({
     CategoryStore.removeChangeListener(this._onChange);
   },
 
-  componentDidUpdate: function() {
-    var filter = $("#progress-filter").find(".active a").attr("data-filter");
-    processFilter(filter);
-  },
-
   handleCategorySwitch: function(id) {
     this.setState({category: id});
   },
@@ -116,86 +99,15 @@ var MissionBoard = React.createClass({
     CategoryActions.create(category.title, category.order);
   },
 
-  handleFilter: function(event) {
-    event.preventDefault();
-    var filter = $(event.target).attr("data-filter");
-    if (filter === undefined) {
-      return;
-    }
-
-    var $group = $(event.currentTarget);
-    $group.find(".active").removeClass("active");
-    var $target = $(event.target).parent();
-    $target.addClass("active");
-
-    $(this.refs.activeFilter.getDOMNode()).text($target.text());
-
-    processFilter(filter);
-  },
-
-  handleOrder: function(event) {
-    event.preventDefault();
-
-    var $target = $(event.target);
-    if (!$target.attr("data-orderby")) {
-      $target = $target.parent();
-    }
-
-    var orderby = $target.attr("data-orderby"),
-        ordertype = $target.attr("data-ordertype"),
-        $group = $(event.currentTarget);
-
-    $group.find(".active").removeClass("active");
-    $target.parent().addClass("active");
-
-    $(this.refs.activeOrder.getDOMNode()).text($target.text());
-
-    if (orderby && ordertype) {
-       CategoryActions.updateOrderby(this.state.category, orderby, ordertype); 
-    }
-  },
-
-  handleSearch: function(event) {
-    this.setState({ search: event.target.value });
-  },
-
-  resetData: function() {
-    swal({
-      title: "Reset Data",
-      text: "Do you really want to reset all data?",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Yes!",
-      cancelButtonText: "No!",
-      closeOnConfirm: false,
-    }, function(isConfirm){
-      if (isConfirm) { 
-        chrome.storage.sync.remove('_inited');
-        chrome.storage.sync.remove('_cateogries');
-        chrome.storage.sync.remove('_progresses');
-        swal("Resetted!", "Please re-launch the MissionBoard.", "success"); 
-      }
-    });
-  },
-
   render: function() {
     var progresses = this.state.progresses,
         categories = this.state.categories,
         _progresses = {},
-        category = null,
-        orderby = null,
-        search = this.state.search;
+        category = null;
+
 
     if (this.state.category) {
       category = categories[this.state.category];
-      orderby = category.orderby;
-      $(this.refs.activeOrder.getDOMNode()).text($("[data-orderby='" + orderby.by + "']").eq(0).text());
-    } else {
-      orderby = {
-        type: "desc",
-        by: "title"
-      }
     }
 
     // a key is need here for Progress.
@@ -203,11 +115,6 @@ var MissionBoard = React.createClass({
     for (var key in progresses) {
       var progress = progresses[key];
       if (!category || progress.category === category.id || category.system === true) {
-        if (search.length > 0) {
-          if (progress.title.toLowerCase().indexOf(search.toLowerCase()) === -1) {
-            continue;
-          }
-        }
         _progresses[key] = progress;
       }
     }
@@ -216,61 +123,7 @@ var MissionBoard = React.createClass({
 
     return (
       <div>
-        <nav className="navbar navbar-default banner">
-            <div className="navbar-header">
-              <a className="navbar-brand" href="#">
-                MissionBoard
-                <span id="sync-status"></span>
-              </a>
-            </div>
-            <form className="navbar-form navbar-left search-form">
-              <i className="fa fa-search fa-lg"></i>
-              <input ref="searchInput" type="text" className="form-control search" placeholder="Search" onChange={this.handleSearch} />
-            </form>
-            <div className="navbar-collapse collapse navbar-inverse-collapse">
-             
-              {/*<ul className="nav navbar-nav">
-                <li id="progress-count" className="navbar-value"></li>
-                <li className="navbar-title">Missions</li>
-                <li id="overall-progress" className="navbar-value"></li>
-                <li className="navbar-title">Overall Progress</li>
-              </ul>*/}
-              
-              <ul className="nav navbar-nav navbar-right">
-                <li className="divider"></li>
-                <li className="navbar-label"><a href="#">Showing</a></li>
-                <li id="progress-filter" className="dropdown">
-                  <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">Active</a>
-                  <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
-                    <li><a href="#" data-filter="all">All</a></li>
-                    <li className="active"><a href="#" data-filter="current">Active</a></li>
-                    <li><a href="#" data-filter="completed">Completed</a></li>
-                  </ul>
-                </li>
-                <li className="navbar-label"><a href="#">Missions</a></li>
-                <li className="divider"></li>
-                <li className="navbar-label"><a href="#">Order by</a></li>
-                <li id="progress-order" className="dropdown">
-                  <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">Progress</a>
-                  <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
-                    <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc"></i> Title</a></li>
-                    <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc"></i> Title</a></li>
-                    <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc"></i> Progress</a></li>
-                    <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc"></i> Progress</a></li>
-                    <li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc"></i> Date</a></li>
-                    <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc"></i> Date</a></li>
-                  </ul>
-                </li>
-                <li className="divider"></li>
-                <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Settings <span className="caret"></span></a>
-                  <ul className="dropdown-menu" role="menu">
-                    <li><a href="#" onClick={this.resetData}>Reset Data</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-        </nav>
+        <Header />
 
         <CategoryList category={category} categories={this.state.categories}
           onCategorySwitch={this.handleCategorySwitch}
@@ -278,7 +131,6 @@ var MissionBoard = React.createClass({
           onCategoryDestroy={this.handleCategoryDestroy} />
 
         <ProgressList progresses={_progresses} category={category} categories={this.state.categories} />
-
       </div>
     );
   },

@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var ProgressActions = require('../actions/ProgressActions');
-var CategoryActions = require('../actions/CategoryActions');
+var React = require('react'),
+    ProgressActions = require('../actions/ProgressActions'),
+    CategoryActions = require('../actions/CategoryActions'),
+    HeaderStore = require('../stores/HeaderStore');
 
 var Progress = require('./Progress');
 
@@ -68,19 +68,23 @@ function getOverallProgress(progresses) {
 
 var ProgressList = React.createClass({
 
-  propTypes: {
-    progresses: ReactPropTypes.object.isRequired
-  },
-
   componentDidMount: function() {
+    HeaderStore.addChangeListener(this._onChange);
+
     $("#progress-edit").on('shown.bs.modal', function () {
       $("#progress-edit-current").focus();
     });
   },
 
+  componentWillUnmount: function() {
+    HeaderStore.removeChangeListener(this._onChange);
+  },
+
   getInitialState: function () {
     return {
-      count: this.props.progresses.count
+      //count: this.props.progresses.count,
+      keyword: HeaderStore.getKeyword(),
+      filter: HeaderStore.getFilter()
     };
   },
 
@@ -157,9 +161,10 @@ var ProgressList = React.createClass({
         progresses = this.props.progresses,
         progressItems = [],
         _progresses = [],
-        completed = 0,
         categories = [],
-        orderby = null;
+        orderby = null,
+        keyword = this.state.keyword,
+        filter = this.state.filter;
 
     if (this.props.category) {
       $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
@@ -173,8 +178,18 @@ var ProgressList = React.createClass({
       // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
       for (var key in progresses) {
         var progress = progresses[key];
-        if (progress.completed === true) {
-          completed++;
+
+        if (keyword.length > 0) {
+          if (progress.title.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
+            continue;
+          }
+        }
+
+        if (filter === "current" && progress.completed) {
+          continue;
+        }
+        if (filter === "completed" && !progress.completed) {
+          continue;
         }
 
         progress.percent = progress.current * 100 / progress.total; 
@@ -278,6 +293,13 @@ var ProgressList = React.createClass({
       </div>  
     );
   },
+
+  _onChange: function() {
+    this.setState({
+      keyword: HeaderStore.getKeyword(),
+      filter: HeaderStore.getFilter()
+    });
+  }
 
 });
 
