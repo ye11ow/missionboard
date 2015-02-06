@@ -8,6 +8,10 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _filter = null,
+    _orderby = {
+      type: "desc",
+      by: "title"
+    },
     _keyword = "";
 
 function updateKeyword(keyword) {
@@ -16,6 +20,10 @@ function updateKeyword(keyword) {
 
 function updateFilter(filter) {
   _filter = filter;
+}
+
+function updateOrderby(orderby) {
+  _orderby = orderby;
 }
 
 
@@ -30,6 +38,10 @@ var HeaderStore = assign({}, EventEmitter.prototype, {
 
   getFilter: function() {
     return _filter;
+  },
+
+  getOrderby: function() {
+    return _orderby;
   },
 
   emitChange: function() {
@@ -54,6 +66,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case HeaderConstants.HEADER_UPDATE_ORDERBY:
+      updateOrderby(action.orderby);
       break;
 
     case HeaderConstants.HEADER_UPDATE_FILTER:

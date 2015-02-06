@@ -9,12 +9,7 @@ var React = require('react'),
 var Header = React.createClass({
 
   getInitialState: function() {
-    return {      
-      orderby: {
-        type: "desc",
-        by: "title"
-      }
-    };
+    return {};
   },
 
   componentDidMount: function() {
@@ -24,7 +19,7 @@ var Header = React.createClass({
   },
 
   componentDidUpdate: function() {
-    $(this.refs.activeOrder.getDOMNode()).text($("[data-orderby='" + this.state.orderby.by + "']").eq(0).text());
+    //$(this.refs.activeOrder.getDOMNode()).text($("[data-orderby='" + this.state.orderby.by + "']").eq(0).text());
   },
 
   handleFilter: function(event) {
@@ -58,12 +53,12 @@ var Header = React.createClass({
 
     $group.find(".active").removeClass("active");
     $target.parent().addClass("active");
-
     $(this.refs.activeOrder.getDOMNode()).text($target.text());
 
-    if (orderby && ordertype) {
-       CategoryActions.updateOrderby(this.state.category, orderby, ordertype); 
-    }
+    HeaderActions.orderby({
+      by: orderby, 
+      type: ordertype
+    });
   },
 
   handleSearch: function(event) {
@@ -129,7 +124,7 @@ var Header = React.createClass({
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">Order by</a></li>
             <li id="progress-order" className="dropdown">
-              <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">Progress</a>
+              <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">Title</a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
                 <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc"></i> Title</a></li>
                 <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc"></i> Title</a></li>

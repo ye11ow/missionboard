@@ -84,7 +84,8 @@ var ProgressList = React.createClass({
     return {
       //count: this.props.progresses.count,
       keyword: HeaderStore.getKeyword(),
-      filter: HeaderStore.getFilter()
+      filter: HeaderStore.getFilter(),
+      orderby: HeaderStore.getOrderby()
     };
   },
 
@@ -162,13 +163,12 @@ var ProgressList = React.createClass({
         progressItems = [],
         _progresses = [],
         categories = [],
-        orderby = null,
+        orderby = this.state.orderby,
         keyword = this.state.keyword,
         filter = this.state.filter;
 
     if (this.props.category) {
       $('select option[value="' + this.props.category.id + '"]').attr("selected", true);
-      orderby = this.props.category.orderby;
 
       for (var i in this.props.categories) {
         categories.push(this.props.categories[i]);
@@ -206,11 +206,6 @@ var ProgressList = React.createClass({
 
       //$("#progress-count").text(Object.keys(_progresses).length);
       //$("#overall-progress").text(getOverallProgress(progresses) + "%");
-    } else {
-      orderby = {
-        by: "title",
-        type: "asc"
-      }
     }
 
     return (
@@ -297,7 +292,8 @@ var ProgressList = React.createClass({
   _onChange: function() {
     this.setState({
       keyword: HeaderStore.getKeyword(),
-      filter: HeaderStore.getFilter()
+      filter: HeaderStore.getFilter(),
+      orderby: HeaderStore.getOrderby()
     });
   }
 
