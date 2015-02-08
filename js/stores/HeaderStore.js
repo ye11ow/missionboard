@@ -7,7 +7,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _filter = null,
+var _filter = "current",
     _orderby = {
       type: "desc",
       by: "title"
@@ -58,8 +58,6 @@ var HeaderStore = assign({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
-  var title;
-
   switch(action.actionType) {
     case HeaderConstants.HEADER_SEARCH:
       updateKeyword(action.keyword);

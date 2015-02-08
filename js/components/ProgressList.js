@@ -1,9 +1,9 @@
 var React = require('react'),
+    Progress = require('./Progress'),
     ProgressActions = require('../actions/ProgressActions'),
     CategoryActions = require('../actions/CategoryActions'),
     HeaderStore = require('../stores/HeaderStore');
 
-var Progress = require('./Progress');
 
 function validate($title, $current, $total) {
   var title = $title.val();

@@ -1,19 +1,17 @@
-var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var ProgressStore = require('../stores/ProgressStore');
-var CategoryActions = require('../actions/CategoryActions');
-var CategoryConstants = require('../constants/CategoryConstants');
-
-
-function sortCategory(cA, cB) {
-  return cA.order - cB.order;
-}
+var React = require('react'),
+    ProgressStore = require('../stores/ProgressStore'),
+    CategoryActions = require('../actions/CategoryActions'),
+    CategoryConstants = require('../constants/CategoryConstants');
 
 var MODE_NORMAL  = 1,
     MODE_ADDING  = 2,
     MODE_EDITING = 3;
 
 var $placeholder = $("<li><a>Drop here</a></li>").addClass("placeholder");
+
+function sortCategory(cA, cB) {
+  return cA.order - cB.order;
+}
 
 var CategoryList = React.createClass({
 

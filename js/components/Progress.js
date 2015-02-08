@@ -1,15 +1,8 @@
-var React = require('react/addons');
-var ReactPropTypes = React.PropTypes;
-var ProgressActions = require('../actions/ProgressActions');
+var React = require('react/addons'),
+    ProgressActions = require('../actions/ProgressActions');
 
-var mouseItvl = null;
-var itvl = 100;
 
 var Progress = React.createClass({
-
-  propTypes: {
-    progress: ReactPropTypes.object.isRequired
-  },
 
   handleMouseEnter: function(event) {
     $panel = $(event.currentTarget);

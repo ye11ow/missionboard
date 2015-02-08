@@ -2,8 +2,7 @@ var React = require('react'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
-    HeaderActions = require('../actions/HeaderActions'),
-    introguide = require('../helpers/Introguide');
+    HeaderActions = require('../actions/HeaderActions');
 
 
 var Header = React.createClass({

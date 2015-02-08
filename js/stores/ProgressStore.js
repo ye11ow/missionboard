@@ -1,16 +1,13 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
-var ProgressConstants = require('../constants/ProgressConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher'),
+    EventEmitter = require('events').EventEmitter,
+    ProgressConstants = require('../constants/ProgressConstants');
 
-var utils = require('../helpers/Utils.js');
-var assign = require('object-assign');
+var utils = require('../helpers/Utils.js'),
+    assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
 var _progresses = {};
-var _syncList = {};
-var _syncCount = 0;
-
 
 /**
  * Create a Progress.

@@ -1,4 +1,3 @@
-
 (function(){
   var startIntro = function() {
     var tour = {
