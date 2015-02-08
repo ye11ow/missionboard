@@ -96,7 +96,7 @@ var Header = React.createClass({
           </a>
         </div>
         <form className="navbar-form navbar-left search-form">
-          <i className="fa fa-search fa-lg"></i>
+          <i className="fa fa-search fa-lg" />
           <input ref="searchInput" type="text" className="form-control search" placeholder="Search" onChange={this.handleSearch} />
         </form>
         <div className="navbar-collapse collapse navbar-inverse-collapse">
@@ -125,12 +125,12 @@ var Header = React.createClass({
             <li id="progress-order" className="dropdown">
               <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">Title</a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
-                <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc"></i> Title</a></li>
-                <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc"></i> Title</a></li>
-                <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc"></i> Progress</a></li>
-                <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc"></i> Progress</a></li>
-                <li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc"></i> Date</a></li>
-                <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc"></i> Date</a></li>
+                <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc" /> Title</a></li>
+                <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc" /> Title</a></li>
+                <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc" /> Progress</a></li>
+                <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc" /> Progress</a></li>
+                <li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc" /> Date</a></li>
+                <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc" /> Date</a></li>
               </ul>
             </li>
             <li className="divider"></li>

@@ -28,7 +28,7 @@ h3 {
 .navbar-header {
   width: 200px;
   text-align: center;
-  margin-right: 10px;
+  margin:0 10px;
 }
 
 .search {
@@ -107,12 +107,17 @@ li.placeholder {
   color: rgb(225,210,90);
 }
 
+.nav-stacked>li+li {
+  margin-top: 0px!important;
+}
+
 .category-header {
   margin-left: 16px;
   margin-bottom: 10px;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 2px;
+  color: whitesmoke;
 }
 
 .category {
@@ -181,27 +186,30 @@ li.placeholder {
 }
 
 .nav-pills>li>a {
-  color: #dddddd;
+  color: #888;
   font-weight: bold;
   border-radius: 0;
 }
 
 .nav-pills>li.active>a {
   color: white;
-  background-color: #2D3134;
+  background-color: #353c46!important;
+  border-left: 2px solid #2196f3;
 }
 
 .nav-pills>li>a:hover {
-  background-color: #2D3134;
+  color: white;
+  background-color: #353c46;
 }
 
 .nav-pills>li.active>a:hover {
-  background-color: #2D3134;
+  color: white;
+  background-color: #353c46;
 }
 
 .nav-pills>li>a>.badge, .nav-pills>.active>a>.badge {
   float: right;
-  background-color: #20B2CB;
+  background-color: #2196f3;
   color: white;
   width: 36px;
   padding: 3px 5px;
@@ -220,7 +228,7 @@ li.placeholder {
   padding-top: 75px;
   width: 200px;
   height: 100%;
-  background-color: #383D40;
+  background-color: #2e3740;
 }
 
 .main-container {
@@ -292,6 +300,10 @@ li.placeholder {
 .progress-title {
   margin-left: 10px;
   display: inline;
+}
+
+.title-highlight {
+  background-color: yellow;
 }
 
 .progress-edit, .progress-done, .progress-delete {

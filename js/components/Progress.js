@@ -84,22 +84,28 @@ var Progress = React.createClass({
   },
 
   render: function() {
-    var cx = React.addons.classSet;
-    var progress = this.props.progress;
-    var percentage = Math.floor(progress.current * 100 / progress.total);
-    var style = {
-      width: percentage + "%"
-    };
-    var hidden = {
-      display: "none"
-    };
+    var progress = this.props.progress,
+        keyword = this.props.keyword,
+        percentage = Math.floor(progress.current * 100 / progress.total),
+        title = progress.title;
+
+    if (keyword) {
+      var start = title.toLowerCase().indexOf(keyword.toLowerCase()),
+          length = keyword.length,
+          titleHTML = "";
+
+      titleHTML += title.slice(0, start) + "<span class=\"title-highlight\">";
+      titleHTML += title.slice(start, start + length) + "</span>";
+      titleHTML += title.substring(start + length, title.length);
+      title = titleHTML;
+    }
 
     return (
       <div id={progress.id} className="panel panel-default" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         <div className="panel-body row" data-completed={progress.completed} data-role="progress">
           <div className="col-lg-10">
-            <h5 className="progress-title">{progress.title}</h5>
-            <label className="progress-percentage">{style.width}</label>
+            <h5 className="progress-title" dangerouslySetInnerHTML={{__html: title}} />
+            <label className="progress-percentage">{percentage}%</label>
             <div data-role="slider" className="progress-slider">
             </div>
             <div className="slider-tip">
@@ -113,9 +119,9 @@ var Progress = React.createClass({
               </span>
             </div>
             <div className="progress-control">
-              {/*<i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish}></i>*/}
-              <i className="fa fa-pencil fa-lg progress-edit" title="edit" onClick={this.handleEdit}></i> 
-              <i className="fa fa-trash  fa-lg progress-delete" title="delete" onClick={this.handleDestroy}></i>
+              {/*<i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish} />*/}
+              <i className="fa fa-pencil fa-lg progress-edit" title="edit" onClick={this.handleEdit} /> 
+              <i className="fa fa-trash  fa-lg progress-delete" title="delete" onClick={this.handleDestroy} />
             </div>
           </div>
         </div>

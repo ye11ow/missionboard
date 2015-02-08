@@ -7,6 +7,3 @@ React.render(
   function () {
   }
 );
-
-//SyncDaemon.start();
-

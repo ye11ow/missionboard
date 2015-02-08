@@ -201,7 +201,7 @@ var ProgressList = React.createClass({
       _progresses.sort(sortProgress);
 
       _progresses.forEach(function(p) {
-        progressItems.push(<Progress key={p.id} progress={p} />);
+        progressItems.push(<Progress keyword={keyword} key={p.id} progress={p} />);
       });
 
       //$("#progress-count").text(Object.keys(_progresses).length);
@@ -277,7 +277,7 @@ var ProgressList = React.createClass({
                   <span ref="progressTip" className="input__label-content input__label-content--hoshi">Create a new mission from here...</span>
                 </label>
               </span>
-              {/*<a href="#" ref="createBtn" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus"></i></a>*/}
+              {/*<a href="#" ref="createBtn" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus" /></a>*/}
             </div>
           </div>
         </div>
