@@ -11,7 +11,7 @@ var CHANGE_EVENT = 'change';
 var _categories = {},
     categoryAll = {
       id: CategoryConstants.CATEGORY_ALLID,
-      title: "All",
+      title: chrome.i18n.getMessage("labelCategoryAll"),
       order: 0,
       count: 0,
       system: true,

@@ -90,7 +90,7 @@ var ProgressList = React.createClass({
   },
 
   handleFocus: function() {
-    $(this.refs.progressTip.getDOMNode()).text("Input the title and press Enter...");
+    $(this.refs.progressTip.getDOMNode()).text(chrome.i18n.getMessage("labelCreateMissionTips"));
     //$(this.refs.createBtn.getDOMNode()).show();
   },
 
@@ -103,7 +103,7 @@ var ProgressList = React.createClass({
     } else {
       $input.parent().removeClass("input--filled");
       //$(this.refs.createBtn.getDOMNode()).hide(300);
-      $(this.refs.progressTip.getDOMNode()).text("Create a new mission from here...");
+      $(this.refs.progressTip.getDOMNode()).text(chrome.i18n.getMessage("labelCreateMission"));
     }
   },
 
@@ -120,8 +120,8 @@ var ProgressList = React.createClass({
 
         $("#progress-edit").modal("show");
         $("#progress-edit").attr("data-role", "add");
-        $("#progress-edit").find(".modal-title").text("Add a new item");
-        $("#progress-edit-save").text("Add");
+        $("#progress-edit").find(".modal-title").text(chrome.i18n.getMessage("labelMissionFormCreate"));
+        $("#progress-edit-save").text(chrome.i18n.getMessage("labelMissionFormNew"));
       }
 
       $input.val("");
@@ -215,32 +215,32 @@ var ProgressList = React.createClass({
             <div className="modal-content">
               <div className="modal-header">
                 <button type="button" className="close" data-dismiss="modal">&times;</button>
-                <h4 className="modal-title">Add a new item</h4>
+                <h4 className="modal-title">{chrome.i18n.getMessage("labelMissionFormCreate")}</h4>
               </div>
               <div className="modal-body">
                 <form id="progress-edit-form" className="form-horizontal">
                   <div className="form-group">
-                    <label className="col-sm-2 control-label">Title</label>
+                    <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormTitle")}</label>
                     <div className="col-sm-10">
                       <input id="progress-edit-title" type="text" className="form-control" placeholder="Gundam Seed" />
                     </div>
                   </div>
                   <div className="row">
                     <div className="progress-current col-sm-5 form-group">
-                      <label className="control-label">Current Progress</label>
+                      <label className="control-label">{chrome.i18n.getMessage("labelMissionFormCurrent")}</label>
                       <div className="">
                         <input id="progress-edit-current" type="number" className="form-control" placeholder="0"/>
                       </div>
                     </div>
                     <div className="progress-total form-group col-sm-5">
-                      <label className="control-label">Total Progress</label>
+                      <label className="control-label">{chrome.i18n.getMessage("labelMissionFormTotal")}</label>
                       <div className="">
                         <input id="progress-edit-total" type="number" className="form-control" placeholder="48"/>
                       </div>
                     </div>
                   </div>
                   <div className="form-group">
-                    <label className="col-sm-2 control-label">Category</label>
+                    <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormCategory")}</label>
                     <div className="col-sm-10">
                       <select id="progress-edit-category" className="form-control">
                         {categories.map(function(category) {
@@ -252,7 +252,7 @@ var ProgressList = React.createClass({
                     </div>
                   </div>
                   <div className="form-group">
-                    <label className="col-sm-2 control-label">Description</label>
+                    <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormDesc")}</label>
                     <div className="col-sm-10">
                       <textarea id="progress-edit-description" className="form-control" rows="5"></textarea>
                       <span className="help-block">Markdown supported</span>
@@ -261,8 +261,8 @@ var ProgressList = React.createClass({
                 </form>
               </div>
               <div className="modal-footer">
-                <button id="progress-edit-save" type="button" className="btn btn-primary" onClick={this.handleSave}>Add</button>
-                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel}>Close</button>
+                <button id="progress-edit-save" type="button" className="btn btn-primary" onClick={this.handleSave} />
+                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel}>{chrome.i18n.getMessage("labelMissionFormCancel")}</button>
               </div>
             </div>
           </div>
@@ -274,7 +274,7 @@ var ProgressList = React.createClass({
               <span className="input input--hoshi">
               <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
                 <label className="input__label input__label--hoshi input__label--hoshi-color-1">
-                  <span ref="progressTip" className="input__label-content input__label-content--hoshi">Create a new mission from here...</span>
+                  <span ref="progressTip" className="input__label-content input__label-content--hoshi">{chrome.i18n.getMessage("labelCreateMission")}</span>
                 </label>
               </span>
               {/*<a href="#" ref="createBtn" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus" /></a>*/}

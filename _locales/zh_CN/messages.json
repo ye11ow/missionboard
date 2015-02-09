@@ -1,0 +1,122 @@
+{
+  "appName": {
+    "message": "任务来了！"
+  },
+  "appDesc": {
+    "message": "基于进度的GTD App"
+  },
+
+  "labelMissions": {
+    "message": "任务"
+  },
+  "labelCategoryAll": {
+    "message": "所有"
+  },
+
+  "labelCategories": {
+    "message": "分类"
+  },
+  "labelCategoryPlaceholder": {
+    "message": "标题"
+  },
+  "labelSearch": {
+    "message": "查找"
+  },
+  "labelFilterShowing": {
+    "message": "显示"
+  },
+  "labelFilterAll": {
+    "message": "所有"
+  },
+  "labelFilterCurrent": {
+    "message": "当前"
+  },
+  "labelFilterCompleted": {
+    "message": "已完成"
+  },
+  "labelOrderby": {
+    "message": "排序"
+  },
+  "labelOrderbyTitle": {
+    "message": "标题"
+  },
+  "labelOrderbyProgress": {
+    "message": "完成度"
+  },
+  "labelOrderbyDate": {
+    "message": "日期"
+  },
+  "labelSettings": {
+    "message": "设置"
+  },
+  "labelResetData": {
+    "message": "重置数据"
+  },
+  "labelCreateMission": {
+    "message": "在此创建新任务..."
+  },
+  "labelCreateMissionTips": {
+    "message": "输入任务标题并按回车..."
+  },
+  "labelMissionFormCreate": {
+    "message": "创建一个新任务"
+  },
+  "labelMissionFormEdit": {
+    "message": "编辑任务"
+  },
+  "labelMissionFormTitle": {
+    "message": "标题"
+  },
+  "labelMissionFormCurrent": {
+    "message": "当前进度"
+  },
+  "labelMissionFormTotal": {
+    "message": "总进度"
+  },
+  "labelMissionFormCategory": {
+    "message": "分类"
+  },
+  "labelMissionFormDesc": {
+    "message": "简介"
+  },
+  "labelMissionFormNew": {
+    "message": "创建"
+  },
+  "labelMissionFormUpdate": {
+    "message": "保存"
+  },
+  "labelMissionFormCancel": {
+    "message": "取消"
+  },
+
+  "modalYes": {
+    "message": "是!"
+  },
+  "modalNo": {
+    "message": "不!"
+  },
+  "deleteCategoryTitle": {
+    "message": "删除分类"
+  },
+  "deleteEmptyCategory": {
+    "message": "确定删除该分类吗?"
+  },
+  "deleteCategory": {
+    "message": "该分类下还有未完成任务，真的要删除吗？"
+  },
+  "deleteMissionTitle": {
+    "message": "删除任务"
+  },
+  "deleteMission": {
+    "message": "确定删除该任务吗?"
+  },
+  "resetDataTitle": {
+    "message": "重置数据"
+  },
+  "resetData": {
+    "message": "确定要重置所有数据吗？"
+  },
+  "resetDataDone": {
+    "message": "请重新启动MissionBoard"
+  }
+}

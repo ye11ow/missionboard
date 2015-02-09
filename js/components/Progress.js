@@ -17,7 +17,7 @@ var Progress = React.createClass({
 
     $("#progress-edit").attr("data-role", "edit");
     $("#progress-edit").attr("data-id", progress.id);
-    $("#progress-edit").find(".modal-title").text("Editing");
+    $("#progress-edit").find(".modal-title").text(chrome.i18n.getMessage("labelMissionFormEdit"));
     $("#progress-edit-save").text("Save");
 
     $("#progress-edit-title").val(progress.title);
@@ -37,13 +37,13 @@ var Progress = React.createClass({
     var id = this.props.progress.id;
     
     swal({   
-      title: "Delete Mission?",
-      text: "Do you want to delete this mission?",
+      title: chrome.i18n.getMessage("deleteMissionTitle"),
+      text: chrome.i18n.getMessage("deleteMission"),
       type: "warning",
-      showCancelButton: true,   
-      confirmButtonColor: "#DD6B55",   
-      confirmButtonText: "Yes!",   
-      cancelButtonText: "No!",   
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: chrome.i18n.getMessage("modalYes"),
+      cancelButtonText: chrome.i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) { 
         ProgressActions.destroy(id);

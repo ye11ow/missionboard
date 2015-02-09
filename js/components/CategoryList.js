@@ -93,20 +93,20 @@ var CategoryList = React.createClass({
     var self = this,
         $target = $(event.target).parent(),
         id = $target.attr("data-category"),
-        text = "Do you want to delete this category?";
+        text = chrome.i18n.getMessage("deleteEmptyCategory");
 
     if (ProgressStore.getLengthByCategory(id) > 0 ) {
-      text = "There are some progresses under this cateogry, do you really want to delete it?";
+      text = chrome.i18n.getMessage("deleteCategory");
     }
 
     swal({
-      title: "Delete Category",
+      title: chrome.i18n.getMessage("deleteCategoryTitle"),
       text: text,
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Yes!",
-      cancelButtonText: "No!",
+      confirmButtonText: chrome.i18n.getMessage("modalYes"),
+      cancelButtonText: chrome.i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) {       
         self.props.onCategoryDestroy(id);
@@ -199,7 +199,7 @@ var CategoryList = React.createClass({
 
     return (
       <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
-        <div className="category-header"><i className="fa fa-list" /> Categories</div>
+        <div className="category-header"><i className="fa fa-list" /> {chrome.i18n.getMessage("labelCategories")}</div>
         <ul className="nav nav-pills nav-stacked" onDoubleClick={this.handleCategoryDoubleClick} onKeyPress={this.handleUpdateCateogryTitle} onDragOver={this.handleDragOver}>
           {categories.map((function(category) {
             if (!category.system) {
@@ -217,7 +217,7 @@ var CategoryList = React.createClass({
             }
           }).bind(this))}
           <li className={visibleAdding + " category-title"}>
-            <input ref="categoryAddTitle" type="text" className="form-control" placeholder="title" onKeyPress={this.handleCategoryCreate} />
+            <input ref="categoryAddTitle" type="text" className="form-control" placeholder={chrome.i18n.getMessage("labelCategoryPlaceholder")} onKeyPress={this.handleCategoryCreate} />
           </li>
         </ul>
         <div className="category-dashboard row">
