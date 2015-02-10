@@ -1,9 +1,12 @@
 {
   "appName": {
-    "message": "任务来了！"
+    "message": "做任务啦！"
   },
   "appDesc": {
     "message": "基于进度的GTD App"
+  },
+  "styleFontFamily": {
+    "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif,STXihei"
   },
 
   "labelMissions": {
@@ -45,9 +48,6 @@
   },
   "labelOrderbyDate": {
     "message": "日期"
-  },
-  "labelSettings": {
-    "message": "设置"
   },
   "labelResetData": {
     "message": "重置数据"

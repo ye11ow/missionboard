@@ -78,11 +78,10 @@ var Header = React.createClass({
     var search = this.state.search;
 
     return (
-      <nav className="navbar navbar-default banner">
+      <nav className="navbar navbar-default header">
         <div className="navbar-header">
           <a className="navbar-brand" href="#">
             {chrome.i18n.getMessage("appName")}
-            <span id="sync-status"></span>
           </a>
         </div>
         <form className="navbar-form navbar-left search-form">
@@ -125,7 +124,7 @@ var Header = React.createClass({
             </li>
             <li className="divider"></li>
             <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelSettings")} <span className="caret"></span></a>
+              <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-cog fa-lg" /> <span className="caret"></span></a>
               <ul className="dropdown-menu" role="menu">
                 <li><a href="#" onClick={this.resetData}>{chrome.i18n.getMessage("labelResetData")}</a></li>
               </ul>

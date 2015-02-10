@@ -224,7 +224,7 @@ var CategoryList = React.createClass({
           <span className={hiddenNormal  + " fa fa-check col-sm-3 category-control category-confirm"} onClick={this.handleCategoryConfirm}></span>
           <span className={visibleAdding + " fa fa-times col-sm-3 category-control category-cancel"} onClick={this.handleCategoryCancel}></span>
           <span className={visibleNormal + " fa fa-plus col-sm-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
-          <span className={visibleNormal + " fa fa-cog col-sm-3 category-control category-edit"} onClick={this.handleCategoryEdit}></span>
+          <span className={visibleNormal + " fa fa-edit col-sm-3 category-control category-edit"} onClick={this.handleCategoryEdit}></span>
         </div>
       </div>
     );

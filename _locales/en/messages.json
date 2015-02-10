@@ -7,6 +7,9 @@
     "message": "This app does something awesome.", 
     "description":"The description of the application, displayed in the web store."
   },
+  "styleFontFamily": {
+    "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif"
+  },
 
   "labelMissions": {
     "message": "Missions"
@@ -47,9 +50,6 @@
   },
   "labelOrderbyDate": {
     "message": "Date"
-  },
-  "labelSettings": {
-    "message": "Settings"
   },
   "labelResetData": {
     "message": "Reset Data"
