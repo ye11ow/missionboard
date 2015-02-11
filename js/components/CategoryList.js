@@ -27,14 +27,14 @@ var CategoryList = React.createClass({
 
   handleCategoryClick: function(event) {
     var $target = $(event.target),
-        targetCategory = $(event.target).parent().attr("data-category");
+        targetCategory = $(event.target).parents("li").attr("data-category");
 
     if (!targetCategory || targetCategory === this.state.category) {
       return;
     }
 
     var $category = $("#main-menu"),
-        $target = $(event.target).parent();
+        $target = $(event.target).parents("li");
 
     $category.find(".active").removeClass("active");
     $target.addClass("active");

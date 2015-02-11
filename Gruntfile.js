@@ -54,6 +54,22 @@ module.exports = function(grunt) {
         dest: 'demo/js/libs',
         flatten: false,
         filter: 'isFile',
+      },
+      images: {
+        expand: true,
+        cwd: 'img',
+        src: '**',
+        dest: 'demo/img',
+        flatten: false,
+        filter: 'isFile',
+      },
+      locales: {
+        expand: true,
+        cwd: '_locales',
+        src: '**',
+        dest: 'demo/_locales',
+        flatten: false,
+        filter: 'isFile',
       }
     },
     clean: ["demo"],

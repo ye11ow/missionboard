@@ -3,12 +3,17 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "0.1.5",
+  "version": "0.2.1",
   "permissions": ["storage"],
   "app": {
     "background": {
       "scripts": ["js/background.js"]
     }
   },
+  "icons": { 
+    "16": "img/icon16.png",
+    "128": "img/icon128.png" 
+  },
+  "author": "Calvin Zhang",
   "minimum_chrome_version": "28"
 }
