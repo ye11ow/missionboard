@@ -16,13 +16,21 @@ function sortCategory(cA, cB) {
 var CategoryList = React.createClass({
 
   componentDidMount: function() {
-    $("#main-menu").on("click", ".fa-trash", this.handleCategoryDestroy);
+    var $menu = $(this.refs.leftMenu.getDOMNode());
+
+    $menu.on("click", ".fa-trash", this.handleCategoryDestroy);
   },
 
   getInitialState: function() {
     return {
       mode: MODE_NORMAL
     };
+  },
+
+  componentDidUpdate: function() {
+    var $menu = $(this.refs.leftMenu.getDOMNode());
+    $menu.find(".active").removeClass("active");
+    $menu.find("[data-category=\"" + this.props.category.id  + "\"]").addClass("active");
   },
 
   handleCategoryClick: function(event) {
@@ -32,13 +40,7 @@ var CategoryList = React.createClass({
     if (!targetCategory || targetCategory === this.state.category) {
       return;
     }
-
-    var $category = $("#main-menu"),
-        $target = $(event.target).parents("li");
-
-    $category.find(".active").removeClass("active");
-    $target.addClass("active");
-
+    
     this.props.onCategorySwitch(targetCategory);
   },
 
@@ -108,7 +110,7 @@ var CategoryList = React.createClass({
       confirmButtonText: chrome.i18n.getMessage("modalYes"),
       cancelButtonText: chrome.i18n.getMessage("modalNo"),
     }, function(isConfirm){
-      if (isConfirm) {       
+      if (isConfirm) {
         self.props.onCategoryDestroy(id);
       }
     });
@@ -116,12 +118,15 @@ var CategoryList = React.createClass({
 
   handleCategoryCreate: function(event) {
     if (event.which === 13) {
-      var $input = $(event.target);
-      var title = $input.val()
+      var $input = $(event.target),
+          title = $input.val(),
+          $menu = $(this.refs.leftMenu.getDOMNode());
+
       if (title && title.length > 0) {
-        var length = $("#main-menu > ul li").length;
-        var id = $("#main-menu > ul li:nth-child(" + (length - 1) + ")").attr("data-category");
-        var order = this.props.categories[id].order + 1;
+        var length = $menu.find(" > ul li").length,
+            id = $menu.find(" > ul li:nth-child(" + (length - 1) + ")").attr("data-category"),
+            order = this.props.categories[id].order + 1;
+        
         this.props.onCategoryCreate({
           title: title,
           order: order
@@ -198,7 +203,7 @@ var CategoryList = React.createClass({
         blockEditing = mode === MODE_EDITING ? "" : "hidden";
 
     return (
-      <div id="main-menu" className="main-menu" onClick={this.handleCategoryClick}>
+      <div ref="leftMenu" className="left-menu" onClick={this.handleCategoryClick}>
         <div className="category-header"><i className="fa fa-list" /> {chrome.i18n.getMessage("labelCategories")}</div>
         <ul className="nav nav-pills nav-stacked" onDoubleClick={this.handleCategoryDoubleClick} onKeyPress={this.handleUpdateCateogryTitle} onDragOver={this.handleDragOver}>
           {categories.map((function(category) {

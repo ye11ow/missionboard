@@ -9,6 +9,7 @@ var utils = require('../helpers/Utils.js'),
 var CHANGE_EVENT = 'change';
 
 var _categories = {},
+    _current = CategoryConstants.CATEGORY_ALLID,
     categoryAll = {
       id: CategoryConstants.CATEGORY_ALLID,
       title: chrome.i18n.getMessage("labelCategoryAll"),
@@ -74,12 +75,19 @@ function updateOrder(id, targetId) {
   }
 }
 
+function switchCategory(category) {
+  _current = category;
+}
+
 /**
  * Delete a Category.
  * @param  {string} id
  */
 function destroy(id) {
   delete _categories[id];
+  if (id === _current) {
+    _current = CategoryConstants.CATEGORY_ALLID;
+  }
 }
 
 var CategoryStore = assign({}, EventEmitter.prototype, {
@@ -102,6 +110,10 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
     _categories[categoryAll.id] = categoryAll;
 
     return _categories;
+  },
+
+  getCurrentCategory: function() {
+    return _current;
   },
 
   emitChange: function() {
@@ -141,6 +153,10 @@ AppDispatcher.register(function(action) {
       if (title !== '') {
         action.id = create(title, action.order);
       }
+      break;
+
+    case CategoryConstants.CATEGORY_SWITCH:
+      switchCategory(action.id);
       break;
 
     case CategoryConstants.CATEGORY_TITLE_UPDATE:

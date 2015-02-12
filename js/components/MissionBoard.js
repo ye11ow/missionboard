@@ -28,7 +28,7 @@ function getProgressState() {
   return {
     progresses: ProgressStore.getAll(),
     categories: CategoryStore.getAll(),
-    category: $("#main-menu").find(".active").attr("data-category")
+    category: CategoryStore.getCurrentCategory()
   };
 }
 
@@ -59,10 +59,7 @@ var MissionBoard = React.createClass({
           CategoryStore.loadCategories(data._categories);
           ProgressStore.loadProgresses(data._progresses);
 
-          var state = getProgressState();
-          state["category"] = CategoryConstants.CATEGORY_ALLID;
-
-          self.setState(state);
+          self.setState(getProgressState());
         });
       } else {
         chrome.storage.sync.set({'_inited': true}); 
@@ -77,13 +74,10 @@ var MissionBoard = React.createClass({
   },
 
   handleCategorySwitch: function(id) {
-    this.setState({category: id});
+    CategoryActions.switch(id);
   },
 
   handleCategoryDestroy: function(id) {
-    if (id === this.state.category) {
-      $("#main-menu > ul li:first-child").addClass("active");
-    }
     // no set state here, the setState will be triggered by changeListener.
     var progresses = this.state.progresses;
     for (var key in progresses) {
