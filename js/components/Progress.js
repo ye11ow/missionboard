@@ -4,28 +4,8 @@ var React = require('react/addons'),
 
 var Progress = React.createClass({
 
-  handleMouseEnter: function(event) {
-    $panel = $(event.currentTarget);
-  },
-
-  handleMouseLeave: function(event) {
-    $panel = $(event.currentTarget);
-  },
-
   handleEdit: function() {
-    var progress = this.props.progress;
-
-    $("#progress-edit").attr("data-role", "edit");
-    $("#progress-edit").attr("data-id", progress.id);
-    $("#progress-edit").find(".modal-title").text(chrome.i18n.getMessage("labelMissionFormEdit"));
-    $("#progress-edit-save").text("Save");
-
-    $("#progress-edit-title").val(progress.title);
-    $("#progress-edit-current").val(progress.current);
-    $("#progress-edit-total").val(progress.total);
-    $("#progress-edit-category").val(progress.category);
-    $("#progress-edit-description").val(progress.description);
-    $("#progress-edit").modal("show");
+    ProgressActions.setEditing(this.props.progress);
   },
 
   /*
@@ -101,10 +81,11 @@ var Progress = React.createClass({
     }
 
     return (
-      <div id={progress.id} className="panel panel-default" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div id={progress.id} className="panel panel-default">
         <div className="panel-body row" data-completed={progress.completed} data-role="progress">
           <div className="col-lg-10">
             <h5 className="progress-title" dangerouslySetInnerHTML={{__html: title}} />
+            <small className="progress-desc">{progress.description}</small>
             <label className="progress-percentage">{percentage}%</label>
             <div data-role="slider" className="progress-slider">
             </div>

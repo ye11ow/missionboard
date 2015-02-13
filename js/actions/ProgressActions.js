@@ -18,6 +18,16 @@ var ProgressActions = {
     });
   },
 
+  /**
+   * @param  {Progress} progress
+   */
+  setEditing: function(progress) {
+    AppDispatcher.dispatch({
+      actionType: ProgressConstants.PROGRESS_EDITING,
+      progress: progress
+    });
+  },
+
   update: function(id, title, current, total, category, type, description) {
     AppDispatcher.dispatch({
       actionType: ProgressConstants.PROGRESS_UPDATE,

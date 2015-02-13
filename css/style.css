@@ -336,6 +336,11 @@ li.placeholder {
   display: inline;
 }
 
+.progress-desc {
+  margin-left: 20px;
+  color: #aaa;
+}
+
 .title-highlight {
   background-color: yellow;
 }

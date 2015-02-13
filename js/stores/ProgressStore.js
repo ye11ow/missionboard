@@ -7,7 +7,8 @@ var utils = require('../helpers/Utils.js'),
 
 var CHANGE_EVENT = 'change';
 
-var _progresses = {};
+var _progresses = {},
+    _editing = null;
 
 /**
  * Create a Progress.
@@ -28,6 +29,10 @@ function create(title, current, total, category, type, description) {
   _progresses[progress.id] = progress;
 
   return progress.id;
+}
+
+function setEditing(progress) {
+  _editing = progress;
 }
 
 /**
@@ -124,6 +129,10 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
     return _progresses;
   },
 
+  getEditing: function() {
+    return _editing;
+  },
+
   getLengthByCategory: function(category) {
     var length = 0;
     for (var i in _progresses) {
@@ -181,6 +190,10 @@ AppDispatcher.register(function(action) {
       if (title !== '') {
         action.id = create(title, action.current, action.total, action.category, action.type, action.description);
       }
+      break;
+
+    case ProgressConstants.PROGRESS_EDITING:
+      setEditing(action.progress);
       break;
 
     case ProgressConstants.PROGRESS_DESTROY:
