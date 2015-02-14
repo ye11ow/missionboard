@@ -162,7 +162,7 @@ var ProgressList = React.createClass({
           <div className="row">
             <div className="col-lg-7 col-lg-offset-2">
               <span className="input input--hoshi">
-              <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
+                <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
                 <label className="input__label input__label--hoshi input__label--hoshi-color-1">
                   <span ref="progressTip" className="input__label-content input__label-content--hoshi">{chrome.i18n.getMessage("labelCreateMission")}</span>
                 </label>

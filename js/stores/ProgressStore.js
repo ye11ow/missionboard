@@ -85,36 +85,44 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
 
   init: function(ids) {
     create(
-      "My Favorite Anime", 
+      chrome.i18n.getMessage("sampleAnime1Title"), 
       3, 
       12,
       ids[0],
       null,
-      "This is my favorite anime"
+      chrome.i18n.getMessage("sampleAnime1Desc")
     );
     create(
-      "My Completed Anime", 
-      24, 
-      24,
+      chrome.i18n.getMessage("sampleAnime2Title"), 
+      25, 
+      25,
       ids[0],
       null,
-      ""
+      chrome.i18n.getMessage("sampleAnime2Desc")
     );
     create(
-      "My Favorite Book", 
+      chrome.i18n.getMessage("sampleBook1Title"), 
       350, 
       600,
       ids[1],
       null,
-      "This is my favorite book"
+      chrome.i18n.getMessage("sampleBook1Desc")
     );
     create(
-      "Learn Mission Board", 
+      chrome.i18n.getMessage("sampleBook2Title"), 
+      300, 
+      500,
+      ids[1],
+      null,
+      chrome.i18n.getMessage("sampleBook2Desc")
+    );
+    create(
+      chrome.i18n.getMessage("sampleOther1Title"), 
       1, 
       10,
       ids[2],
       null,
-      "Learn some basic usage of Mission Board"
+      chrome.i18n.getMessage("sampleOther1Desc")
     );
 
     ProgressStore.persist();

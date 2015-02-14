@@ -11,6 +11,47 @@
     "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif"
   },
 
+
+  "sampleCategory1": {
+    "message": "Animes"
+  },
+  "sampleCategory2": {
+    "message": "Books"
+  },
+  "sampleCategory3": {
+    "message": "Others"
+  },
+  "sampleAnime1Title": {
+    "message": "Fate/Stay Night UBW"
+  },
+  "sampleAnime1Desc": {
+    "message": "Every Thusday"
+  },
+  "sampleAnime2Title": {
+    "message": "Steins;Gate"
+  },
+  "sampleAnime2Desc": {
+    "message": "Bilibili"
+  },
+  "sampleBook1Title": {
+    "message": "One Hundred Years of Solitude"
+  },
+  "sampleBook1Desc": {
+    "message": "My favorite book"
+  },
+  "sampleBook2Title": {
+    "message": "Foundation and Empire"
+  },
+  "sampleBook2Desc": {
+    "message": "Best All-Time Novel Series"
+  },
+  "sampleOther1Title": {
+    "message": "Learn Mission Board"
+  },
+  "sampleOther1Desc": {
+    "message": "Learn some basic usages of Mission Board"
+  },
+
   "labelMissions": {
     "message": "Missions"
   },

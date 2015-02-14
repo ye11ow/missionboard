@@ -9,6 +9,47 @@
     "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif,STXihei"
   },
 
+
+  "sampleCategory1": {
+    "message": "动漫"
+  },
+  "sampleCategory2": {
+    "message": "图书"
+  },
+  "sampleCategory3": {
+    "message": "其他"
+  },
+  "sampleAnime1Title": {
+    "message": "命运之夜 - 无限剑制"
+  },
+  "sampleAnime1Desc": {
+    "message": "每周四晚上"
+  },
+  "sampleAnime2Title": {
+    "message": "命运石之门"
+  },
+  "sampleAnime2Desc": {
+    "message": "哔哩哔哩"
+  },
+  "sampleBook1Title": {
+    "message": "百年孤独"
+  },
+  "sampleBook1Desc": {
+    "message": "我最喜欢的书"
+  },
+  "sampleBook2Title": {
+    "message": "银河帝国"
+  },
+  "sampleBook2Desc": {
+    "message": "最佳科幻小说"
+  },
+  "sampleOther1Title": {
+    "message": "学习使用“任务来啦！”"
+  },
+  "sampleOther1Desc": {
+    "message": "尝试一些基本操作"
+  },
+
   "labelMissions": {
     "message": "任务"
   },

@@ -23,7 +23,7 @@ var Header = React.createClass({
 
     $group.find(".active").removeClass("active");
     $target.addClass("active");
-    $(this.refs.activeFilter.getDOMNode()).text($target.text());
+    $(this.refs.activeFilter.getDOMNode()).html($target.text() + "<i class=\"fa fa-angle-down fa-lg\"></i>");
 
     HeaderActions.filter(filter);
   },
@@ -42,7 +42,7 @@ var Header = React.createClass({
 
     $group.find(".active").removeClass("active");
     $target.parent().addClass("active");
-    $(this.refs.activeOrder.getDOMNode()).text($target.text());
+    $(this.refs.activeOrder.getDOMNode()).html($target.text() + "<i class=\"fa fa-angle-down fa-lg\"></i>");
 
     HeaderActions.orderby({
       by: orderby, 
@@ -101,7 +101,7 @@ var Header = React.createClass({
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelFilterShowing")}</a></li>
             <li id="progress-filter" className="dropdown">
-              <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelFilterCurrent")}</a>
+              <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelFilterCurrent")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
                 <li><a href="#" data-filter="all">{chrome.i18n.getMessage("labelFilterAll")}</a></li>
                 <li className="active"><a href="#" data-filter="current">{chrome.i18n.getMessage("labelFilterCurrent")}</a></li>
@@ -112,7 +112,7 @@ var Header = React.createClass({
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelOrderby")}</a></li>
             <li id="progress-order" className="dropdown">
-              <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelOrderbyTitle")}</a>
+              <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelOrderbyTitle")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
                 <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc" /> {chrome.i18n.getMessage("labelOrderbyTitle")}</a></li>
                 <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc" /> {chrome.i18n.getMessage("labelOrderbyTitle")}</a></li>

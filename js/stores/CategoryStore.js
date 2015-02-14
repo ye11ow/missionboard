@@ -94,9 +94,9 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
 
   init: function() {
     var ids = [];
-    ids.push(create("Videos", 1));
-    ids.push(create("Books",  2));
-    ids.push(create("Others", 3));
+    ids.push(create(chrome.i18n.getMessage("sampleCategory1"), 1));
+    ids.push(create(chrome.i18n.getMessage("sampleCategory2"), 2));
+    ids.push(create(chrome.i18n.getMessage("sampleCategory3"), 3));
     CategoryStore.persist();
 
     return ids;

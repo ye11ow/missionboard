@@ -120,6 +120,13 @@ h3 {
   border-bottom: 1px solid;
 }
 
+
+#progress-filter .fa-angle-down, 
+#progress-order .fa-angle-down {
+  float: right;
+  margin-top: 5px;
+}
+
 #progress-order:hover, #progress-filter:hover  {
   border-bottom: 3px solid #2196f3;
 }

@@ -104,7 +104,7 @@ var ProgressForm = React.createClass({
     if (this.state && this.state.id) {
       header = chrome.i18n.getMessage("labelMissionFormEdit");
       role = "edit";
-      confirmLabel = chrome.i18n.getMessage("labelMissionFormEdit");
+      confirmLabel = chrome.i18n.getMessage("labelMissionFormUpdate");
     } else if (this.state) {
       header = chrome.i18n.getMessage("labelMissionFormCreate");
       role = "add";
@@ -163,7 +163,6 @@ var ProgressForm = React.createClass({
                 <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormDesc")}</label>
                 <div className="col-sm-10">
                   <input type="text" id="progress-edit-description" className="form-control" valueLink={this.linkState("description")} />
-                  <span className="help-block">Markdown supported</span>
                 </div>
               </div>
             </form>
