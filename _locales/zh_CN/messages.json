@@ -50,6 +50,37 @@
     "message": "尝试一些基本操作"
   },
 
+  "ttWelcomeTitle": {
+    "message": "欢迎"
+  },
+  "ttWelcomeText": {
+    "message": "欢迎使用“任务来啦！” 这是一个简单的教程帮助您了解各项功能 :)"
+  },
+  "ttCategoryTitle": {
+    "message": "分类列表"
+  },
+  "ttCategoryText": {
+    "message": "双击一个分类来进行编辑，通过拖动来对分类进行排序。"
+  },
+  "ttMissionTitle": {
+    "message": "任务列表"
+  },
+  "ttMissionText": {
+    "message": "列出了您所有的任务。"
+  },
+  "ttCreateMissionTitle": {
+    "message": "创建新任务"
+  },
+  "ttCreateMissionText": {
+    "message": "在此输入任务标题来创建新任务。"
+  },
+  "ttFilterTitle": {
+    "message": "过滤和排序"
+  },
+  "ttFilterText": {
+    "message": "通过选择此处的下拉菜单来进行过滤和排序。"
+  },
+
   "labelMissions": {
     "message": "任务"
   },
@@ -58,7 +89,7 @@
   },
 
   "labelCategories": {
-    "message": "分类"
+    "message": "分类列表"
   },
   "labelCategoryPlaceholder": {
     "message": "标题"

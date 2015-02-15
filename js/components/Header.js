@@ -118,8 +118,8 @@ var Header = React.createClass({
                 <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc" /> {chrome.i18n.getMessage("labelOrderbyTitle")}</a></li>
                 <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc" /> {chrome.i18n.getMessage("labelOrderbyProgress")}</a></li>
                 <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc" /> {chrome.i18n.getMessage("labelOrderbyProgress")}</a></li>
-                <li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc" /> {chrome.i18n.getMessage("labelOrderbyDate")}</a></li>
-                <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc" /> {chrome.i18n.getMessage("labelOrderbyDate")}</a></li>
+                {/*<li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc" /> {chrome.i18n.getMessage("labelOrderbyDate")}</a></li>
+                <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc" /> {chrome.i18n.getMessage("labelOrderbyDate")}</a></li>*/}
               </ul>
             </li>
             <li className="divider"></li>

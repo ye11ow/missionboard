@@ -4,8 +4,7 @@ var React = require('react'),
     CategoryConstants = require('../constants/CategoryConstants');
 
 var MODE_NORMAL  = 1,
-    MODE_ADDING  = 2,
-    MODE_EDITING = 3;
+    MODE_ADDING  = 2;
 
 var $placeholder = $("<li><a>Drop here</a></li>").addClass("placeholder");
 
@@ -16,9 +15,6 @@ function sortCategory(cA, cB) {
 var CategoryList = React.createClass({
 
   componentDidMount: function() {
-    var $menu = $(this.refs.leftMenu.getDOMNode());
-
-    $menu.on("click", ".fa-trash", this.handleCategoryDestroy);
   },
 
   getInitialState: function() {
@@ -31,6 +27,12 @@ var CategoryList = React.createClass({
     var $menu = $(this.refs.leftMenu.getDOMNode());
     $menu.find(".active").removeClass("active");
     $menu.find("[data-category=\"" + this.props.category.id  + "\"]").addClass("active");
+
+    $(this.refs.popoverEdit.getDOMNode()).hide();
+  },
+
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return true;
   },
 
   handleCategoryClick: function(event) {
@@ -44,30 +46,38 @@ var CategoryList = React.createClass({
     this.props.onCategorySwitch(targetCategory);
   },
 
-  handleCategoryDoubleClick: function() {
-    var $target = $(event.target);
+  handleCategoryDoubleClick: function(event) {
+    var $target = $(event.target).parents("li"),
+        $popover = $(this.refs.popoverEdit.getDOMNode()),
+        $input = $(this.refs.popoverTitle.getDOMNode());
 
-    if (this.state.mode !== MODE_NORMAL || $target.attr("data-role") !== "title") {
+    if (this.state.mode === MODE_ADDING || this.props.category.id === CategoryConstants.CATEGORY_ALLID) {
       return;
     }
 
-    $target.prop("contenteditable", "true");
-    $target.focus();
+    $popover.css("top", $target.offset().top - $target.height() - 30);
+    $popover.show();
+    $input.focus();
+    $input.val(this.props.category.title);
+  },
+
+  handlePopoverHide: function(event) {
+    $(this.refs.popoverEdit.getDOMNode()).hide();
   },
 
   handleUpdateCateogryTitle: function(event) {
-    var nativeEvent = event.nativeEvent;
+    var nativeEvent = event.nativeEvent,
+        $popover = $(this.refs.popoverEdit.getDOMNode()),
+        $input = $(this.refs.popoverTitle.getDOMNode());
 
-    if (nativeEvent.charCode === 13) {
-      event.preventDefault();
-      $target = $(nativeEvent.target);
-      $target.blur();
-      $target.prop("contenteditable", false);
-
-      var category = $target.parent().parent().attr("data-category"),
-          title = $target.text();
-
-      CategoryActions.updateTitle(category, title);
+    if (nativeEvent.keyCode === 13 || nativeEvent.type === "click") {      
+      var title = $input.val();
+      if (title.trim().length > 0) {
+        CategoryActions.updateTitle(this.props.category.id, title);
+        this.handlePopoverHide();
+      }
+    } else if (nativeEvent.keyCode === 27) {
+      this.handlePopoverHide();
     }
   },
 
@@ -85,25 +95,13 @@ var CategoryList = React.createClass({
     this.setState({ mode: MODE_ADDING });
   },
 
-  handleCategoryEdit: function() {
-    this.setState({ mode: MODE_EDITING });
-  },
-
   handleCategoryDestroy: function(event) {
-    event.preventDefault();
-    event.stopPropagation();
     var self = this,
-        $target = $(event.target).parent(),
-        id = $target.attr("data-category"),
-        text = chrome.i18n.getMessage("deleteEmptyCategory");
-
-    if (ProgressStore.getLengthByCategory(id) > 0 ) {
-      text = chrome.i18n.getMessage("deleteCategory");
-    }
+        id = this.props.category.id;
 
     swal({
       title: chrome.i18n.getMessage("deleteCategoryTitle"),
-      text: text,
+      text: ProgressStore.getLengthByCategory(id) > 0 ? chrome.i18n.getMessage("deleteCategory") : chrome.i18n.getMessage("deleteEmptyCategory"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
@@ -195,25 +193,21 @@ var CategoryList = React.createClass({
     }
     categories.sort(sortCategory);
 
-    var visibleEditing = mode === MODE_EDITING ? "" : "ani-invisible",
-        hiddenEditing = mode !== MODE_EDITING ? "" : "ani-invisible",
-        visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",
+    var visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",
         hiddenNormal = mode !== MODE_NORMAL ? "" : "ani-invisible",
-        visibleAdding = mode === MODE_ADDING ? "" : "ani-invisible",
-        blockEditing = mode === MODE_EDITING ? "" : "hidden";
+        visibleAdding = mode === MODE_ADDING ? "" : "ani-invisible";
 
     return (
-      <div ref="leftMenu" className="left-menu" onClick={this.handleCategoryClick}>
+      <div ref="leftMenu" className="left-menu">
         <div className="category-header"><i className="fa fa-list" /> {chrome.i18n.getMessage("labelCategories")}</div>
-        <ul className="nav nav-pills nav-stacked" onDoubleClick={this.handleCategoryDoubleClick} onKeyPress={this.handleUpdateCateogryTitle} onDragOver={this.handleDragOver}>
+        <ul className="nav nav-pills nav-stacked" onClick={this.handleCategoryClick} onDoubleClick={this.handleCategoryDoubleClick} onDragOver={this.handleDragOver}>
           {categories.map((function(category) {
             if (!category.system) {
               return (
                 <li className="category" draggable="true" key={category.id} data-category={category.id} onDragEnd={this.handleDragEnd} onDragStart={this.handleDragStart}>
-                  <span className={visibleEditing + " " + blockEditing + " fa fa-trash"}></span>
-                  <a className={mode === MODE_EDITING ? "editing" : ""} href="#">
+                  <a href="#">
                     <span data-role="title">{category.title}</span>
-                    <span className={hiddenEditing + " badge"} >{category.count}</span>
+                    <span className="badge">{category.count}</span>
                   </a>
                 </li>
               );
@@ -228,8 +222,16 @@ var CategoryList = React.createClass({
         <div className="category-dashboard row">
           <span className={hiddenNormal  + " fa fa-check col-sm-3 category-control category-confirm"} onClick={this.handleCategoryConfirm}></span>
           <span className={visibleAdding + " fa fa-times col-sm-3 category-control category-cancel"} onClick={this.handleCategoryCancel}></span>
-          <span className={visibleNormal + " fa fa-plus col-sm-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
-          <span className={visibleNormal + " fa fa-edit col-sm-3 category-control category-edit"} onClick={this.handleCategoryEdit}></span>
+          <span className={visibleNormal + " fa fa-plus col-sm-3 col-sm-offset-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
+        </div>
+        <div ref="popoverEdit" className="popover popover-edit top">
+          <div className="arrow"></div>
+          <div className="popover-content">
+            <input ref="popoverTitle" className="form-control" type="text" onKeyDown={this.handleUpdateCateogryTitle} />
+            <i onClick={this.handlePopoverHide} className="fa fa-times" />
+            <i onClick={this.handleUpdateCateogryTitle} className="fa fa-check" />
+            <i onClick={this.handleCategoryDestroy} className="fa fa-trash" />
+          </div>
         </div>
       </div>
     );

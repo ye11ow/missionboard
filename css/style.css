@@ -193,16 +193,6 @@ li.placeholder {
   color: red;
 }
 
-.category a.editing {
-  margin-left: 25px;
-}
-
-.category a.editing:hover {
-  background-color: transparent!important;
-  margin-left: 25px;
-  color: white!important;
-}
-
 .category-control {
   cursor: pointer;
   color: white;
@@ -270,6 +260,33 @@ li.placeholder {
   padding: 3px 5px;
   font-weight: bold;
   margin-top: 3px;
+}
+
+.popover-edit {
+  width: 200px!important;
+}
+
+.popover-edit .fa {
+  margin: 10px 0;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.popover-edit .fa:hover {
+  color: red;
+}
+
+.popover-edit .fa-trash {
+  float: left;
+}
+
+.popover-edit .fa-check,
+.popover-edit .fa-times {
+  float: right;
+}
+
+.popover-edit .fa-times {
+  margin-left: 10px;
 }
 
 .main-container {

@@ -1,4 +1,5 @@
 {
+  // Application level
   "appName": {
     "message": "Mission Board",
     "description": "The title of the application, displayed in the web store."
@@ -11,7 +12,7 @@
     "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif"
   },
 
-
+  // Sample data for first-time user
   "sampleCategory1": {
     "message": "Animes"
   },
@@ -52,6 +53,39 @@
     "message": "Learn some basic usages of Mission Board"
   },
 
+  // Tutorials
+  "ttWelcomeTitle": {
+    "message": "Welcome"
+  },
+  "ttWelcomeText": {
+    "message": "Welcome to MissionBoard! Here is a one-minute guide to walk you around :)"
+  },
+  "ttCategoryTitle": {
+    "message": "Category List"
+  },
+  "ttCategoryText": {
+    "message": "List of all your categories. Double click on a cateogry to edit it. Drag & drop to reorder."
+  },
+  "ttMissionTitle": {
+    "message": "Mission List"
+  },
+  "ttMissionText": {
+    "message": "List of all your missions."
+  },
+  "ttCreateMissionTitle": {
+    "message": "Create a New Mission"
+  },
+  "ttCreateMissionText": {
+    "message": "Create a new mission by entering its title here."
+  },
+  "ttFilterTitle": {
+    "message": "Filter and Sort"
+  },
+  "ttFilterText": {
+    "message": "Filter and sort missions by selecting from the dropdown menu"
+  },
+
+  // Labels
   "labelMissions": {
     "message": "Missions"
   },
@@ -132,6 +166,7 @@
     "message": "Cancel"
   },
 
+  // Modal
   "modalYes": {
     "message": "Yes!"
   },
