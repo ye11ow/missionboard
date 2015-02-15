@@ -2,23 +2,25 @@ var React = require('react/addons'),
     ProgressActions = require('../actions/ProgressActions'),
     ProgressStore = require('../stores/ProgressStore');
 
-function validate(title, current, total) {
-  var current = parseInt(current);
-  var total = parseInt(total);
+function validate($title, $current, $total) {
+  var title = $title.val(),
+      current = parseInt($current.val()),
+      total = parseInt($total.val());
+  
   if (!title || title.length == 0) {
-    //$title.css("box-shadow", "inset 0 -2px 0 #e51c23");
+    $title.css("box-shadow", "inset 0 -2px 0 #e51c23");
     return false;
   }
   if (isNaN(current)) {
-    //$current.css("box-shadow", "inset 0 -2px 0 #e51c23");
-    //$current.val("");
-    //$current.attr("placeholder","number here");
+    $current.css("box-shadow", "inset 0 -2px 0 #e51c23");
+    $current.val("");
+    $current.attr("placeholder","number here");
     return false;
   }
   if (isNaN(total)) {
-    //$total.css("box-shadow", "inset 0 -2px 0 #e51c23");
-    //$total.val("");
-    //$total.attr("placeholder","number here");
+    $total.css("box-shadow", "inset 0 -2px 0 #e51c23");
+    $total.val("");
+    $total.attr("placeholder","number here");
     return false;
   }
 
@@ -51,7 +53,7 @@ var ProgressForm = React.createClass({
   handleSave:function () {
     var editing = this.state;
 
-    if (validate(editing.title, editing.current, editing.total)) {
+    if (validate($(this.refs.progressTitle.getDOMNode()), $(this.refs.progressCurrent.getDOMNode()), $(this.refs.progressTotal.getDOMNode()))) {
       var current = parseInt(editing.current),
           total = parseInt(editing.total);
 
@@ -71,12 +73,13 @@ var ProgressForm = React.createClass({
   },
 
   componentDidMount: function() {
+    var self = this;
     $modal = $(this.refs.progressFormModal.getDOMNode());
 
     ProgressStore.addChangeListener(this._onChange);
 
     $modal.on('shown.bs.modal', function () {
-      $("#progress-edit-current").focus();
+      $(self.refs.progressCurrent.getDOMNode()).focus();
     });
 
     $modal.on('hidden.bs.modal', function () {
@@ -130,31 +133,31 @@ var ProgressForm = React.createClass({
             <h4 className="modal-title">{header}</h4>
           </div>
           <div className="modal-body">
-            <form id="progress-edit-form" className="form-horizontal">
+            <form className="form-horizontal">
               <div className="form-group">
                 <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormTitle")}</label>
                 <div className="col-sm-10">
-                  <input id="progress-edit-title" type="text" className="form-control" placeholder="Gundam Seed" valueLink={this.linkState("title")} />
+                  <input ref="progressTitle" type="text" className="form-control" placeholder="Gundam Seed" valueLink={this.linkState("title")} />
                 </div>
               </div>
               <div className="row">
                 <div className="progress-current col-sm-5 form-group">
                   <label className="control-label">{chrome.i18n.getMessage("labelMissionFormCurrent")}</label>
                   <div className="">
-                    <input id="progress-edit-current" type="number" className="form-control" placeholder="0" valueLink={this.linkState("current")} />
+                    <input ref="progressCurrent" type="number" className="form-control" placeholder="0" valueLink={this.linkState("current")} />
                   </div>
                 </div>
                 <div className="progress-total form-group col-sm-5">
                   <label className="control-label">{chrome.i18n.getMessage("labelMissionFormTotal")}</label>
                   <div className="">
-                    <input id="progress-edit-total" type="number" className="form-control" placeholder="48" valueLink={this.linkState("total")} />
+                    <input ref="progressTotal" type="number" className="form-control" placeholder="48" valueLink={this.linkState("total")} />
                   </div>
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormCategory")}</label>
                 <div className="col-sm-10">
-                  <select id="progress-edit-category" className="form-control" valueLink={this.linkState("category")}>
+                  <select className="form-control" valueLink={this.linkState("category")}>
                     {categoryList}
                   </select>
                 </div>
@@ -162,13 +165,13 @@ var ProgressForm = React.createClass({
               <div className="form-group">
                 <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormDesc")}</label>
                 <div className="col-sm-10">
-                  <input type="text" id="progress-edit-description" className="form-control" valueLink={this.linkState("description")} />
+                  <input type="text" className="form-control" valueLink={this.linkState("description")} />
                 </div>
               </div>
             </form>
           </div>
           <div className="modal-footer">
-            <button id="progress-edit-save" type="button" className="btn btn-primary" onClick={this.handleSave}>{confirmLabel}</button>
+            <button type="button" className="btn btn-primary" onClick={this.handleSave}>{confirmLabel}</button>
             <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel}>{chrome.i18n.getMessage("labelMissionFormCancel")}</button>
           </div>
         </div>
