@@ -108,33 +108,33 @@ h3 {
   padding: 20.5px 5px!important;
 }
 
-#progress-filter {
+.progress-filter {
   width: 90px;
   text-align: center;
   border-bottom: 1px solid;
 }
 
-#progress-order {
+.progress-order {
   width: 70px;
   text-align: center;
   border-bottom: 1px solid;
 }
 
 
-#progress-filter .fa-angle-down, 
-#progress-order .fa-angle-down {
+.progress-filter .fa-angle-down, 
+.progress-order .fa-angle-down {
   float: right;
   margin-top: 5px;
 }
 
-#progress-order:hover, #progress-filter:hover  {
+.progress-order:hover, .progress-filter:hover  {
   border-bottom: 3px solid #2196f3;
 }
 
-#progress-filter > a, #progress-order > a {
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-bottom: 5px;
+.progress-filter > a, .progress-order > a {
+  padding-left: 5px!important;
+  padding-right: 5px!important;
+  padding-bottom: 5px!important;
 }
 
 .nav > .divider {
@@ -154,6 +154,15 @@ h3 {
   width: 200px;
   height: 100%;
   background-color: #2b333e;
+}
+
+.category-tutorial {
+  padding: 5px 15px;
+  font-size: 12px;
+  font-weight: normal;
+  border: 1px dashed #ddd;
+  letter-spacing: 1.1px;
+  color: white;
 }
 
 li.placeholder { 
@@ -404,7 +413,7 @@ li.placeholder {
   padding-right: 20%;
 }
 
-#progress-list .panel {
+.progress-list .panel {
   margin-bottom: 0px;
 }
 

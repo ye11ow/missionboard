@@ -6,7 +6,7 @@ var React = require('react'),
 var MODE_NORMAL  = 1,
     MODE_ADDING  = 2;
 
-var $placeholder = $("<li><a>Drop here</a></li>").addClass("placeholder");
+var $placeholder = $("<li><a>" + chrome.i18n.getMessage("labelCategoryMove") + "</a></li>").addClass("placeholder");
 
 function sortCategory(cA, cB) {
   return cA.order - cB.order;
@@ -15,6 +15,11 @@ function sortCategory(cA, cB) {
 var CategoryList = React.createClass({
 
   componentDidMount: function() {
+    chrome.storage.sync.get('_categoryTutorial', function(categoryTutorial){
+      if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
+        $('<div class="category-tutorial">' + chrome.i18n.getMessage("ttCategoryEdit") + '</div>').insertBefore(".category-dashboard");
+      }
+    });
   },
 
   getInitialState: function() {
@@ -54,6 +59,12 @@ var CategoryList = React.createClass({
     if (this.state.mode === MODE_ADDING || this.props.category.id === CategoryConstants.CATEGORY_ALLID) {
       return;
     }
+
+    if ($(".category-tutorial")) {
+      $(".category-tutorial").remove();
+      chrome.storage.sync.set({'_categoryTutorial': true}); 
+    }
+
 
     $popover.css("top", $target.offset().top - $target.height() - 30);
     $popover.show();

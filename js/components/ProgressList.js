@@ -172,7 +172,7 @@ var ProgressList = React.createClass({
           </div>
         </div>
 
-        <div id="progress-list">
+        <div className="progress-list">
           {progressItems}
         </div>
       </div>  

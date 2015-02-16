@@ -67,6 +67,7 @@ var Header = React.createClass({
     }, function(isConfirm){
       if (isConfirm) { 
         chrome.storage.sync.remove('_inited');
+        chrome.storage.sync.remove('_categoryTutorial');
         chrome.storage.sync.remove('_cateogries');
         chrome.storage.sync.remove('_progresses');
         swal(chrome.i18n.getMessage("resetDataTitle"), chrome.i18n.getMessage("resetDataDone"), "success"); 
@@ -100,7 +101,7 @@ var Header = React.createClass({
           <ul className="nav navbar-nav navbar-right">
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelFilterShowing")}</a></li>
-            <li id="progress-filter" className="dropdown">
+            <li className="progress-filter dropdown">
               <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelFilterCurrent")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
                 <li><a href="#" data-filter="all">{chrome.i18n.getMessage("labelFilterAll")}</a></li>
@@ -111,7 +112,7 @@ var Header = React.createClass({
             <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelMissions")}</a></li>
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelOrderby")}</a></li>
-            <li id="progress-order" className="dropdown">
+            <li className="progress-order dropdown">
               <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelOrderbyTitle")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
                 <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc" /> {chrome.i18n.getMessage("labelOrderbyTitle")}</a></li>

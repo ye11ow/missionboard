@@ -1,5 +1,4 @@
 {
-  // Application level
   "appName": {
     "message": "Mission Board",
     "description": "The title of the application, displayed in the web store."
@@ -12,7 +11,6 @@
     "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif"
   },
 
-  // Sample data for first-time user
   "sampleCategory1": {
     "message": "Animes"
   },
@@ -53,7 +51,6 @@
     "message": "Learn some basic usages of Mission Board"
   },
 
-  // Tutorials
   "ttWelcomeTitle": {
     "message": "Welcome"
   },
@@ -84,8 +81,10 @@
   "ttFilterText": {
     "message": "Filter and sort missions by selecting from the dropdown menu"
   },
+  "ttCategoryEdit": {
+    "message": "Tips: Double click on a category title to edit it"
+  },
 
-  // Labels
   "labelMissions": {
     "message": "Missions"
   },
@@ -98,6 +97,9 @@
   },
   "labelCategoryPlaceholder": {
     "message": "Title"
+  },
+  "labelCategoryMove": {
+    "message": "Drop here"
   },
   "labelSearch": {
     "message": "Search"
@@ -166,7 +168,6 @@
     "message": "Cancel"
   },
 
-  // Modal
   "modalYes": {
     "message": "Yes!"
   },

@@ -80,6 +80,9 @@
   "ttFilterText": {
     "message": "通过选择此处的下拉菜单来进行过滤和排序。"
   },
+  "ttCategoryEdit": {
+    "message": "提示: 您可以通过双击某个分类来对其进行编辑"
+  },
 
   "labelMissions": {
     "message": "任务"
@@ -93,6 +96,9 @@
   },
   "labelCategoryPlaceholder": {
     "message": "标题"
+  },
+  "labelCategoryMove": {
+    "message": "移动到这"
   },
   "labelSearch": {
     "message": "查找"

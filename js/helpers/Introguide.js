@@ -20,7 +20,7 @@
         {
           title: chrome.i18n.getMessage("ttMissionTitle"),
           content: chrome.i18n.getMessage("ttMissionText"),
-          target: "#progress-list",
+          target: ".progress-list",
           placement: "top"
         },
         {
@@ -32,7 +32,7 @@
         {
           title: chrome.i18n.getMessage("ttFilterTitle"),
           content: chrome.i18n.getMessage("ttFilterText"),
-          target: "#progress-filter",
+          target: ".progress-filter",
           placement: "left"
         },
 
