@@ -60,8 +60,7 @@ var ProgressForm = React.createClass({
       if ($modal.attr("data-role") === "add") {
         ProgressActions.create(editing.title, current, total, editing.category, null, editing.description);
       } else if ($modal.attr("data-role") === "edit") {
-        ProgressActions.update(editing.id,
-          editing.title, current, total, editing.category, null, editing.description);
+        ProgressActions.update(editing.id, editing.title, current, total, editing.category, null, editing.description);
       }
 
       this.handleCancel();
@@ -99,10 +98,10 @@ var ProgressForm = React.createClass({
 
   render: function() {
     var categories = this.props.categories,
+        categoryList = [],
         header = "",
         role = "",
-        confirmLabel = "",
-        categoryList = [];
+        confirmLabel = "";
 
     if (this.state && this.state.id) {
       header = chrome.i18n.getMessage("labelMissionFormEdit");
@@ -114,15 +113,13 @@ var ProgressForm = React.createClass({
       confirmLabel = chrome.i18n.getMessage("labelMissionFormNew");
     }
 
-    for (var key in categories) {
-      var category = categories[key];
+    for (var i = 0; i < categories.length; i++) {
+      var category = categories[i];
 
       if (!category.system) {
         categoryList.push(<option key={category.id} value={category.id}>{category.title}</option>);
       }
     }
-
-    categoryList.reverse();
 
     return (
     <div ref="progressFormModal" className="modal fade" tabIndex="-1" data-role={role}>
@@ -138,6 +135,12 @@ var ProgressForm = React.createClass({
                 <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormTitle")}</label>
                 <div className="col-sm-10">
                   <input ref="progressTitle" type="text" className="form-control" placeholder="Gundam Seed" valueLink={this.linkState("title")} />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormDesc")}</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" valueLink={this.linkState("description")} placeholder={chrome.i18n.getMessage("labelMissionFormDescTips")} />
                 </div>
               </div>
               <div className="row">
@@ -160,12 +163,6 @@ var ProgressForm = React.createClass({
                   <select className="form-control" valueLink={this.linkState("category")}>
                     {categoryList}
                   </select>
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormDesc")}</label>
-                <div className="col-sm-10">
-                  <input type="text" className="form-control" valueLink={this.linkState("description")} />
                 </div>
               </div>
             </form>

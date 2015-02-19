@@ -109,15 +109,11 @@ var ProgressList = React.createClass({
         progresses = this.props.progresses,
         progressItems = [],
         _progresses = [],
-        categories = [],
         orderby = this.state.orderby,
         keyword = this.state.keyword,
         filter = this.state.filter;
 
     if (this.props.category) {
-      for (var i in this.props.categories) {
-        categories.push(this.props.categories[i]);
-      }
 
       // a key is need here for Progress.
       // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
@@ -156,7 +152,7 @@ var ProgressList = React.createClass({
     return (
       <div className="container-fluid main-container">
 
-        <ProgressForm categories={categories} />
+        <ProgressForm categories={this.props.categories} />
 
         <div className="progress-toolbar">
           <div className="row">

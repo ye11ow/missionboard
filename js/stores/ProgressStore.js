@@ -61,9 +61,8 @@ function update(id, title, current, total, category, type, description) {
     if (type && type.length > 0) {
       progress.type = type;
     }
-    if (description && description.length > 0) {
-      progress.description = description;
-    }
+    
+    progress.description = description;
     progress.completed = (progress.current >= progress.total);
   }
 }

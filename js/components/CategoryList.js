@@ -8,9 +8,6 @@ var MODE_NORMAL  = 1,
 
 var $placeholder = $("<li><a>" + chrome.i18n.getMessage("labelCategoryMove") + "</a></li>").addClass("placeholder");
 
-function sortCategory(cA, cB) {
-  return cA.order - cB.order;
-}
 
 var CategoryList = React.createClass({
 
@@ -189,22 +186,9 @@ var CategoryList = React.createClass({
   },
 
   render: function() {
-    var mode = this.state.mode;
-    var categories = [];
-
-    for (var i in this.props.categories) {
-      categories.push(this.props.categories[i]);
-      if (this.props.categories[i].id === this.props.category) {
-        category = this.props.categories[i];
-      }
-    }
-
-    if (!categories) {
-      return;
-    }
-    categories.sort(sortCategory);
-
-    var visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",
+    var mode = this.state.mode,
+        categoryList = this.props.categories,
+        visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",
         hiddenNormal = mode !== MODE_NORMAL ? "" : "ani-invisible",
         visibleAdding = mode === MODE_ADDING ? "" : "ani-invisible";
 
@@ -212,7 +196,7 @@ var CategoryList = React.createClass({
       <div ref="leftMenu" className="left-menu">
         <div className="category-header"><i className="fa fa-list" /> {chrome.i18n.getMessage("labelCategories")}</div>
         <ul className="nav nav-pills nav-stacked" onClick={this.handleCategoryClick} onDoubleClick={this.handleCategoryDoubleClick} onDragOver={this.handleDragOver}>
-          {categories.map((function(category) {
+          {categoryList.map((function(category) {
             if (!category.system) {
               return (
                 <li className="category" draggable="true" key={category.id} data-category={category.id} onDragEnd={this.handleDragEnd} onDragStart={this.handleDragStart}>

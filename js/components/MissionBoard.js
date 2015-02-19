@@ -24,6 +24,10 @@ function calcCategoryCount(categories, progresses) {
   }
 }
 
+function sortCategory(cA, cB) {
+  return cA.order - cB.order;
+}
+
 function getProgressState() {
   return {
     progresses: ProgressStore.getAll(),
@@ -96,6 +100,7 @@ var MissionBoard = React.createClass({
   render: function() {
     var progresses = this.state.progresses,
         categories = this.state.categories,
+        categoryList = [],
         _progresses = {},
         category = null;
 
@@ -114,17 +119,21 @@ var MissionBoard = React.createClass({
     }
 
     calcCategoryCount(categories, progresses);
+    for (var key in categories) {
+      categoryList.push(categories[key]);
+    }
+    categoryList.sort(sortCategory);
 
     return (
       <div>
         <Header />
 
-        <CategoryList category={category} categories={this.state.categories}
+        <CategoryList category={category} categories={categoryList}
           onCategorySwitch={this.handleCategorySwitch}
           onCategoryCreate={this.handleCategoryCreate}
           onCategoryDestroy={this.handleCategoryDestroy} />
 
-        <ProgressList progresses={_progresses} category={category} categories={this.state.categories} />
+        <ProgressList progresses={_progresses} category={category} categories={categoryList} />
       </div>
     );
   },

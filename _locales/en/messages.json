@@ -156,7 +156,10 @@
     "message": "Category"
   },
   "labelMissionFormDesc": {
-    "message": "Description"
+    "message": "Note"
+  },
+  "labelMissionFormDescTips": {
+    "message": "A short note (optional)"
   },
   "labelMissionFormNew": {
     "message": "Create"

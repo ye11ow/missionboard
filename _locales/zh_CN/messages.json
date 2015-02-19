@@ -155,7 +155,10 @@
     "message": "分类"
   },
   "labelMissionFormDesc": {
-    "message": "简介"
+    "message": "备注"
+  },
+  "labelMissionFormDescTips": {
+    "message": "一句简短的备注(选填)"
   },
   "labelMissionFormNew": {
     "message": "创建"
