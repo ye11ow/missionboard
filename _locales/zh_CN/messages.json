@@ -198,6 +198,6 @@
     "message": "确定要重置所有数据吗？"
   },
   "resetDataDone": {
-    "message": "请重新启动MissionBoard"
+    "message": "做任务啦！将会重新启动。"
   }
 }

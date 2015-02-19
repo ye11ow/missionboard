@@ -179,7 +179,11 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
   },
 
   persist: function() {
-    chrome.storage.sync.set({'_progresses': _progresses});
+    chrome.storage.sync.set({'_progresses': _progresses}, function() {
+      if (chrome.runtime.lastError) {
+        console.log(chrome.runtime.lastError);
+      }
+    });
   },
 
   clear: function() {

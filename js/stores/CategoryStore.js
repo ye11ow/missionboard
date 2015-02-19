@@ -135,7 +135,11 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
   },
 
   persist: function() {
-    chrome.storage.sync.set({'_categories': _categories});
+    chrome.storage.sync.set({'_categories': _categories}, function(){
+      if (chrome.runtime.lastError) {
+        console.log(chrome.runtime.lastError);
+      }
+    });
   },
 
   clear: function() {

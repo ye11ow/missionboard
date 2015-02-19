@@ -55,6 +55,7 @@ var Header = React.createClass({
   },
 
   resetData: function() {
+    swal(chrome.i18n.getMessage("resetDataTitle"), chrome.i18n.getMessage("resetDataDone"), "success"); 
     swal({
       title: chrome.i18n.getMessage("resetDataTitle"),
       text: chrome.i18n.getMessage("resetData"),
@@ -66,11 +67,17 @@ var Header = React.createClass({
       closeOnConfirm: false,
     }, function(isConfirm){
       if (isConfirm) { 
-        chrome.storage.sync.remove('_inited');
-        chrome.storage.sync.remove('_categoryTutorial');
-        chrome.storage.sync.remove('_cateogries');
-        chrome.storage.sync.remove('_progresses');
-        swal(chrome.i18n.getMessage("resetDataTitle"), chrome.i18n.getMessage("resetDataDone"), "success"); 
+        chrome.storage.sync.clear(function() {
+          swal({
+            title: chrome.i18n.getMessage("resetDataTitle"), 
+            text: chrome.i18n.getMessage("resetDataDone"), 
+            type: "success"
+          }, function(){
+            chrome.runtime.reload();
+          }); 
+
+          
+        });
       }
     });
   },

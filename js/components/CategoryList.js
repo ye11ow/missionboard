@@ -125,17 +125,12 @@ var CategoryList = React.createClass({
   handleCategoryCreate: function(event) {
     if (event.which === 13) {
       var $input = $(event.target),
-          title = $input.val(),
-          $menu = $(this.refs.leftMenu.getDOMNode());
+          title = $input.val();
 
       if (title && title.length > 0) {
-        var length = $menu.find(" > ul li").length,
-            id = $menu.find(" > ul li:nth-child(" + (length - 1) + ")").attr("data-category"),
-            order = this.props.categories[id].order + 1;
-        
         this.props.onCategoryCreate({
           title: title,
-          order: order
+          order: this.props.categories[this.props.categories.length - 1].order + 1
         });
         this.resetCategoryControl();
       }

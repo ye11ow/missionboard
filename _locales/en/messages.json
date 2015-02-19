@@ -199,6 +199,6 @@
     "message": "Do you really want to reset all data?"
   },
   "resetDataDone": {
-    "message": "Please re-launch the MissionBoard."
+    "message": "MissionBoard will be reloaded."
   }
 }

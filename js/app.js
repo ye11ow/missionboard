@@ -3,7 +3,5 @@ var React = require('react'),
 
 React.render(
   <MissionBoard />,
-  document.getElementById('mission-board'),
-  function () {
-  }
+  document.getElementById('mission-board')
 );

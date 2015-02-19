@@ -101,8 +101,8 @@ var Progress = React.createClass({
             </div>
             <div className="progress-control">
               {/*<i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish} />*/}
-              <i className="fa fa-pencil fa-lg progress-edit" title="edit" onClick={this.handleEdit} /> 
-              <i className="fa fa-trash  fa-lg progress-delete" title="delete" onClick={this.handleDestroy} />
+              <i className="fa fa-pencil fa-lg progress-edit" onClick={this.handleEdit} /> 
+              <i className="fa fa-trash  fa-lg progress-delete" onClick={this.handleDestroy} />
             </div>
           </div>
         </div>
