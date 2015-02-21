@@ -14,13 +14,13 @@ function validate($title, $current, $total) {
   if (isNaN(current)) {
     $current.css("box-shadow", "inset 0 -2px 0 #e51c23");
     $current.val("");
-    $current.attr("placeholder","number here");
+    $current.attr("placeholder", chrome.i18n.getMessage("labelMissionProgressError"));
     return false;
   }
   if (isNaN(total)) {
     $total.css("box-shadow", "inset 0 -2px 0 #e51c23");
     $total.val("");
-    $total.attr("placeholder","number here");
+    $total.attr("placeholder", chrome.i18n.getMessage("labelMissionProgressError"));
     return false;
   }
 
@@ -91,6 +91,9 @@ var ProgressForm = React.createClass({
 
     if (editing.title) {
       $modal.modal("show");
+      $(this.refs.progressTitle.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
+      $(this.refs.progressCurrent.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
+      $(this.refs.progressTotal.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
     } else {
       $modal.modal("hide");
     }
@@ -147,13 +150,13 @@ var ProgressForm = React.createClass({
                 <div className="progress-current col-sm-5 form-group">
                   <label className="control-label">{chrome.i18n.getMessage("labelMissionFormCurrent")}</label>
                   <div className="">
-                    <input ref="progressCurrent" type="number" className="form-control" placeholder="0" valueLink={this.linkState("current")} />
+                    <input ref="progressCurrent" type="number" className="form-control" placeholder={chrome.i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("current")} />
                   </div>
                 </div>
                 <div className="progress-total form-group col-sm-5">
                   <label className="control-label">{chrome.i18n.getMessage("labelMissionFormTotal")}</label>
                   <div className="">
-                    <input ref="progressTotal" type="number" className="form-control" placeholder="48" valueLink={this.linkState("total")} />
+                    <input ref="progressTotal" type="number" className="form-control" placeholder={chrome.i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("total")} />
                   </div>
                 </div>
               </div>

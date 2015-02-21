@@ -151,6 +151,9 @@
   "labelMissionFormTotal": {
     "message": "总进度"
   },
+  "labelMissionProgressError": {
+    "message": "请输入数字"
+  },
   "labelMissionFormCategory": {
     "message": "分类"
   },

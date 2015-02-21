@@ -32,8 +32,9 @@ var Progress = React.createClass({
   },
 
   componentDidMount: function() {
-    var progress = this.props.progress;
-    var $slider = $('#' + progress.id).find('[data-role="slider"]');
+    var progress = this.props.progress,
+        $slider = $('#' + progress.id).find('[data-role="slider"]');
+
     $slider.noUiSlider({
       start: progress.current,
       connect: "lower",
@@ -61,6 +62,26 @@ var Progress = React.createClass({
       var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
       $tips.hide();
     });
+  },
+
+  componentDidUpdate: function() {
+    var progress = this.props.progress,
+        $slider = $('#' + progress.id).find('[data-role="slider"]'),
+        options = $slider.noUiSlider('options');
+
+    if (options) {
+      if (options.range.max[0] !== progress.total || options.start !== progress.current) {
+        $slider.noUiSlider({
+          start: progress.current,
+          connect: "lower",
+          step: 1,
+          range: {
+            'min': [  0 ],
+            'max': [ progress.total ]
+          }
+        }, true);
+      }
+    }
   },
 
   render: function() {

@@ -152,6 +152,9 @@
   "labelMissionFormTotal": {
     "message": "Total Progress"
   },
+  "labelMissionProgressError": {
+    "message": "number here"
+  },
   "labelMissionFormCategory": {
     "message": "Category"
   },
