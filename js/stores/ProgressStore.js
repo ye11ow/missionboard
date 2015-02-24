@@ -49,10 +49,10 @@ function update(id, title, current, total, category, type, description) {
     if (title && title.length > 0) {
       progress.title = title;
     }
-    if (current && typeof current === "number") {
+    if (typeof current === "number" && current >= 0) {
       progress.current = current;
     }
-    if (total && typeof total === "number") {
+    if (typeof total === "number" && total >= 0) {
       progress.total = total;
     }
     if (category && category.length > 0) {
