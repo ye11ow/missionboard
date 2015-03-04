@@ -1,11 +1,9 @@
 {
   "appName": {
-    "message": "Mission Board",
-    "description": "The title of the application, displayed in the web store."
+    "message": "Mission Board"
   },
   "appDesc": {
-    "message": "This app does something awesome.", 
-    "description":"The description of the application, displayed in the web store."
+    "message": "A Progress-based GTD App for Chrome."
   },
   "styleFontFamily": {
     "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif"

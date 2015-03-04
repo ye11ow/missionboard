@@ -3,12 +3,11 @@
     "message": "做任务啦！"
   },
   "appDesc": {
-    "message": "基于进度的GTD App"
+    "message": "一个基于进度的GTD App"
   },
   "styleFontFamily": {
     "message": "\"Roboto\",\"Helvetica Neue\",Helvetica,Arial,sans-serif,STXihei"
   },
-
 
   "sampleCategory1": {
     "message": "动漫"
