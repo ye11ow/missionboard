@@ -4,6 +4,11 @@ var React = require('react/addons'),
 
 var Progress = React.createClass({
 
+  propTypes: {
+    keyword: React.PropTypes.string,
+    progress: React.PropTypes.object.isRequired,
+  },
+
   handleEdit: function() {
     ProgressActions.setEditing(this.props.progress);
   },

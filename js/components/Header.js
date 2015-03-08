@@ -4,12 +4,7 @@ var React = require('react'),
     CategoryConstants = require('../constants/CategoryConstants'),
     HeaderActions = require('../actions/HeaderActions');
 
-
 var Header = React.createClass({
-
-  getInitialState: function() {
-    return {};
-  },
 
   handleFilter: function(event) {
     event.preventDefault();
@@ -83,8 +78,6 @@ var Header = React.createClass({
   },
 
   render: function() {
-    var search = this.state.search;
-
     return (
       <nav className="navbar navbar-default header">
         <div className="navbar-header">

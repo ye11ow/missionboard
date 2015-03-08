@@ -45,6 +45,12 @@ function getOverallProgress(progresses) {
 
 var ProgressList = React.createClass({
 
+  propTypes: {
+    progresses: React.PropTypes.object,
+    category: React.PropTypes.object.isRequired,
+    categories: React.PropTypes.array.isRequired
+  },
+
   componentDidMount: function() {
     HeaderStore.addChangeListener(this._onChange);
   },

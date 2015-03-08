@@ -40,6 +40,10 @@ var $modal = null;
 
 var ProgressForm = React.createClass({
 
+  propTypes: {
+    categories: React.PropTypes.array.isRequired,
+  },
+
   mixins: [React.addons.LinkedStateMixin],
 
   componentWillUnmount: function() {

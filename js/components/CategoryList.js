@@ -11,6 +11,14 @@ var $placeholder = $("<li><a>" + chrome.i18n.getMessage("labelCategoryMove") + "
 
 var CategoryList = React.createClass({
 
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    categories: React.PropTypes.array.isRequired,
+    onCategorySwitch: React.PropTypes.func.isRequired,
+    onCategoryCreate: React.PropTypes.func.isRequired,
+    onCategoryDestroy: React.PropTypes.func.isRequired
+  },
+
   componentDidMount: function() {
     chrome.storage.sync.get('_categoryTutorial', function(categoryTutorial){
       if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
