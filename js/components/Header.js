@@ -70,8 +70,6 @@ var Header = React.createClass({
           }, function(){
             chrome.runtime.reload();
           }); 
-
-          
         });
       }
     });
