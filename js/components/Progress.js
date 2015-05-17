@@ -1,6 +1,6 @@
 var React = require('react/addons'),
+    $ = require('jquery'),
     ProgressActions = require('../actions/ProgressActions');
-
 
 var Progress = React.createClass({
 

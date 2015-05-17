@@ -1,4 +1,5 @@
 var React = require('react/addons'),
+    $ = require('jquery'),
     ProgressActions = require('../actions/ProgressActions'),
     ProgressStore = require('../stores/ProgressStore');
 

@@ -5,19 +5,22 @@
   "main": "js/app.js",
   "dependencies": {
     "es6-promise": "~2.0.1",
-    "react": "~0.12.2",
+    "react": "~0.13.3",
     "flux": "~2.0.1",
-    "object-assign": "^2.0.0"
+    "object-assign": "^2.0.0",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.4",
+    "hopscotch": "~0.2.4"
   },
   "devDependencies": {
     "browserify": "*",
+    "browserify-shim": "*",
     "envify": "~1.2.0",
-    "reactify": "~0.17.1",
-    "statics": "~0.1.0",
+    "reactify": "~1.1.1",
     "uglify-js": "~2.4.13",
     "watchify": "~0.4.1",
-    "jest-cli": "~0.4.0",
-    "react-tools": "~0.12.1",
+    "jest-cli": "~0.4.5",
+    "react-tools": "~0.13.3",
     "grunt": "~0.4.5",
     "grunt-contrib-uglify": "~0.7.0",
     "grunt-contrib-copy": "~0.7.0",
@@ -30,8 +33,27 @@
     "test": "jest"
   },
   "author": "",
+  "browser": {
+    "jquery": "./node_modules/jquery/dist/jquery.min.js",
+    "nouislider": "./js/libs/jquery.nouislider.all.min.js",
+    "bootstrap": "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+  },
+  "browserify-shim": {
+    "jquery": "$",
+    "nouislider": {
+      "depends": [
+        "jquery"
+      ]
+    },
+    "bootstrap": {
+      "depends": [
+        "jquery"
+      ]
+    }
+  },
   "browserify": {
     "transform": [
+      "browserify-shim",
       "reactify",
       "envify"
     ]

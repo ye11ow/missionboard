@@ -1,4 +1,5 @@
 var React = require('react'),
+    $ = require('jquery'),
     ProgressStore = require('../stores/ProgressStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants');

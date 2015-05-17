@@ -1,4 +1,5 @@
 var React = require('react'),
+    $ = require('jquery'),
     Progress = require('./Progress'),
     ProgressForm = require('./ProgressForm'),
     ProgressActions = require('../actions/ProgressActions'),

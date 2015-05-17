@@ -1,3 +1,5 @@
+var hopscotch = require("hopscotch");
+
 (function(){
   var startIntro = function() {
     var tour = {
