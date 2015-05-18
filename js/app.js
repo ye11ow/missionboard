@@ -4,6 +4,7 @@ var React = require('react'),
 require("jquery");
 require("nouislider");
 require("bootstrap");
+require('sweetalert');
 
 React.render(
   <MissionBoard />,

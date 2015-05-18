@@ -10,7 +10,8 @@
     "object-assign": "^2.0.0",
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.4",
-    "hopscotch": "~0.2.4"
+    "hopscotch": "~0.2.4",
+    "sweetalert": "*"
   },
   "devDependencies": {
     "browserify": "*",
