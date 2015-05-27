@@ -61,9 +61,9 @@ var mockFunction = function() {};
 describe("CategoryList", function() {
 
   var React = require("react/addons"),
-    CategoryList = require("../components/CategoryList.js"),
-    CategoryStore = require("../stores/CategoryStore.js"),
-    TestUtils = React.addons.TestUtils;
+      CategoryList = require("../components/CategoryList.js"),
+      CategoryStore = require("../stores/CategoryStore.js"),
+      TestUtils = React.addons.TestUtils;
 
   var categoryListVDOM = null;
 
@@ -103,7 +103,8 @@ describe("CategoryList", function() {
     //expect(categories[2].className).toContain("active");
   });
 
-  it("should display add category input", function() {
+  it("should create a new category", function() {
+    var categories = categoryListVDOM.getDOMNode().querySelectorAll(".category");
     var addBtn = categoryListVDOM.getDOMNode().querySelector(".category-add");
     var confirmBtn = categoryListVDOM.getDOMNode().querySelector(".category-confirm");
     var cancelBtn = categoryListVDOM.getDOMNode().querySelector(".category-cancel");
@@ -120,6 +121,13 @@ describe("CategoryList", function() {
     expect(cateogryTitle.className).not.toContain("ani-invisible");
     expect(confirmBtn.className).not.toContain("ani-invisible");
     expect(cancelBtn.className).not.toContain("ani-invisible");
+
+    cateogryTitle.value = "Test Title";
+    TestUtils.Simulate.click(confirmBtn);
+    // should created a new category
+  });
+
+  it("should destroy a existing category", function() {
   });
 
 

@@ -1,5 +1,5 @@
 {
-  "name": "missionboard-client",
+  "name": "missionboard",
   "version": "0.2.7",
   "description": "",
   "main": "js/app.js",
@@ -19,7 +19,7 @@
     "envify": "~1.2.0",
     "reactify": "~1.1.1",
     "uglify-js": "~2.4.13",
-    "watchify": "~0.4.1",
+    "watchify": "~3.2.1",
     "jest-cli": "~0.4.5",
     "react-tools": "~0.13.3",
     "grunt": "~0.4.5",
@@ -33,7 +33,9 @@
     "build": "NODE_ENV=production browserify .",
     "test": "jest"
   },
-  "author": "",
+  "author": "Calvin Zhang",
+  "repository": "https://github.com/ye11ow/missionboard",
+  "license": "MIT",
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.min.js",
     "nouislider": "./js/libs/jquery.nouislider.all.min.js",
