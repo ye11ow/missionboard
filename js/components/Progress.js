@@ -38,7 +38,7 @@ var Progress = React.createClass({
 
   componentDidMount: function() {
     var progress = this.props.progress,
-        $slider = $('#' + progress.id).find('[data-role="slider"]');
+        $slider = $(`#${progress.id}`).find('[data-role="slider"]');
 
     $slider.noUiSlider({
       start: progress.current,
@@ -71,7 +71,7 @@ var Progress = React.createClass({
 
   componentDidUpdate: function() {
     var progress = this.props.progress,
-        $slider = $('#' + progress.id).find('[data-role="slider"]'),
+        $slider = $(`#${progress.id}`).find('[data-role="slider"]'),
         options = $slider.noUiSlider('options');
 
     if (options) {
@@ -97,13 +97,9 @@ var Progress = React.createClass({
 
     if (keyword) {
       var start = title.toLowerCase().indexOf(keyword.toLowerCase()),
-          length = keyword.length,
-          titleHTML = "";
+          length = keyword.length;
 
-      titleHTML += title.slice(0, start) + "<span class=\"title-highlight\">";
-      titleHTML += title.slice(start, start + length) + "</span>";
-      titleHTML += title.substring(start + length, title.length);
-      title = titleHTML;
+      title = `${title.slice(0, start)}<span class="title-highlight">${title.slice(start, start + length)}</span>${title.substring(start + length, title.length)}`;
     }
 
     return (

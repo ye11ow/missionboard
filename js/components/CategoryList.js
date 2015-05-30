@@ -7,8 +7,7 @@ var React = require('react'),
 var MODE_NORMAL  = 1,
     MODE_ADDING  = 2;
 
-var $placeholder = $("<li><a>" + chrome.i18n.getMessage("labelCategoryMove") + "</a></li>").addClass("placeholder");
-
+var $placeholder = $(`<li><a>${chrome.i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
 
 var CategoryList = React.createClass({
 
@@ -23,7 +22,7 @@ var CategoryList = React.createClass({
   componentDidMount: function() {
     chrome.storage.sync.get('_categoryTutorial', function(categoryTutorial){
       if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
-        $('<div class="category-tutorial">' + chrome.i18n.getMessage("ttCategoryEdit") + '</div>').insertBefore(".category-dashboard");
+        $(`<div class="category-tutorial">${chrome.i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
   },
@@ -37,7 +36,7 @@ var CategoryList = React.createClass({
   componentDidUpdate: function() {
     var $menu = $(this.refs.leftMenu.getDOMNode());
     $menu.find(".active").removeClass("active");
-    $menu.find("[data-category=\"" + this.props.category.id  + "\"]").addClass("active");
+    $menu.find(`[data-category="${this.props.category.id}"]`).addClass("active");
 
     $(this.refs.popoverEdit.getDOMNode()).hide();
   },
@@ -214,14 +213,14 @@ var CategoryList = React.createClass({
               return <li className="category active" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
           }).bind(this))}
-          <li className={visibleAdding + " category-title"}>
+          <li className={`${visibleAdding} category-title`}>
             <input ref="categoryAddTitle" type="text" className="form-control" placeholder={chrome.i18n.getMessage("labelCategoryPlaceholder")} onKeyPress={this.handleCategoryCreate} />
           </li>
         </ul>
         <div className="category-dashboard row">
-          <span className={hiddenNormal  + " fa fa-check col-sm-3 category-control category-confirm"} onClick={this.handleCategoryConfirm}></span>
-          <span className={visibleAdding + " fa fa-times col-sm-3 category-control category-cancel"} onClick={this.handleCategoryCancel}></span>
-          <span className={visibleNormal + " fa fa-plus col-sm-3 col-sm-offset-3 category-control category-add"} onClick={this.handleCategoryAdd}></span>
+          <span className={`${hiddenNormal}  fa fa-check col-sm-3 category-control category-confirm`} onClick={this.handleCategoryConfirm}></span>
+          <span className={`${visibleAdding} fa fa-times col-sm-3 category-control category-cancel`} onClick={this.handleCategoryCancel}></span>
+          <span className={`${visibleNormal} fa fa-plus col-sm-3 col-sm-offset-3 category-control category-add`} onClick={this.handleCategoryAdd}></span>
         </div>
         <div ref="popoverEdit" className="popover popover-edit top">
           <div className="arrow"></div>

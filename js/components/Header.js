@@ -19,7 +19,7 @@ var Header = React.createClass({
 
     $group.find(".active").removeClass("active");
     $target.addClass("active");
-    $(this.refs.activeFilter.getDOMNode()).html($target.text() + "<i class=\"fa fa-angle-down fa-lg\"></i>");
+    $(this.refs.activeFilter.getDOMNode()).html(`${$target.text()}<i class="fa fa-angle-down fa-lg"></i>`);
 
     HeaderActions.filter(filter);
   },
@@ -38,7 +38,7 @@ var Header = React.createClass({
 
     $group.find(".active").removeClass("active");
     $target.parent().addClass("active");
-    $(this.refs.activeOrder.getDOMNode()).html($target.text() + "<i class=\"fa fa-angle-down fa-lg\"></i>");
+    $(this.refs.activeOrder.getDOMNode()).html(`${$target.text()}<i class="fa fa-angle-down fa-lg"></i>`);
 
     HeaderActions.orderby({
       by: orderby, 
