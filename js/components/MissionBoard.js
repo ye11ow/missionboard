@@ -1,4 +1,5 @@
 var React = require('react'),
+    BackboneMixin = require('../helpers/BackboneMixin'),
     Header = require('./Header'),
     ProgressList = require('./ProgressList'),
     CategoryList = require('./CategoryList'),
@@ -7,7 +8,8 @@ var React = require('react'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
-    introguide = require('../helpers/Introguide');
+    introguide = require('../helpers/Introguide'),
+    progressCollection = require('../stores/ProgressCollection');
 
 function calcCategoryCount(categories, progresses) {
   for (var key in categories) {
@@ -30,7 +32,7 @@ function sortCategory(cA, cB) {
 
 function getProgressState() {
   return {
-    progresses: ProgressStore.getAll(),
+    progressCollection: progressCollection,
     categories: CategoryStore.getAll(),
     category: CategoryStore.getCurrentCategory()
   };
@@ -46,14 +48,21 @@ function init() {
 }
 
 var MissionBoard = React.createClass({
+  mixins: [BackboneMixin],
+
+  getBackboneCollections: function () {
+    return [this.props.progresses];
+  },
 
   getInitialState: function() {
     return getProgressState();
   },
 
   componentDidMount: function() {
+    this.state.progressCollection.on('add remove change', this.forceUpdate.bind(this, null))
+
     var self = this;
-    ProgressStore.addChangeListener(this._onChange);
+    //ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
 
     chrome.storage.sync.get('_inited', function(inited){
@@ -61,7 +70,7 @@ var MissionBoard = React.createClass({
         chrome.storage.sync.get(['_categories', '_progresses'], function(data){
           // promise here
           CategoryStore.loadCategories(data._categories);
-          ProgressStore.loadProgresses(data._progresses);
+          //ProgressStore.loadProgresses(data._progresses);
 
           self.setState(getProgressState());
         });
@@ -73,7 +82,8 @@ var MissionBoard = React.createClass({
   },
 
   componentWillUnmount: function() {
-    ProgressStore.removeChangeListener(this._onChange);
+    this.state.progressCollection.off(null, null, this);
+    //ProgressStore.removeChangeListener(this._onChange);
     CategoryStore.removeChangeListener(this._onChange);
   },
 
@@ -98,12 +108,12 @@ var MissionBoard = React.createClass({
   },
 
   render: function() {
-    var progresses = this.state.progresses,
+    console.log("render");
+    var progresses = this.state.progressCollection,
         categories = this.state.categories,
         categoryList = [],
         _progresses = {},
         category = null;
-
 
     if (this.state.category) {
       category = categories[this.state.category];
@@ -111,14 +121,14 @@ var MissionBoard = React.createClass({
 
     // a key is need here for Progress.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-    for (var key in progresses) {
+    /*for (var key in progresses) {
       var progress = progresses[key];
       if (!category || progress.category === category.id || category.system === true) {
         _progresses[key] = progress;
       }
     }
 
-    calcCategoryCount(categories, progresses);
+    calcCategoryCount(categories, progresses);*/
     for (var key in categories) {
       categoryList.push(categories[key]);
     }
@@ -133,7 +143,7 @@ var MissionBoard = React.createClass({
           onCategoryCreate={this.handleCategoryCreate}
           onCategoryDestroy={this.handleCategoryDestroy} />
 
-        <ProgressList progresses={_progresses} category={category} categories={categoryList} />
+        <ProgressList progresses={progresses} category={category} categories={categoryList} />
       </div>
     );
   },

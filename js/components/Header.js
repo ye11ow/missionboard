@@ -1,6 +1,5 @@
 var React = require('react'),
     $ = require('jquery'),
-    CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
     HeaderActions = require('../actions/HeaderActions');

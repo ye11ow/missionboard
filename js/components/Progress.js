@@ -15,11 +15,11 @@ var Progress = React.createClass({
 
   /*
   handleFinish: function() {
-    ProgressActions.updateProgress(this.props.progress.id, -1);
+    ProgressActions.updateProgress(this.props.progress.get("id"), -1);
   },*/
 
   handleDestroy: function() {
-    var id = this.props.progress.id;
+    var id = this.props.progress.get("id");
     
     swal({   
       title: chrome.i18n.getMessage("deleteMissionTitle"),
@@ -38,15 +38,15 @@ var Progress = React.createClass({
 
   componentDidMount: function() {
     var progress = this.props.progress,
-        $slider = $(`#${progress.id}`).find('[data-role="slider"]');
+        $slider = $(`#${progress.get("id")}`).find('[data-role="slider"]');
 
     $slider.noUiSlider({
-      start: progress.current,
+      start: progress.get("current"),
       connect: "lower",
       step: 1,
       range: {
         'min': [  0 ],
-        'max': [ progress.total ]
+        'max': [ progress.get("total") ]
       }
     });
 
@@ -62,8 +62,8 @@ var Progress = React.createClass({
     });
 
     $slider.on('change', function(){
-      progress.current = parseInt($(this).val());
-      ProgressActions.updateProgress(progress.id, progress.current);
+      //progress.set("current", parseInt($(this).val()));
+      //ProgressActions.updateProgress(progress.get("id"), progress.get("current"));
       var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
       $tips.hide();
     });
@@ -71,18 +71,18 @@ var Progress = React.createClass({
 
   componentDidUpdate: function() {
     var progress = this.props.progress,
-        $slider = $(`#${progress.id}`).find('[data-role="slider"]'),
+        $slider = $(`#${progress.get("id")}`).find('[data-role="slider"]'),
         options = $slider.noUiSlider('options');
 
     if (options) {
-      if (options.range.max[0] !== progress.total || options.start !== progress.current) {
+      if (options.range.max[0] !== progress.get("total") || options.start !== progress.get("current")) {
         $slider.noUiSlider({
-          start: progress.current,
+          start: progress.get("current"),
           connect: "lower",
           step: 1,
           range: {
             'min': [  0 ],
-            'max': [ progress.total ]
+            'max': [ progress.get("total") ]
           }
         }, true);
       }
@@ -92,8 +92,8 @@ var Progress = React.createClass({
   render: function() {
     var progress = this.props.progress,
         keyword = this.props.keyword,
-        percentage = Math.floor(progress.current * 100 / progress.total),
-        title = progress.title;
+        percentage = Math.floor(progress.get("current") * 100 / progress.get("total")),
+        title = progress.get("title");
 
     if (keyword) {
       var start = title.toLowerCase().indexOf(keyword.toLowerCase()),
@@ -103,11 +103,11 @@ var Progress = React.createClass({
     }
 
     return (
-      <div id={progress.id} className="panel panel-default">
-        <div className="panel-body row" data-completed={progress.completed} data-role="progress">
+      <div id={progress.get("id")} className="panel panel-default">
+        <div className="panel-body row" data-completed={progress.get("completed")} data-role="progress">
           <div className="col-lg-10">
             <h5 className="progress-title" dangerouslySetInnerHTML={{__html: title}} />
-            <small className="progress-desc">{progress.description}</small>
+            <small className="progress-desc">{progress.get("description")}</small>
             <label className="progress-percentage">{percentage}%</label>
             <div data-role="slider" className="progress-slider">
             </div>
@@ -118,7 +118,7 @@ var Progress = React.createClass({
           <div className="col-lg-2">
             <div>
               <span data-role="progress" className="label label-success label-progress">
-                <span data-role="current">{progress.current}</span>/{progress.total}
+                <span data-role="current">{progress.get("current")}</span>/{progress.get("total")}
               </span>
             </div>
             <div className="progress-control">

@@ -10,7 +10,9 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.4",
     "hopscotch": "~0.2.4",
-    "sweetalert": "*"
+    "sweetalert": "*",
+    "react.backbone": "~0.6.0",
+    "backbone": "~1.2.1"
   },
   "devDependencies": {
     "browserify": "*",
