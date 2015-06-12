@@ -1,5 +1,4 @@
 var React = require('react'),
-    BackboneMixin = require('../helpers/BackboneMixin'),
     Header = require('./Header'),
     ProgressList = require('./ProgressList'),
     CategoryList = require('./CategoryList'),
@@ -40,7 +39,7 @@ function getProgressState() {
 
 function init() {
   var ids = CategoryStore.init();
-  ProgressStore.init(ids);
+  //ProgressStore.init(ids);
 
   setTimeout(function() {
     introguide.startIntro();
@@ -48,11 +47,6 @@ function init() {
 }
 
 var MissionBoard = React.createClass({
-  mixins: [BackboneMixin],
-
-  getBackboneCollections: function () {
-    return [this.props.progresses];
-  },
 
   getInitialState: function() {
     return getProgressState();

@@ -62,8 +62,8 @@ var Progress = React.createClass({
     });
 
     $slider.on('change', function(){
-      //progress.set("current", parseInt($(this).val()));
-      //ProgressActions.updateProgress(progress.get("id"), progress.get("current"));
+      progress.set("current", parseInt($(this).val()));
+      ProgressActions.updateProgress(progress.get("id"), progress.get("current"));
       var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
       $tips.hide();
     });

@@ -15,7 +15,7 @@ var Progress = Backbone.Model.extend({
   },
 
   sync: function(method, model) {
-    console.log(method, model.attributes);
+    return;
   }
 });
 
