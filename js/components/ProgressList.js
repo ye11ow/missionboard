@@ -123,7 +123,7 @@ var ProgressList = React.createClass({
     if (this.props.category) {
 
       progressItems = progresses.map(function(progress) {
-        return <Progress keyword={keyword} key={progress.get("id")} progress={progress} />
+        return <Progress keyword={keyword} key={progress.cid} progress={progress} />
       });
       // a key is need here for Progress.
       // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children

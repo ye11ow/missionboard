@@ -3,7 +3,6 @@ var Backbone = require('backbone'),
 
 var Progress = Backbone.Model.extend({
   defaults: {
-    id: utils.UUID(),
     title: "",
     current: 0,
     total: 10,

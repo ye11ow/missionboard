@@ -7,23 +7,7 @@ var React = require('react'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
-    introguide = require('../helpers/Introguide'),
     progressCollection = require('../stores/ProgressCollection');
-
-function calcCategoryCount(categories, progresses) {
-  for (var key in categories) {
-    var category = categories[key];
-    category.count = 0;
-  }
-
-  for (var key in progresses) {
-    var category = categories[progresses[key].category];
-    if (!progresses[key].completed) {
-      category.count++;
-      categories[CategoryConstants.CATEGORY_ALLID].count++;
-    }
-  }
-}
 
 function sortCategory(cA, cB) {
   return cA.order - cB.order;
@@ -37,15 +21,6 @@ function getProgressState() {
   };
 }
 
-function init() {
-  var ids = CategoryStore.init();
-  //ProgressStore.init(ids);
-
-  setTimeout(function() {
-    introguide.startIntro();
-  }, 400);
-}
-
 var MissionBoard = React.createClass({
 
   getInitialState: function() {
@@ -54,25 +29,8 @@ var MissionBoard = React.createClass({
 
   componentDidMount: function() {
     this.state.progressCollection.on('add remove change', this.forceUpdate.bind(this, null))
-
-    var self = this;
     //ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
-
-    chrome.storage.sync.get('_inited', function(inited){
-      if ('_inited' in inited && inited['_inited'] === true) {
-        chrome.storage.sync.get(['_categories', '_progresses'], function(data){
-          // promise here
-          CategoryStore.loadCategories(data._categories);
-          //ProgressStore.loadProgresses(data._progresses);
-
-          self.setState(getProgressState());
-        });
-      } else {
-        chrome.storage.sync.set({'_inited': true}); 
-        init.call(this);
-      }
-    });
   },
 
   componentWillUnmount: function() {
@@ -113,16 +71,11 @@ var MissionBoard = React.createClass({
       category = categories[this.state.category];
     }
 
-    // a key is need here for Progress.
-    // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-    /*for (var key in progresses) {
-      var progress = progresses[key];
-      if (!category || progress.category === category.id || category.system === true) {
-        _progresses[key] = progress;
-      }
+    for (var key in categories) {
+      var category = categories[key];
+      category.count = progresses.countByCategory(key);
     }
 
-    calcCategoryCount(categories, progresses);*/
     for (var key in categories) {
       categoryList.push(categories[key]);
     }

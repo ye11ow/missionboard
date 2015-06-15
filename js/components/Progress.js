@@ -15,11 +15,11 @@ var Progress = React.createClass({
 
   /*
   handleFinish: function() {
-    ProgressActions.updateProgress(this.props.progress.get("id"), -1);
+    ProgressActions.updateProgress(this.props.progress.cid, -1);
   },*/
 
   handleDestroy: function() {
-    var id = this.props.progress.get("id");
+    var id = this.props.progress.cid;
     
     swal({   
       title: chrome.i18n.getMessage("deleteMissionTitle"),
@@ -38,7 +38,7 @@ var Progress = React.createClass({
 
   componentDidMount: function() {
     var progress = this.props.progress,
-        $slider = $(`#${progress.get("id")}`).find('[data-role="slider"]');
+        $slider = $(`#${progress.cid}`).find('[data-role="slider"]');
 
     $slider.noUiSlider({
       start: progress.get("current"),
@@ -63,7 +63,7 @@ var Progress = React.createClass({
 
     $slider.on('change', function(){
       progress.set("current", parseInt($(this).val()));
-      ProgressActions.updateProgress(progress.get("id"), progress.get("current"));
+      ProgressActions.updateProgress(progress.cid, progress.get("current"));
       var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
       $tips.hide();
     });
@@ -71,7 +71,7 @@ var Progress = React.createClass({
 
   componentDidUpdate: function() {
     var progress = this.props.progress,
-        $slider = $(`#${progress.get("id")}`).find('[data-role="slider"]'),
+        $slider = $(`#${progress.cid}`).find('[data-role="slider"]'),
         options = $slider.noUiSlider('options');
 
     if (options) {
@@ -103,7 +103,7 @@ var Progress = React.createClass({
     }
 
     return (
-      <div id={progress.get("id")} className="panel panel-default">
+      <div id={progress.cid} className="panel panel-default">
         <div className="panel-body row" data-completed={progress.get("completed")} data-role="progress">
           <div className="col-lg-10">
             <h5 className="progress-title" dangerouslySetInnerHTML={{__html: title}} />
