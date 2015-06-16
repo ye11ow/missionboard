@@ -2,8 +2,6 @@ var React = require('react'),
     Header = require('./Header'),
     ProgressList = require('./ProgressList'),
     CategoryList = require('./CategoryList'),
-    ProgressActions = require('../actions/ProgressActions'),
-    ProgressStore = require('../stores/ProgressStore'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
@@ -28,14 +26,17 @@ var MissionBoard = React.createClass({
   },
 
   componentDidMount: function() {
-    this.state.progressCollection.on('add remove change', this.forceUpdate.bind(this, null))
-    //ProgressStore.addChangeListener(this._onChange);
+    var self = this;
+    console.log(self.state.progressCollection);
+    this.state.progressCollection.on('add remove change', function() {
+      console.log("progrescolelction changed");
+      self.forceUpdate.bind(self, null);
+    });
     CategoryStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
     this.state.progressCollection.off(null, null, this);
-    //ProgressStore.removeChangeListener(this._onChange);
     CategoryStore.removeChangeListener(this._onChange);
   },
 
@@ -45,12 +46,7 @@ var MissionBoard = React.createClass({
 
   handleCategoryDestroy: function(id) {
     // no set state here, the setState will be triggered by changeListener.
-    var progresses = this.state.progresses;
-    for (var key in progresses) {
-      if (progresses[key].category === id) {
-        ProgressActions.destroy(key);
-      }
-    }
+    progressCollection.deleteByCategory(id);
     CategoryActions.destroy(id);
   },
 

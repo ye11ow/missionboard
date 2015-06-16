@@ -86,6 +86,14 @@ var ProgressCollection = Backbone.Collection.extend({
         completed: false
       }).length;
     }
+  },
+
+  deleteByCategory: function(cagetory) {
+    if (category === CategoryConstants.CATEGORY_ALLID) {
+      return false;
+    } else {
+      var progresses = this.where({ category: category }).destory();
+    }
   }
 });
 

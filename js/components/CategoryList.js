@@ -1,6 +1,6 @@
 var React = require('react'),
     $ = require('jquery'),
-    ProgressStore = require('../stores/ProgressStore'),
+    progressCollection = require('../stores/ProgressCollection'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants');
 
@@ -117,7 +117,7 @@ var CategoryList = React.createClass({
 
     swal({
       title: chrome.i18n.getMessage("deleteCategoryTitle"),
-      text: ProgressStore.getLengthByCategory(id) > 0 ? chrome.i18n.getMessage("deleteCategory") : chrome.i18n.getMessage("deleteEmptyCategory"),
+      text: progressCollection.countByCategory(id) > 0 ? chrome.i18n.getMessage("deleteCategory") : chrome.i18n.getMessage("deleteEmptyCategory"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",

@@ -19,8 +19,8 @@ var Progress = React.createClass({
   },*/
 
   handleDestroy: function() {
-    var id = this.props.progress.cid;
-    
+    var self = this;
+
     swal({   
       title: chrome.i18n.getMessage("deleteMissionTitle"),
       text: chrome.i18n.getMessage("deleteMission"),
@@ -30,9 +30,7 @@ var Progress = React.createClass({
       confirmButtonText: chrome.i18n.getMessage("modalYes"),
       cancelButtonText: chrome.i18n.getMessage("modalNo"),
     }, function(isConfirm){
-      if (isConfirm) { 
-        ProgressActions.destroy(id);
-      }
+      self.props.onDestroy();
     });
   },
 

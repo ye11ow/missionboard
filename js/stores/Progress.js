@@ -13,6 +13,11 @@ var Progress = Backbone.Model.extend({
     createdAt: Date.now(),
   },
 
+  destroy: function() {
+    console.log("destroyed");
+    return;
+  },
+
   sync: function(method, model) {
     return;
   }
