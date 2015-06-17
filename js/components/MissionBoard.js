@@ -6,8 +6,7 @@ var React = require('react'),
     ProgressStore = require('../stores/ProgressStore'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
-    CategoryConstants = require('../constants/CategoryConstants'),
-    introguide = require('../helpers/Introguide');
+    CategoryConstants = require('../constants/CategoryConstants');
 
 function calcCategoryCount(categories, progresses) {
   for (var key in categories) {
@@ -36,15 +35,6 @@ function getProgressState() {
   };
 }
 
-function init() {
-  var ids = CategoryStore.init();
-  ProgressStore.init(ids);
-
-  setTimeout(function() {
-    introguide.startIntro();
-  }, 400);
-}
-
 var MissionBoard = React.createClass({
 
   getInitialState: function() {
@@ -52,24 +42,8 @@ var MissionBoard = React.createClass({
   },
 
   componentDidMount: function() {
-    var self = this;
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
-
-    chrome.storage.sync.get('_inited', function(inited){
-      if ('_inited' in inited && inited['_inited'] === true) {
-        chrome.storage.sync.get(['_categories', '_progresses'], function(data){
-          // promise here
-          CategoryStore.loadCategories(data._categories);
-          ProgressStore.loadProgresses(data._progresses);
-
-          self.setState(getProgressState());
-        });
-      } else {
-        chrome.storage.sync.set({'_inited': true}); 
-        init.call(this);
-      }
-    });
   },
 
   componentWillUnmount: function() {
