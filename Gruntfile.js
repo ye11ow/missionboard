@@ -34,8 +34,8 @@ module.exports = function(grunt) {
       },
       font: {
         expand: true,
-        cwd: 'fonts/',
-        src: '**',
+        cwd: 'node_modules/font-awesome/fonts',
+        src: 'fontawesome-webfont.woff2',
         dest: 'demo/fonts',
         flatten: false,
         filter: 'isFile',
@@ -70,6 +70,14 @@ module.exports = function(grunt) {
         dest: 'demo/_locales',
         flatten: false,
         filter: 'isFile',
+      },
+      devFont: {
+        expand: true,
+        cwd: 'node_modules/font-awesome/fonts',
+        src: 'fontawesome-webfont.woff2',
+        dest: 'fonts',
+        flatten: false,
+        filter: 'isFile',
       }
     },
     clean: ["demo"],
@@ -91,7 +99,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['copy:devFont']);
   grunt.registerTask('build', ['clean', 'uglify', 'copy', 'compress']);
 
 };

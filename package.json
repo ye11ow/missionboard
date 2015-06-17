@@ -30,7 +30,6 @@
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d .",
-    "build": "NODE_ENV=production browserify .",
     "test": "jest"
   },
   "author": "Calvin Zhang",
