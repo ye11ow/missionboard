@@ -1,5 +1,6 @@
 var React = require('react'),
     $ = require('jquery'),
+    Storage = require('../helpers/Storage'),
     ProgressStore = require('../stores/ProgressStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants');
@@ -20,7 +21,7 @@ var CategoryList = React.createClass({
   },
 
   componentDidMount: function() {
-    chrome.storage.sync.get('_categoryTutorial', function(categoryTutorial){
+    Storage.get('_categoryTutorial', function(categoryTutorial){
       if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
         $(`<div class="category-tutorial">${chrome.i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
@@ -67,7 +68,7 @@ var CategoryList = React.createClass({
 
     if ($(".category-tutorial")) {
       $(".category-tutorial").remove();
-      chrome.storage.sync.set({'_categoryTutorial': true}); 
+      Storage.set({'_categoryTutorial': true}); 
     }
 
 

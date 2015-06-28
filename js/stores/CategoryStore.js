@@ -1,4 +1,5 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
+    Storage = require('../helpers/Storage'),
     EventEmitter = require('events').EventEmitter,
     CategoryConstants = require('../constants/CategoryConstants'),
     CategoryActions = require('../actions/CategoryActions');
@@ -135,7 +136,7 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
   },
 
   persist: function() {
-    chrome.storage.sync.set({'_categories': _categories}, function(){
+    Storage.set({'_categories': _categories}, function(){
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
       }
@@ -143,7 +144,7 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
   },
 
   clear: function() {
-    chrome.storage.sync.remove('_categories');
+    Storage.remove('_categories');
   }
 
 });

@@ -1,5 +1,6 @@
 var React = require('react'),
     $ = require('jquery'),
+    Storage = require('../helpers/Storage'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
@@ -63,7 +64,7 @@ var Header = React.createClass({
       closeOnConfirm: false,
     }, function(isConfirm){
       if (isConfirm) { 
-        chrome.storage.sync.clear(function() {
+        Storage.clear(function() {
           swal({
             title: chrome.i18n.getMessage("resetDataTitle"), 
             text: chrome.i18n.getMessage("resetDataDone"), 

@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events').EventEmitter,
+    Storage = require('../helpers/Storage'),
     ProgressConstants = require('../constants/ProgressConstants');
 
 var utils = require('../helpers/Utils.js'),
@@ -179,7 +180,7 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
   },
 
   persist: function() {
-    chrome.storage.sync.set({'_progresses': _progresses}, function() {
+    Storage.set({'_progresses': _progresses}, function() {
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
       }
@@ -187,7 +188,7 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
   },
 
   clear: function() {
-    chrome.storage.sync.remove('_progresses');
+    Storage.remove('_progresses');
   }
 
 });
