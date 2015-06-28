@@ -2,6 +2,7 @@
 .DS_Store
 /js/bundle.js
 /js/bundle.min.js
+/fonts/fontawesome*
 demo
 node_modules
 /dist
