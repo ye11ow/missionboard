@@ -1,6 +1,7 @@
 var React = require('react'),
     $ = require('jquery'),
     Storage = require('../helpers/Storage'),
+    i18n = require("../helpers/I18n"),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
@@ -52,22 +53,22 @@ var Header = React.createClass({
   },
 
   resetData: function() {
-    swal(chrome.i18n.getMessage("resetDataTitle"), chrome.i18n.getMessage("resetDataDone"), "success"); 
+    swal(i18n.getMessage("resetDataTitle"), i18n.getMessage("resetDataDone"), "success"); 
     swal({
-      title: chrome.i18n.getMessage("resetDataTitle"),
-      text: chrome.i18n.getMessage("resetData"),
+      title: i18n.getMessage("resetDataTitle"),
+      text: i18n.getMessage("resetData"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
-      confirmButtonText: chrome.i18n.getMessage("modalYes"),
-      cancelButtonText: chrome.i18n.getMessage("modalNo"),
+      confirmButtonText: i18n.getMessage("modalYes"),
+      cancelButtonText: i18n.getMessage("modalNo"),
       closeOnConfirm: false,
     }, function(isConfirm){
       if (isConfirm) { 
         Storage.clear(function() {
           swal({
-            title: chrome.i18n.getMessage("resetDataTitle"), 
-            text: chrome.i18n.getMessage("resetDataDone"), 
+            title: i18n.getMessage("resetDataTitle"), 
+            text: i18n.getMessage("resetDataDone"), 
             type: "success"
           }, function(){
             chrome.runtime.reload();
@@ -82,12 +83,12 @@ var Header = React.createClass({
       <nav className="navbar navbar-default header">
         <div className="navbar-header">
           <a className="navbar-brand" href="#">
-            {chrome.i18n.getMessage("appName")}
+            {i18n.getMessage("appName")}
           </a>
         </div>
         <form className="navbar-form navbar-left search-form">
           <i className="fa fa-search fa-lg" />
-          <input ref="searchInput" type="text" className="form-control search" placeholder={chrome.i18n.getMessage("labelSearch")} onChange={this.handleSearch} />
+          <input ref="searchInput" type="text" className="form-control search" placeholder={i18n.getMessage("labelSearch")} onChange={this.handleSearch} />
         </form>
         <div className="navbar-collapse collapse navbar-inverse-collapse">
          
@@ -100,34 +101,34 @@ var Header = React.createClass({
           
           <ul className="nav navbar-nav navbar-right">
             <li className="divider"></li>
-            <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelFilterShowing")}</a></li>
+            <li className="navbar-label"><a href="#">{i18n.getMessage("labelFilterShowing")}</a></li>
             <li className="progress-filter dropdown">
-              <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelFilterCurrent")}<i className="fa fa-angle-down fa-lg"/></a>
+              <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{i18n.getMessage("labelFilterCurrent")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
-                <li><a href="#" data-filter="all">{chrome.i18n.getMessage("labelFilterAll")}</a></li>
-                <li className="active"><a href="#" data-filter="current">{chrome.i18n.getMessage("labelFilterCurrent")}</a></li>
-                <li><a href="#" data-filter="completed">{chrome.i18n.getMessage("labelFilterCompleted")}</a></li>
+                <li><a href="#" data-filter="all">{i18n.getMessage("labelFilterAll")}</a></li>
+                <li className="active"><a href="#" data-filter="current">{i18n.getMessage("labelFilterCurrent")}</a></li>
+                <li><a href="#" data-filter="completed">{i18n.getMessage("labelFilterCompleted")}</a></li>
               </ul>
             </li>
-            <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelMissions")}</a></li>
+            <li className="navbar-label"><a href="#">{i18n.getMessage("labelMissions")}</a></li>
             <li className="divider"></li>
-            <li className="navbar-label"><a href="#">{chrome.i18n.getMessage("labelOrderby")}</a></li>
+            <li className="navbar-label"><a href="#">{i18n.getMessage("labelOrderby")}</a></li>
             <li className="progress-order dropdown">
-              <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">{chrome.i18n.getMessage("labelOrderbyTitle")}<i className="fa fa-angle-down fa-lg"/></a>
+              <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">{i18n.getMessage("labelOrderbyTitle")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
-                <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc" /> {chrome.i18n.getMessage("labelOrderbyTitle")}</a></li>
-                <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc" /> {chrome.i18n.getMessage("labelOrderbyTitle")}</a></li>
-                <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc" /> {chrome.i18n.getMessage("labelOrderbyProgress")}</a></li>
-                <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc" /> {chrome.i18n.getMessage("labelOrderbyProgress")}</a></li>
-                {/*<li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc" /> {chrome.i18n.getMessage("labelOrderbyDate")}</a></li>
-                <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc" /> {chrome.i18n.getMessage("labelOrderbyDate")}</a></li>*/}
+                <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc" /> {i18n.getMessage("labelOrderbyTitle")}</a></li>
+                <li><a href="#" data-orderby="title" data-ordertype="desc"><i className="fa fa-sort-alpha-desc" /> {i18n.getMessage("labelOrderbyTitle")}</a></li>
+                <li><a href="#" data-orderby="percent" data-ordertype="asc"><i className="fa fa-sort-amount-asc" /> {i18n.getMessage("labelOrderbyProgress")}</a></li>
+                <li><a href="#" data-orderby="percent" data-ordertype="desc"><i className="fa fa-sort-amount-desc" /> {i18n.getMessage("labelOrderbyProgress")}</a></li>
+                {/*<li><a href="#" data-orderby="createdAt" data-ordertype="asc"><i className="fa fa-sort-numeric-asc" /> {i18n.getMessage("labelOrderbyDate")}</a></li>
+                <li><a href="#" data-orderby="createdAt" data-ordertype="desc"><i className="fa fa-sort-numeric-desc" /> {i18n.getMessage("labelOrderbyDate")}</a></li>*/}
               </ul>
             </li>
             <li className="divider"></li>
             <li className="dropdown">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-cog fa-lg" /> <span className="caret"></span></a>
               <ul className="dropdown-menu" role="menu">
-                <li><a href="#" onClick={this.resetData}>{chrome.i18n.getMessage("labelResetData")}</a></li>
+                <li><a href="#" onClick={this.resetData}>{i18n.getMessage("labelResetData")}</a></li>
               </ul>
             </li>
           </ul>

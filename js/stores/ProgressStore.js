@@ -1,6 +1,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events').EventEmitter,
     Storage = require('../helpers/Storage'),
+    i18n = require("../helpers/I18n"),
     ProgressConstants = require('../constants/ProgressConstants');
 
 var utils = require('../helpers/Utils.js'),
@@ -85,44 +86,44 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
 
   init: function(ids) {
     create(
-      chrome.i18n.getMessage("sampleAnime1Title"), 
+      i18n.getMessage("sampleAnime1Title"), 
       3, 
       12,
       ids[0],
       null,
-      chrome.i18n.getMessage("sampleAnime1Desc")
+      i18n.getMessage("sampleAnime1Desc")
     );
     create(
-      chrome.i18n.getMessage("sampleAnime2Title"), 
+      i18n.getMessage("sampleAnime2Title"), 
       25, 
       25,
       ids[0],
       null,
-      chrome.i18n.getMessage("sampleAnime2Desc")
+      i18n.getMessage("sampleAnime2Desc")
     );
     create(
-      chrome.i18n.getMessage("sampleBook1Title"), 
+      i18n.getMessage("sampleBook1Title"), 
       350, 
       600,
       ids[1],
       null,
-      chrome.i18n.getMessage("sampleBook1Desc")
+      i18n.getMessage("sampleBook1Desc")
     );
     create(
-      chrome.i18n.getMessage("sampleBook2Title"), 
+      i18n.getMessage("sampleBook2Title"), 
       300, 
       500,
       ids[1],
       null,
-      chrome.i18n.getMessage("sampleBook2Desc")
+      i18n.getMessage("sampleBook2Desc")
     );
     create(
-      chrome.i18n.getMessage("sampleOther1Title"), 
+      i18n.getMessage("sampleOther1Title"), 
       1, 
       10,
       ids[2],
       null,
-      chrome.i18n.getMessage("sampleOther1Desc")
+      i18n.getMessage("sampleOther1Desc")
     );
 
     ProgressStore.persist();

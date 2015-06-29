@@ -1,17 +1,5 @@
 jest.autoMockOff();
 
-chrome = {
-  i18n: {
-    getMessage: jest.genMockFunction()
-  },
-  storage: {
-    sync: {
-      get: jest.genMockFunction(),
-      set: jest.genMockFunction()
-    }
-  }
-};
-
 var PROGRESS = {
   id: "1",
   title: "Test progress",

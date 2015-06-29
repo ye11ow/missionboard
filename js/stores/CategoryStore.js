@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
     Storage = require('../helpers/Storage'),
+    i18n = require("../helpers/I18n"),
     EventEmitter = require('events').EventEmitter,
     CategoryConstants = require('../constants/CategoryConstants'),
     CategoryActions = require('../actions/CategoryActions');
@@ -13,7 +14,7 @@ var _categories = {},
     _current = CategoryConstants.CATEGORY_ALLID,
     categoryAll = {
       id: CategoryConstants.CATEGORY_ALLID,
-      title: chrome.i18n.getMessage("labelCategoryAll"),
+      title: i18n.getMessage("labelCategoryAll"),
       order: 0,
       count: 0,
       system: true,
@@ -95,9 +96,9 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
 
   init: function() {
     var ids = [];
-    ids.push(create(chrome.i18n.getMessage("sampleCategory1"), 1));
-    ids.push(create(chrome.i18n.getMessage("sampleCategory2"), 2));
-    ids.push(create(chrome.i18n.getMessage("sampleCategory3"), 3));
+    ids.push(create(i18n.getMessage("sampleCategory1"), 1));
+    ids.push(create(i18n.getMessage("sampleCategory2"), 2));
+    ids.push(create(i18n.getMessage("sampleCategory3"), 3));
     CategoryStore.persist();
 
     return ids;

@@ -1,17 +1,5 @@
 jest.autoMockOff();
 
-chrome = {
-  i18n: {
-    getMessage: jest.genMockFunction()
-  },
-  storage: {
-    sync: {
-      get: jest.genMockFunction(),
-      set: jest.genMockFunction()
-    }
-  }
-};
-
 describe("Header", function() {
   it("start searching after input text", function() {
     var React = require("react/addons"),

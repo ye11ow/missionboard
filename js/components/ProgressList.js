@@ -1,5 +1,6 @@
 var React = require('react'),
     $ = require('jquery'),
+    i18n = require("../helpers/I18n"),
     Progress = require('./Progress'),
     ProgressForm = require('./ProgressForm'),
     ProgressActions = require('../actions/ProgressActions'),
@@ -70,7 +71,7 @@ var ProgressList = React.createClass({
   },
 
   handleFocus: function() {
-    $(this.refs.progressTip.getDOMNode()).text(chrome.i18n.getMessage("labelCreateMissionTips"));
+    $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMissionTips"));
     //$(this.refs.createBtn.getDOMNode()).show();
   },
 
@@ -83,7 +84,7 @@ var ProgressList = React.createClass({
     } else {
       $input.parent().removeClass("input--filled");
       //$(this.refs.createBtn.getDOMNode()).hide(300);
-      $(this.refs.progressTip.getDOMNode()).text(chrome.i18n.getMessage("labelCreateMission"));
+      $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMission"));
     }
   },
 
@@ -167,7 +168,7 @@ var ProgressList = React.createClass({
               <span className="input input--hoshi">
                 <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
                 <label className="input__label input__label--hoshi input__label--hoshi-color-1">
-                  <span ref="progressTip" className="input__label-content input__label-content--hoshi">{chrome.i18n.getMessage("labelCreateMission")}</span>
+                  <span ref="progressTip" className="input__label-content input__label-content--hoshi">{i18n.getMessage("labelCreateMission")}</span>
                 </label>
               </span>
               {/*<a href="#" ref="createBtn" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus" /></a>*/}

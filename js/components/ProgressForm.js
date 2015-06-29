@@ -1,5 +1,6 @@
 var React = require('react/addons'),
     $ = require('jquery'),
+    i18n = require("../helpers/I18n"),
     ProgressActions = require('../actions/ProgressActions'),
     ProgressStore = require('../stores/ProgressStore');
 
@@ -15,13 +16,13 @@ function validate($title, $current, $total) {
   if (isNaN(current)) {
     $current.css("box-shadow", "inset 0 -2px 0 #e51c23");
     $current.val("");
-    $current.attr("placeholder", chrome.i18n.getMessage("labelMissionProgressError"));
+    $current.attr("placeholder", i18n.getMessage("labelMissionProgressError"));
     return false;
   }
   if (isNaN(total)) {
     $total.css("box-shadow", "inset 0 -2px 0 #e51c23");
     $total.val("");
-    $total.attr("placeholder", chrome.i18n.getMessage("labelMissionProgressError"));
+    $total.attr("placeholder", i18n.getMessage("labelMissionProgressError"));
     return false;
   }
 
@@ -112,13 +113,13 @@ var ProgressForm = React.createClass({
         confirmLabel = "";
 
     if (this.state && this.state.id) {
-      header = chrome.i18n.getMessage("labelMissionFormEdit");
+      header = i18n.getMessage("labelMissionFormEdit");
       role = "edit";
-      confirmLabel = chrome.i18n.getMessage("labelMissionFormUpdate");
+      confirmLabel = i18n.getMessage("labelMissionFormUpdate");
     } else if (this.state) {
-      header = chrome.i18n.getMessage("labelMissionFormCreate");
+      header = i18n.getMessage("labelMissionFormCreate");
       role = "add";
-      confirmLabel = chrome.i18n.getMessage("labelMissionFormNew");
+      confirmLabel = i18n.getMessage("labelMissionFormNew");
     }
 
     for (var i = 0; i < categories.length; i++) {
@@ -140,33 +141,33 @@ var ProgressForm = React.createClass({
           <div className="modal-body">
             <form className="form-horizontal">
               <div className="form-group">
-                <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormTitle")}</label>
+                <label className="col-sm-2 control-label">{i18n.getMessage("labelMissionFormTitle")}</label>
                 <div className="col-sm-10">
                   <input ref="progressTitle" type="text" className="form-control" placeholder="Gundam Seed" valueLink={this.linkState("title")} />
                 </div>
               </div>
               <div className="form-group">
-                <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormDesc")}</label>
+                <label className="col-sm-2 control-label">{i18n.getMessage("labelMissionFormDesc")}</label>
                 <div className="col-sm-10">
-                  <input type="text" className="form-control" valueLink={this.linkState("description")} placeholder={chrome.i18n.getMessage("labelMissionFormDescTips")} />
+                  <input type="text" className="form-control" valueLink={this.linkState("description")} placeholder={i18n.getMessage("labelMissionFormDescTips")} />
                 </div>
               </div>
               <div className="row">
                 <div className="progress-current col-sm-5 form-group">
-                  <label className="control-label">{chrome.i18n.getMessage("labelMissionFormCurrent")}</label>
+                  <label className="control-label">{i18n.getMessage("labelMissionFormCurrent")}</label>
                   <div className="">
-                    <input ref="progressCurrent" type="number" className="form-control" placeholder={chrome.i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("current")} />
+                    <input ref="progressCurrent" type="number" className="form-control" placeholder={i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("current")} />
                   </div>
                 </div>
                 <div className="progress-total form-group col-sm-5">
-                  <label className="control-label">{chrome.i18n.getMessage("labelMissionFormTotal")}</label>
+                  <label className="control-label">{i18n.getMessage("labelMissionFormTotal")}</label>
                   <div className="">
-                    <input ref="progressTotal" type="number" className="form-control" placeholder={chrome.i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("total")} />
+                    <input ref="progressTotal" type="number" className="form-control" placeholder={i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("total")} />
                   </div>
                 </div>
               </div>
               <div className="form-group">
-                <label className="col-sm-2 control-label">{chrome.i18n.getMessage("labelMissionFormCategory")}</label>
+                <label className="col-sm-2 control-label">{i18n.getMessage("labelMissionFormCategory")}</label>
                 <div className="col-sm-10">
                   <select className="form-control" valueLink={this.linkState("category")}>
                     {categoryList}
@@ -177,7 +178,7 @@ var ProgressForm = React.createClass({
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={this.handleSave}>{confirmLabel}</button>
-            <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel}>{chrome.i18n.getMessage("labelMissionFormCancel")}</button>
+            <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel}>{i18n.getMessage("labelMissionFormCancel")}</button>
           </div>
         </div>
       </div>

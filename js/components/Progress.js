@@ -1,5 +1,6 @@
 var React = require('react/addons'),
     $ = require('jquery'),
+    i18n = require("../helpers/I18n"),
     ProgressActions = require('../actions/ProgressActions');
 
 var Progress = React.createClass({
@@ -22,13 +23,13 @@ var Progress = React.createClass({
     var id = this.props.progress.id;
     
     swal({   
-      title: chrome.i18n.getMessage("deleteMissionTitle"),
-      text: chrome.i18n.getMessage("deleteMission"),
+      title: i18n.getMessage("deleteMissionTitle"),
+      text: i18n.getMessage("deleteMission"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
-      confirmButtonText: chrome.i18n.getMessage("modalYes"),
-      cancelButtonText: chrome.i18n.getMessage("modalNo"),
+      confirmButtonText: i18n.getMessage("modalYes"),
+      cancelButtonText: i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) { 
         ProgressActions.destroy(id);

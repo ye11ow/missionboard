@@ -1,6 +1,7 @@
 var React = require('react'),
     $ = require('jquery'),
     Storage = require('../helpers/Storage'),
+    i18n = require("../helpers/I18n"),
     ProgressStore = require('../stores/ProgressStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants');
@@ -8,7 +9,7 @@ var React = require('react'),
 var MODE_NORMAL  = 1,
     MODE_ADDING  = 2;
 
-var $placeholder = $(`<li><a>${chrome.i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
+var $placeholder = $(`<li><a>${i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
 
 var CategoryList = React.createClass({
 
@@ -23,7 +24,7 @@ var CategoryList = React.createClass({
   componentDidMount: function() {
     Storage.get('_categoryTutorial', function(categoryTutorial){
       if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
-        $(`<div class="category-tutorial">${chrome.i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
+        $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
   },
@@ -117,13 +118,13 @@ var CategoryList = React.createClass({
         id = this.props.category.id;
 
     swal({
-      title: chrome.i18n.getMessage("deleteCategoryTitle"),
-      text: ProgressStore.getLengthByCategory(id) > 0 ? chrome.i18n.getMessage("deleteCategory") : chrome.i18n.getMessage("deleteEmptyCategory"),
+      title: i18n.getMessage("deleteCategoryTitle"),
+      text: ProgressStore.getLengthByCategory(id) > 0 ? i18n.getMessage("deleteCategory") : i18n.getMessage("deleteEmptyCategory"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
-      confirmButtonText: chrome.i18n.getMessage("modalYes"),
-      cancelButtonText: chrome.i18n.getMessage("modalNo"),
+      confirmButtonText: i18n.getMessage("modalYes"),
+      cancelButtonText: i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) {
         self.props.onCategoryDestroy(id);
@@ -198,7 +199,7 @@ var CategoryList = React.createClass({
 
     return (
       <div ref="leftMenu" className="left-menu">
-        <div className="category-header"><i className="fa fa-list" /> {chrome.i18n.getMessage("labelCategories")}</div>
+        <div className="category-header"><i className="fa fa-list" /> {i18n.getMessage("labelCategories")}</div>
         <ul className="nav nav-pills nav-stacked" onClick={this.handleCategoryClick} onDoubleClick={this.handleCategoryDoubleClick} onDragOver={this.handleDragOver}>
           {categoryList.map((function(category) {
             if (!category.system) {
@@ -215,7 +216,7 @@ var CategoryList = React.createClass({
             }
           }).bind(this))}
           <li className={`${visibleAdding} category-title`}>
-            <input ref="categoryAddTitle" type="text" className="form-control" placeholder={chrome.i18n.getMessage("labelCategoryPlaceholder")} onKeyPress={this.handleCategoryCreate} />
+            <input ref="categoryAddTitle" type="text" className="form-control" placeholder={i18n.getMessage("labelCategoryPlaceholder")} onKeyPress={this.handleCategoryCreate} />
           </li>
         </ul>
         <div className="category-dashboard row">
