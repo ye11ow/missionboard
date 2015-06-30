@@ -2,6 +2,7 @@ var React = require('react'),
     $ = require('jquery'),
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
+    ChromeProxy = require("../helpers/ChromeProxy"),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants'),
@@ -71,7 +72,7 @@ var Header = React.createClass({
             text: i18n.getMessage("resetDataDone"), 
             type: "success"
           }, function(){
-            chrome.runtime.reload();
+            ChromeProxy.reload();
           }); 
         });
       }

@@ -1,23 +1,29 @@
 (function(){
-  var set = function(item, callback) {
+  var set = function(items, callback) {
     if (chrome && chrome.storage) {
       chrome.storage.sync.set.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
-      localStorage.setItem(JSON.stringify(item));
+      for (var item in items) {
+        localStorage.setItem(item, JSON.stringify(items[item]));
+      }
       if (callback) {
         callback();
       }
     }
   };
 
-  var get = function(name, callback) {
+  var get = function(items, callback) {
     if (chrome && chrome.storage) {
       chrome.storage.sync.get.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
-      var val = localStorage.getItem(name);
-      if (val) {
-        callback(JSON.parse(val));
+      var result = {};
+      for (var item in items) {
+        var data = localStorage.getItem(items[item]);
+        if (data) {
+          result[items[item]] = JSON.parse(data);
+        }
       }
+      callback(result);
     }
   };
 
@@ -33,7 +39,7 @@
     if (chrome && chrome.storage) {
       chrome.storage.sync.clear.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
-      localStorage = "";
+      localStorage.clear();
       callback();
     }
   };
