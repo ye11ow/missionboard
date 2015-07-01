@@ -1,6 +1,8 @@
 (function(){
+  var isChromeApp = require("./IsChrome");
+  
   var set = function(items, callback) {
-    if (chrome && chrome.storage) {
+    if (isChromeApp.isChromeApp) {
       chrome.storage.sync.set.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
       for (var item in items) {
@@ -13,7 +15,7 @@
   };
 
   var get = function(items, callback) {
-    if (chrome && chrome.storage) {
+    if (isChromeApp.isChromeApp) {
       chrome.storage.sync.get.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
       var result = {};
@@ -28,7 +30,7 @@
   };
 
   var remove = function(name) {
-    if (chrome && chrome.storage) {
+    if (isChromeApp.isChromeApp) {
       chrome.storage.sync.remove.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
       localStorage.removeItem(name);
@@ -36,7 +38,7 @@
   };
 
   var clear = function(callback) {
-    if (chrome && chrome.storage) {
+    if (isChromeApp.isChromeApp) {
       chrome.storage.sync.clear.apply(chrome.storage.sync, Array.prototype.slice.call(arguments));
     } else if (localStorage) {
       localStorage.clear();
