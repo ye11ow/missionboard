@@ -1,6 +1,6 @@
 (function(){
   var isChromeApp = false;
-  if (typeof chrome !== "undefined" && typeof chrome.runtime === "function" && typeof chrome.i18n === "function") {
+  if (typeof chrome !== "undefined" && typeof chrome.runtime === "object" && typeof chrome.i18n === "object") {
     isChromeApp = true;
   }
 

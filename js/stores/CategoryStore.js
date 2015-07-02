@@ -30,8 +30,8 @@ var _categories = {},
 function create(title, order) {
   var category = {
     id: utils.UUID(),
-    title: title,
-    order: order,
+    title,
+    order,
     system: false,
     orderby: {
       by: "title",

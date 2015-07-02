@@ -18,13 +18,13 @@ var _progresses = {},
 function create(title, current, total, category, type, description) {
   var progress = {
     id: utils.UUID(),
-    title: title,
-    current: current,
-    total: total,
+    title,
+    current,
+    total,
     completed: current >= total ? true : false,
-    category: category,
-    type: type,
-    description: description,
+    category,
+    type,
+    description,
     createdAt: Date.now(),
   };
      

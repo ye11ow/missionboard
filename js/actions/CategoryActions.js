@@ -9,40 +9,40 @@ var CategoryActions = {
   create: function(title, order) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_CREATE,
-      title: title,
-      order: order
+      title,
+      order
     });
   },
 
-  switch: function(category) {
+  switch: function(id) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_SWITCH,
-      id: category
+      id: id
     });
   },
 
   updateTitle: function(id, title) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_TITLE_UPDATE,
-      id: id,
-      title: title
+      id,
+      title
     });
   },
 
   updateOrderby: function(id, by, type) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDERBY_UPDATE,
-      id: id,
-      by: by,
-      type: type
+      id,
+      by,
+      type
     });
   },
 
   updateOrder: function(id, targetId) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDER_UPDATE,
-      id: id,
-      targetId: targetId
+      id,
+      targetId
     });
   },
 
@@ -52,7 +52,7 @@ var CategoryActions = {
   destroy: function(id) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_DESTROY,
-      id: id
+      id
     });
   }
 
