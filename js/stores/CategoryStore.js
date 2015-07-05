@@ -5,10 +5,9 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     CategoryConstants = require('../constants/CategoryConstants'),
     CategoryActions = require('../actions/CategoryActions');
 
-var utils = require('../helpers/Utils.js'),
-    assign = require('object-assign');
+var utils = require('../helpers/Utils.js');
 
-var CHANGE_EVENT = 'change';
+const CHANGE_EVENT = 'change';
 
 var _categories = {},
     _current = CategoryConstants.CATEGORY_ALLID,
@@ -92,9 +91,9 @@ function destroy(id) {
   }
 }
 
-var CategoryStore = assign({}, EventEmitter.prototype, {
+var CategoryStore = Object.assign({}, EventEmitter.prototype, {
 
-  init: function() {
+  init() {
     var ids = [];
     ids.push(create(i18n.getMessage("sampleCategory1"), 1));
     ids.push(create(i18n.getMessage("sampleCategory2"), 2));
@@ -104,43 +103,43 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
     return ids;
   },
 
-  loadCategories: function(categories) {
+  loadCategories(categories) {
     _categories = categories;
   },
 
-  getAll: function() {
+  getAll() {
     _categories[categoryAll.id] = categoryAll;
 
     return _categories;
   },
 
-  getCurrentCategory: function() {
+  getCurrentCategory() {
     return _current;
   },
 
-  emitChange: function() {
+  emitChange() {
     this.emit(CHANGE_EVENT);
   },
 
   /**
    * @param {function} callback
    */
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
   /**
    * @param {function} callback
    */
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  persist: function() {
+  persist() {
     Storage.set({'_categories': _categories}, function(){});
   },
 
-  clear: function() {
+  clear() {
     Storage.remove('_categories');
   }
 

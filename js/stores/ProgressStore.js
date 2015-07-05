@@ -4,10 +4,9 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     i18n = require("../helpers/I18n"),
     ProgressConstants = require('../constants/ProgressConstants');
 
-var utils = require('../helpers/Utils.js'),
-    assign = require('object-assign');
+var utils = require('../helpers/Utils.js');
 
-var CHANGE_EVENT = 'change';
+const CHANGE_EVENT = 'change';
 
 var _progresses = {},
     _editing = null;
@@ -82,9 +81,9 @@ function updateProgress(id, current) {
   }
 }
 
-var ProgressStore = assign({}, EventEmitter.prototype, {
+var ProgressStore = Object.assign({}, EventEmitter.prototype, {
 
-  init: function(ids) {
+  init(ids) {
     create(
       i18n.getMessage("sampleAnime1Title"), 
       3, 
@@ -130,19 +129,19 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
     ProgressStore.emitChange();
   },
 
-  loadProgresses: function(progresses) {
+  loadProgresses(progresses) {
     _progresses = progresses;
   },
 
-  getAll: function() {
+  getAll() {
     return _progresses;
   },
 
-  getEditing: function() {
+  getEditing() {
     return _editing;
   },
 
-  getLengthByCategory: function(category) {
+  getLengthByCategory(category) {
     var length = 0;
     for (var i in _progresses) {
       if (_progresses[i].category === category) {
@@ -152,7 +151,7 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
     return length;
   },
 
-  getCompleted: function() {
+  getCompleted() {
     var completed = 0;
     for (var i in _progresses) {
       if (_progresses[i].current >= _progresses[i].total) {
@@ -162,29 +161,29 @@ var ProgressStore = assign({}, EventEmitter.prototype, {
     return completed;
   },
 
-  emitChange: function() {
+  emitChange() {
     this.emit(CHANGE_EVENT);
   },
 
   /**
    * @param {function} callback
    */
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
   /**
    * @param {function} callback
    */
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  persist: function() {
+  persist() {
     Storage.set({'_progresses': _progresses}, function() {});
   },
 
-  clear: function() {
+  clear() {
     Storage.remove('_progresses');
   }
 

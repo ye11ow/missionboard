@@ -33,25 +33,25 @@ function getProgressState() {
 
 var MissionBoard = React.createClass({
 
-  getInitialState: function() {
+  getInitialState() {
     return getProgressState();
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     ProgressStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     ProgressStore.removeChangeListener(this._onChange);
     CategoryStore.removeChangeListener(this._onChange);
   },
 
-  handleCategorySwitch: function(id) {
+  handleCategorySwitch(id) {
     CategoryActions.switch(id);
   },
 
-  handleCategoryDestroy: function(id) {
+  handleCategoryDestroy(id) {
     // no set state here, the setState will be triggered by changeListener.
     var progresses = this.state.progresses;
     for (var key in progresses) {
@@ -62,12 +62,12 @@ var MissionBoard = React.createClass({
     CategoryActions.destroy(id);
   },
 
-  handleCategoryCreate: function(category) {
+  handleCategoryCreate(category) {
     // no set state here, the setState will be triggered by changeListener.
     CategoryActions.create(category.title, category.order);
   },
 
-  render: function() {
+  render() {
     var progresses = this.state.progresses,
         categories = this.state.categories,
         categoryList = [],
@@ -108,7 +108,7 @@ var MissionBoard = React.createClass({
     );
   },
 
-  _onChange: function() {
+  _onChange() {
     this.setState(getProgressState());
   }
 });

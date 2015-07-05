@@ -5,6 +5,7 @@ var React = require('react'),
     Storage = require('./helpers/Storage'),
     MissionBoard = require('./components/MissionBoard');
 
+require("babel/polyfill");
 require("jquery");
 require("nouislider");
 require("bootstrap");

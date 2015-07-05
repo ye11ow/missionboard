@@ -6,7 +6,7 @@ var ProgressActions = {
   /**
    * @param  {string} title
    */
-  create: function(title, current, total, category, type, description) {
+  create(title, current, total, category, type, description) {
     AppDispatcher.dispatch({
       actionType: ProgressConstants.PROGRESS_CREATE,
       title,
@@ -21,14 +21,14 @@ var ProgressActions = {
   /**
    * @param  {Progress} progress
    */
-  setEditing: function(progress) {
+  setEditing(progress) {
     AppDispatcher.dispatch({
       actionType: ProgressConstants.PROGRESS_EDITING,
       progress
     });
   },
 
-  update: function(id, title, current, total, category, type, description) {
+  update(id, title, current, total, category, type, description) {
     AppDispatcher.dispatch({
       actionType: ProgressConstants.PROGRESS_UPDATE,
       id,
@@ -41,7 +41,7 @@ var ProgressActions = {
     });
   },
 
-  updateProgress: function(id, current) {
+  updateProgress(id, current) {
     AppDispatcher.dispatch({
       actionType: ProgressConstants.PROGRESS_UPDATE_PROGRESS,
       id,
@@ -52,7 +52,7 @@ var ProgressActions = {
   /**
    * @param  {string} id
    */
-  destroy: function(id) {
+  destroy(id) {
     AppDispatcher.dispatch({
       actionType: ProgressConstants.PROGRESS_DESTROY,
       id

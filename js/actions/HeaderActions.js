@@ -3,21 +3,21 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 
 var HeaderActions = {
 
-  search: function(keyword) {
+  search(keyword) {
     AppDispatcher.dispatch({
       actionType: HeaderConstants.HEADER_SEARCH,
       keyword
     });
   },
 
-  filter: function(filter) {
+  filter(filter) {
     AppDispatcher.dispatch({
       actionType: HeaderConstants.HEADER_UPDATE_FILTER,
       filter
     });
   },
 
-  orderby: function(orderby) {
+  orderby(orderby) {
     AppDispatcher.dispatch({
       actionType: HeaderConstants.HEADER_UPDATE_ORDERBY,
       orderby

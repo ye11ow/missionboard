@@ -21,7 +21,7 @@ var CategoryList = React.createClass({
     onCategoryDestroy: React.PropTypes.func.isRequired
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     Storage.get('_categoryTutorial', function(categoryTutorial){
       if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
         $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
@@ -29,13 +29,13 @@ var CategoryList = React.createClass({
     });
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       mode: MODE_NORMAL
     };
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     var $menu = $(this.refs.leftMenu.getDOMNode());
     $menu.find(".active").removeClass("active");
     $menu.find(`[data-category="${this.props.category.id}"]`).addClass("active");
@@ -43,11 +43,11 @@ var CategoryList = React.createClass({
     $(this.refs.popoverEdit.getDOMNode()).hide();
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return true;
   },
 
-  handleCategoryClick: function(event) {
+  handleCategoryClick(event) {
     var $target = $(event.target),
         targetCategory = $(event.target).parents("li").attr("data-category");
 
@@ -58,7 +58,7 @@ var CategoryList = React.createClass({
     this.props.onCategorySwitch(targetCategory);
   },
 
-  handleCategoryDoubleClick: function(event) {
+  handleCategoryDoubleClick(event) {
     var $target = $(event.target).parents("li"),
         $popover = $(this.refs.popoverEdit.getDOMNode()),
         $input = $(this.refs.popoverTitle.getDOMNode());
@@ -79,11 +79,11 @@ var CategoryList = React.createClass({
     $input.val(this.props.category.title);
   },
 
-  handlePopoverHide: function(event) {
+  handlePopoverHide(event) {
     $(this.refs.popoverEdit.getDOMNode()).hide();
   },
 
-  handleUpdateCateogryTitle: function(event) {
+  handleUpdateCateogryTitle(event) {
     var nativeEvent = event.nativeEvent,
         $popover = $(this.refs.popoverEdit.getDOMNode()),
         $input = $(this.refs.popoverTitle.getDOMNode());
@@ -99,21 +99,21 @@ var CategoryList = React.createClass({
     }
   },
 
-  resetCategoryControl: function() {
+  resetCategoryControl() {
     var $title = $(this.refs.categoryAddTitle.getDOMNode());
     $title.val("");
 
     this.setState({ mode: MODE_NORMAL });
   },
 
-  handleCategoryAdd: function() {
+  handleCategoryAdd() {
     var $title = $(this.refs.categoryAddTitle.getDOMNode());
     $title.focus();
 
     this.setState({ mode: MODE_ADDING });
   },
 
-  handleCategoryDestroy: function(event) {
+  handleCategoryDestroy(event) {
     var self = this,
         id = this.props.category.id;
 
@@ -132,7 +132,7 @@ var CategoryList = React.createClass({
     });
   },
 
-  handleCategoryCreate: function(event) {
+  handleCategoryCreate(event) {
     if (event.which === 13) {
       var $input = $(event.target),
           title = $input.val();
@@ -147,7 +147,7 @@ var CategoryList = React.createClass({
     }
   },
 
-  handleCategoryConfirm: function() {
+  handleCategoryConfirm() {
     var $title = $(this.refs.categoryAddTitle.getDOMNode());
     if (this.state.mode === MODE_ADDING) {
       var e = $.Event("keypress");
@@ -158,11 +158,11 @@ var CategoryList = React.createClass({
     this.resetCategoryControl();
   },
 
-  handleCategoryCancel: function() {
+  handleCategoryCancel() {
     this.resetCategoryControl();
   },
 
-  handleDragOver: function(event) {
+  handleDragOver(event) {
     var $target = $(event.target).parent("li");
 
     event.preventDefault();
@@ -172,7 +172,7 @@ var CategoryList = React.createClass({
     $placeholder.insertBefore(this.over);
   },
 
-  handleDragStart: function(event) {
+  handleDragStart(event) {
     this.dragged = $(event.currentTarget);
     event.dataTransfer.effectAllowed = 'move';
     
@@ -180,7 +180,7 @@ var CategoryList = React.createClass({
     event.dataTransfer.setData("text/html", event.currentTarget);
   },
 
-  handleDragEnd: function(event) {
+  handleDragEnd(event) {
     var from = this.dragged.attr("data-category"),
         to = this.dragged.parent().find(".placeholder").prev().attr("data-category");
 
@@ -190,7 +190,7 @@ var CategoryList = React.createClass({
     CategoryActions.updateOrder(from, to);
   },
 
-  render: function() {
+  render() {
     var mode = this.state.mode,
         categoryList = this.props.categories,
         visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",

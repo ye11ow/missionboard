@@ -10,7 +10,7 @@ var React = require('react'),
 
 var Header = React.createClass({
 
-  handleFilter: function(event) {
+  handleFilter(event) {
     event.preventDefault();
     var filter = $(event.target).attr("data-filter");
     if (filter === undefined) {
@@ -27,7 +27,7 @@ var Header = React.createClass({
     HeaderActions.filter(filter);
   },
 
-  handleOrder: function(event) {
+  handleOrder(event) {
     event.preventDefault();
 
     var $target = $(event.target);
@@ -49,11 +49,11 @@ var Header = React.createClass({
     });
   },
 
-  handleSearch: function(event) {
+  handleSearch(event) {
     HeaderActions.search(event.target.value);
   },
 
-  resetData: function() {
+  resetData() {
     swal(i18n.getMessage("resetDataTitle"), i18n.getMessage("resetDataDone"), "success"); 
     swal({
       title: i18n.getMessage("resetDataTitle"),
@@ -79,7 +79,7 @@ var Header = React.createClass({
     });
   },
 
-  render: function() {
+  render() {
     return (
       <nav className="navbar navbar-default header">
         <div className="navbar-header">

@@ -6,7 +6,6 @@
   "dependencies": {
     "react": "~0.13.3",
     "flux": "~2.0.2",
-    "object-assign": "^2.0.0",
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.4",
     "hopscotch": "~0.2.4",
@@ -28,8 +27,7 @@
     "watchify": "~3.2.1"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d .",
-    "test": "mocha --compilers js:babel/register"
+    "start": "watchify -o js/bundle.js -v -d ."
   },
   "author": "Calvin Zhang",
   "repository": "https://github.com/ye11ow/missionboard",

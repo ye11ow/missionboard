@@ -3,9 +3,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     HeaderConstants = require('../constants/HeaderConstants'),
     HeaderActions = require('../actions/HeaderActions');
 
-var assign = require('object-assign');
-
-var CHANGE_EVENT = 'change';
+const CHANGE_EVENT = 'change';
 
 var _filter = "current",
     _orderby = {
@@ -27,32 +25,32 @@ function updateOrderby(orderby) {
 }
 
 
-var HeaderStore = assign({}, EventEmitter.prototype, {
+var HeaderStore = Object.assign({}, EventEmitter.prototype, {
 
-  init: function() {
+  init() {
   },
 
-  getKeyword: function() {
+  getKeyword() {
     return _keyword;
   },
 
-  getFilter: function() {
+  getFilter() {
     return _filter;
   },
 
-  getOrderby: function() {
+  getOrderby() {
     return _orderby;
   },
 
-  emitChange: function() {
+  emitChange() {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 });

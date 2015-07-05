@@ -6,7 +6,7 @@ var CategoryActions = {
   /**
    * @param  {string} title
    */
-  create: function(title, order) {
+  create(title, order) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_CREATE,
       title,
@@ -14,14 +14,14 @@ var CategoryActions = {
     });
   },
 
-  switch: function(id) {
+  switch(id) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_SWITCH,
       id: id
     });
   },
 
-  updateTitle: function(id, title) {
+  updateTitle(id, title) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_TITLE_UPDATE,
       id,
@@ -29,7 +29,7 @@ var CategoryActions = {
     });
   },
 
-  updateOrderby: function(id, by, type) {
+  updateOrderby(id, by, type) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDERBY_UPDATE,
       id,
@@ -38,7 +38,7 @@ var CategoryActions = {
     });
   },
 
-  updateOrder: function(id, targetId) {
+  updateOrder(id, targetId) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDER_UPDATE,
       id,
@@ -49,7 +49,7 @@ var CategoryActions = {
   /**
    * @param  {string} id
    */
-  destroy: function(id) {
+  destroy(id) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_DESTROY,
       id

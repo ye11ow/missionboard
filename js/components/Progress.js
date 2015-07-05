@@ -10,16 +10,16 @@ var Progress = React.createClass({
     progress: React.PropTypes.object.isRequired,
   },
 
-  handleEdit: function() {
+  handleEdit() {
     ProgressActions.setEditing(this.props.progress);
   },
 
   /*
-  handleFinish: function() {
+  handleFinish() {
     ProgressActions.updateProgress(this.props.progress.id, -1);
   },*/
 
-  handleDestroy: function() {
+  handleDestroy() {
     var id = this.props.progress.id;
     
     swal({   
@@ -37,7 +37,7 @@ var Progress = React.createClass({
     });
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     var progress = this.props.progress,
         $slider = $(`#${progress.id}`).find('[data-role="slider"]');
 
@@ -70,7 +70,7 @@ var Progress = React.createClass({
     });
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     var progress = this.props.progress,
         $slider = $(`#${progress.id}`).find('[data-role="slider"]'),
         options = $slider.noUiSlider('options');
@@ -90,7 +90,7 @@ var Progress = React.createClass({
     }
   },
 
-  render: function() {
+  render() {
     var progress = this.props.progress,
         keyword = this.props.keyword,
         percentage = Math.floor(progress.current * 100 / progress.total),

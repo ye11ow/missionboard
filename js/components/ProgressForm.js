@@ -48,15 +48,15 @@ var ProgressForm = React.createClass({
 
   mixins: [React.addons.LinkedStateMixin],
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     ProgressStore.removeChangeListener(this._onChange);
   },
 
-  getInitialState: function () {
+  getInitialState() {
     return EMPTY_PROGRESS;
   },
 
-  handleSave:function () {
+  handleSave() {
     var editing = this.state;
 
     if (validate($(this.refs.progressTitle.getDOMNode()), $(this.refs.progressCurrent.getDOMNode()), $(this.refs.progressTotal.getDOMNode()))) {
@@ -73,11 +73,11 @@ var ProgressForm = React.createClass({
     }
   },
 
-  handleCancel: function() {
+  handleCancel() {
     ProgressActions.setEditing(null);
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     var self = this;
     $modal = $(this.refs.progressFormModal.getDOMNode());
 
@@ -92,7 +92,7 @@ var ProgressForm = React.createClass({
     });
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     var editing = this.state;
 
     if (editing.title) {
@@ -105,7 +105,7 @@ var ProgressForm = React.createClass({
     }
   },
 
-  render: function() {
+  render() {
     var categories = this.props.categories,
         categoryList = [],
         header = "",
@@ -186,7 +186,7 @@ var ProgressForm = React.createClass({
     );
   },
 
-  _onChange: function() {
+  _onChange() {
     var editing = ProgressStore.getEditing();
 
     if (!editing) {

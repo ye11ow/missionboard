@@ -53,15 +53,15 @@ var ProgressList = React.createClass({
     categories: React.PropTypes.array.isRequired
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     HeaderStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     HeaderStore.removeChangeListener(this._onChange);
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
       //count: this.props.progresses.count,
       keyword: HeaderStore.getKeyword(),
@@ -70,12 +70,12 @@ var ProgressList = React.createClass({
     };
   },
 
-  handleFocus: function() {
+  handleFocus() {
     $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMissionTips"));
     //$(this.refs.createBtn.getDOMNode()).show();
   },
 
-  handleBlur: function() {
+  handleBlur() {
     var $input = $(this.refs.progressTitle.getDOMNode()),
         title = $input.val();
 
@@ -88,7 +88,7 @@ var ProgressList = React.createClass({
     }
   },
 
-  handlePreAdd: function(event) {
+  handlePreAdd(event) {
     if (event.which === 13) {
 
       // "ENTER" pressed
@@ -112,7 +112,7 @@ var ProgressList = React.createClass({
     }
   },
 
-  render: function() {
+  render() {
     var self = this,
         progresses = this.props.progresses,
         progressItems = [],
@@ -183,7 +183,7 @@ var ProgressList = React.createClass({
     );
   },
 
-  _onChange: function() {
+  _onChange() {
     this.setState({
       keyword: HeaderStore.getKeyword(),
       filter: HeaderStore.getFilter(),
