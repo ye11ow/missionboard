@@ -44,6 +44,14 @@ function destroy(id) {
   delete _progresses[id];
 }
 
+function destoryByCategory(categoryId) {
+  for (var key in _progresses) {
+    if (_progresses[key].category === categoryId) {
+      destroy(key);
+    }
+  }
+}
+
 function update(id, title, current, total, category, type, description) {
   var progress = _progresses[id];
   if (progress) {
@@ -206,6 +214,10 @@ AppDispatcher.register(function(action) {
 
     case ProgressConstants.PROGRESS_DESTROY:
       destroy(action.id);
+      break;
+
+    case ProgressConstants.PROGRESS_DESTROY_BY_CATEGORY:
+      destoryByCategory(action.categoryId);
       break;
 
     case ProgressConstants.PROGRESS_UPDATE:

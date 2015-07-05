@@ -57,7 +57,18 @@ var ProgressActions = {
       actionType: ProgressConstants.PROGRESS_DESTROY,
       id
     });
+  },
+
+  /**
+   * @param  {string} categoryId
+   */
+  destroyProgressByCategory(categoryId) {
+    AppDispatcher.dispatch({
+      actionType: ProgressConstants.PROGRESS_DESTROY_BY_CATEGORY,
+      categoryId
+    });
   }
+
 };
 
 module.exports = ProgressActions;

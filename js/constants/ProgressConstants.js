@@ -5,5 +5,6 @@ module.exports = keyMirror({
   PROGRESS_EDITING: null,
   PROGRESS_DESTROY: null,
   PROGRESS_UPDATE: null,
-  PROGRESS_UPDATE_PROGRESS: null
+  PROGRESS_UPDATE_PROGRESS: null,
+  PROGRESS_DESTROY_BY_CATEGORY: null
 });

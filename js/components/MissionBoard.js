@@ -2,10 +2,8 @@ var React = require('react'),
     Header = require('./Header'),
     ProgressList = require('./ProgressList'),
     CategoryList = require('./CategoryList'),
-    ProgressActions = require('../actions/ProgressActions'),
     ProgressStore = require('../stores/ProgressStore'),
     CategoryStore = require('../stores/CategoryStore'),
-    CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants');
 
 function calcCategoryCount(categories, progresses) {
@@ -45,31 +43,11 @@ var MissionBoard = React.createClass({
     CategoryStore.removeChangeListener(this._onChange);
   },
 
-  handleCategorySwitch(id) {
-    CategoryActions.switch(id);
-  },
-
-  handleCategoryDestroy(id) {
-    // no set state here, the setState will be triggered by changeListener.
-    var progresses = this.state.progresses;
-    for (var key in progresses) {
-      if (progresses[key].category === id) {
-        ProgressActions.destroy(key);
-      }
-    }
-    CategoryActions.destroy(id);
-  },
-
-  handleCategoryCreate(category) {
-    // no set state here, the setState will be triggered by changeListener.
-    CategoryActions.create(category.title, category.order);
-  },
-
   render() {
     var progresses = this.state.progresses,
         categories = this.state.categories,
+        currentProgresses = {},
         categoryList = [],
-        _progresses = {},
         category = null;
 
 
@@ -82,7 +60,7 @@ var MissionBoard = React.createClass({
     for (var key in progresses) {
       var progress = progresses[key];
       if (!category || progress.category === category.id || category.system === true) {
-        _progresses[key] = progress;
+        currentProgresses[key] = progress;
       }
     }
 
@@ -96,12 +74,9 @@ var MissionBoard = React.createClass({
       <div>
         <Header />
 
-        <CategoryList category={category} categories={categoryList}
-          onCategorySwitch={this.handleCategorySwitch}
-          onCategoryCreate={this.handleCategoryCreate}
-          onCategoryDestroy={this.handleCategoryDestroy} />
+        <CategoryList category={category} categories={categoryList} />
 
-        <ProgressList progresses={_progresses} category={category} categories={categoryList} />
+        <ProgressList progresses={currentProgresses} category={category} categories={categoryList} />
       </div>
     );
   },

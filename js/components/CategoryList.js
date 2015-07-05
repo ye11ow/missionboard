@@ -4,6 +4,7 @@ var React = require('react'),
     i18n = require("../helpers/I18n"),
     ProgressStore = require('../stores/ProgressStore'),
     CategoryActions = require('../actions/CategoryActions'),
+    ProgressActions = require('../actions/ProgressActions'),
     CategoryConstants = require('../constants/CategoryConstants');
 
 const MODE_NORMAL  = 1,
@@ -15,10 +16,7 @@ var CategoryList = React.createClass({
 
   propTypes: {
     category: React.PropTypes.object.isRequired,
-    categories: React.PropTypes.array.isRequired,
-    onCategorySwitch: React.PropTypes.func.isRequired,
-    onCategoryCreate: React.PropTypes.func.isRequired,
-    onCategoryDestroy: React.PropTypes.func.isRequired
+    categories: React.PropTypes.array.isRequired
   },
 
   componentDidMount() {
@@ -55,7 +53,7 @@ var CategoryList = React.createClass({
       return;
     }
     
-    this.props.onCategorySwitch(targetCategory);
+    CategoryActions.switch(targetCategory);
   },
 
   handleCategoryDoubleClick(event) {
@@ -71,7 +69,6 @@ var CategoryList = React.createClass({
       $(".category-tutorial").remove();
       Storage.set({'_categoryTutorial': true}); 
     }
-
 
     $popover.css("top", $target.offset().top - $target.height() - 30);
     $popover.show();
@@ -127,7 +124,8 @@ var CategoryList = React.createClass({
       cancelButtonText: i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) {
-        self.props.onCategoryDestroy(id);
+        ProgressActions.destroyProgressByCategory(id);
+        CategoryActions.destroy(id);
       }
     });
   },
@@ -138,10 +136,7 @@ var CategoryList = React.createClass({
           title = $input.val();
 
       if (title && title.length > 0) {
-        this.props.onCategoryCreate({
-          title: title,
-          order: this.props.categories[this.props.categories.length - 1].order + 1
-        });
+        CategoryActions.create(title, this.props.categories[this.props.categories.length - 1].order + 1);
         this.resetCategoryControl();
       }
     }
