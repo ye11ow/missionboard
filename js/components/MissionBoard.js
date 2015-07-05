@@ -10,14 +10,12 @@ var React = require('react'),
 
 function calcCategoryCount(categories, progresses) {
   for (var key in categories) {
-    var category = categories[key];
-    category.count = 0;
+    categories[key].count = 0;
   }
 
   for (var key in progresses) {
-    var category = categories[progresses[key].category];
     if (!progresses[key].completed) {
-      category.count++;
+      categories[progresses[key].category].count++;
       categories[CategoryConstants.CATEGORY_ALLID].count++;
     }
   }

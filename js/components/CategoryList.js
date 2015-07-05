@@ -6,10 +6,10 @@ var React = require('react'),
     CategoryActions = require('../actions/CategoryActions'),
     CategoryConstants = require('../constants/CategoryConstants');
 
-var MODE_NORMAL  = 1,
-    MODE_ADDING  = 2;
+const MODE_NORMAL  = 1,
+      MODE_ADDING  = 2;
 
-var $placeholder = $(`<li><a>${i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
+const $PLACEHOLDER = $(`<li><a>${i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
 
 var CategoryList = React.createClass({
 
@@ -169,7 +169,7 @@ var CategoryList = React.createClass({
     this.dragged.hide();
     if ($target.hasClass("placeholder") || $target.attr("data-category") === CategoryConstants.CATEGORY_ALLID) return;
     this.over = $target;
-    $placeholder.insertBefore(this.over);
+    $PLACEHOLDER.insertBefore(this.over);
   },
 
   handleDragStart(event) {

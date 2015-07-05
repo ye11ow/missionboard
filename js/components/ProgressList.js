@@ -30,21 +30,6 @@ function getSorting(order) {
   }
 }
 
-function getOverallProgress(progresses) {
-  var sum = 0;
-  var count = 0;
-  for (var i in progresses) {
-    sum += progresses[i].percent;
-    count++;
-  }
-
-  if (count === 0) {
-    return 0;
-  }
-
-  return Math.floor(sum / count);
-}
-
 var ProgressList = React.createClass({
 
   propTypes: {
@@ -152,9 +137,6 @@ var ProgressList = React.createClass({
       _progresses.forEach(function(p) {
         progressItems.push(<Progress keyword={keyword} key={p.id} progress={p} />);
       });
-
-      //$("#progress-count").text(Object.keys(_progresses).length);
-      //$("#overall-progress").text(getOverallProgress(progresses) + "%");
     }
 
     return (

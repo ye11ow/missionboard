@@ -1,3 +1,9 @@
+require("babel/polyfill");
+require("jquery");
+require("nouislider");
+require("bootstrap");
+require('sweetalert');
+
 var React = require('react'),
     ProgressStore = require('./stores/ProgressStore'),
     CategoryStore = require('./stores/CategoryStore'),
@@ -5,14 +11,8 @@ var React = require('react'),
     Storage = require('./helpers/Storage'),
     MissionBoard = require('./components/MissionBoard');
 
-require("babel/polyfill");
-require("jquery");
-require("nouislider");
-require("bootstrap");
-require('sweetalert');
-
 var Loader = React.createClass({
-  render: function() {
+  render() {
     return (
       <div className="loader-container">
         <div className="loader" />

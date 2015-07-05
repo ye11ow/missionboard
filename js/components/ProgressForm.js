@@ -29,7 +29,7 @@ function validate($title, $current, $total) {
   return true;
 }
 
-var EMPTY_PROGRESS = {
+const EMPTY_PROGRESS = {
   id: null,
   title: null,
   current: null,
@@ -122,9 +122,7 @@ var ProgressForm = React.createClass({
       confirmLabel = i18n.getMessage("labelMissionFormNew");
     }
 
-    for (var i = 0; i < categories.length; i++) {
-      var category = categories[i];
-
+    for (var category of categories) {
       if (!category.system) {
         categoryList.push(<option key={category.id} value={category.id}>{category.title}</option>);
       }
