@@ -1,28 +1,26 @@
 var React = require('react'),
-    $ = require('jquery'),
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
     ChromeProxy = require("../helpers/ChromeProxy"),
-    CategoryStore = require('../stores/CategoryStore'),
-    CategoryActions = require('../actions/CategoryActions'),
-    CategoryConstants = require('../constants/CategoryConstants'),
     HeaderActions = require('../actions/HeaderActions');
 
 var Header = React.createClass({
 
   handleFilter(event) {
     event.preventDefault();
-    var filter = $(event.target).attr("data-filter");
-    if (filter === undefined) {
+    
+    var target = event.target,
+        ul = event.currentTarget,
+        newLi = event.target.parentNode,
+        filter = target.dataset.filter;
+
+    if (!target || !filter || !ul || !newLi) {
       return;
     }
 
-    var $group = $(event.currentTarget),
-        $target = $(event.target).parent();
-
-    $group.find(".active").removeClass("active");
-    $target.addClass("active");
-    $(this.refs.activeFilter.getDOMNode()).html(`${$target.text()}<i class="fa fa-angle-down fa-lg"></i>`);
+    ul.querySelector(".active").classList.remove("active");
+    newLi.classList.add("active");
+    this.refs.activeFilter.getDOMNode().innerHTML = `${newLi.innerText}<i class="fa fa-angle-down fa-lg"></i>`;
 
     HeaderActions.filter(filter);
   },
@@ -30,18 +28,19 @@ var Header = React.createClass({
   handleOrder(event) {
     event.preventDefault();
 
-    var $target = $(event.target);
-    if (!$target.attr("data-orderby")) {
-      $target = $target.parent();
+    var target = event.target;
+    if (!target.dataset.orderby) {
+      target = target.parentNode;
     }
 
-    var orderby = $target.attr("data-orderby"),
-        ordertype = $target.attr("data-ordertype"),
-        $group = $(event.currentTarget);
+    var ul = event.currentTarget,
+        newLi = event.target.parentNode,
+        orderby = target.dataset.orderby,
+        ordertype = target.dataset.ordertype;
 
-    $group.find(".active").removeClass("active");
-    $target.parent().addClass("active");
-    $(this.refs.activeOrder.getDOMNode()).html(`${$target.text()}<i class="fa fa-angle-down fa-lg"></i>`);
+    ul.querySelector(".active").classList.remove("active");
+    newLi.classList.add("active");
+    this.refs.activeOrder.getDOMNode().innerHTML = `${newLi.innerText}<i class="fa fa-angle-down fa-lg"></i>`;
 
     HeaderActions.orderby({
       by: orderby, 

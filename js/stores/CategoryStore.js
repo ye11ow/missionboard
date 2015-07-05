@@ -10,8 +10,9 @@ var utils = require('../helpers/Utils.js');
 const CHANGE_EVENT = 'change';
 
 var _categories = {},
-    _current = CategoryConstants.CATEGORY_ALLID,
-    categoryAll = {
+    _current = CategoryConstants.CATEGORY_ALLID;
+
+const CATEGORYALL = {
       id: CategoryConstants.CATEGORY_ALLID,
       title: i18n.getMessage("labelCategoryAll"),
       order: 0,
@@ -108,7 +109,7 @@ var CategoryStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   getAll() {
-    _categories[categoryAll.id] = categoryAll;
+    _categories[CATEGORYALL.id] = CATEGORYALL;
 
     return _categories;
   },

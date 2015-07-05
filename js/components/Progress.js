@@ -14,11 +14,6 @@ var Progress = React.createClass({
     ProgressActions.setEditing(this.props.progress);
   },
 
-  /*
-  handleFinish() {
-    ProgressActions.updateProgress(this.props.progress.id, -1);
-  },*/
-
   handleDestroy() {
     var id = this.props.progress.id;
     
@@ -123,7 +118,6 @@ var Progress = React.createClass({
               </span>
             </div>
             <div className="progress-control">
-              {/*<i className="fa fa-check  fa-lg progress-done" title="mark as completed" onClick={this.handleFinish} />*/}
               <i className="fa fa-pencil fa-lg progress-edit" onClick={this.handleEdit} /> 
               <i className="fa fa-trash  fa-lg progress-delete" onClick={this.handleDestroy} />
             </div>
