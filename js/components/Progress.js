@@ -10,6 +10,12 @@ var Progress = React.createClass({
     progress: React.PropTypes.object.isRequired,
   },
 
+  getInitialState () {
+    return {
+      current: this.props.progress.current
+    };
+  },
+
   handleEdit() {
     ProgressActions.setEditing(this.props.progress);
   },
@@ -33,8 +39,9 @@ var Progress = React.createClass({
   },
 
   componentDidMount() {
-    var progress = this.props.progress,
-        $slider = $(`#${progress.id}`).find('[data-role="slider"]');
+    var self = this,
+        progress = this.props.progress,
+        $slider = $(this.refs.slider.getDOMNode());
 
     $slider.noUiSlider({
       start: progress.current,
@@ -47,12 +54,12 @@ var Progress = React.createClass({
     });
 
     $slider.on('slide', function(){
-      var val = parseInt($(this).val());
-      var $container = $(this).parent().parent();
+      var val = parseInt($(this).val()),
+          $container = $(this).parent().parent();
 
-      $container.find('[data-role="current"]').text(val);
-      var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
-      $tips.text(val);
+      self.setState({ current: val }); 
+
+      var $tips =  $(self.refs.tipCurrent.getDOMNode());
       $tips.css("left", $(this).find(".noUi-origin").css("left"));
       $tips.show();
     });
@@ -60,14 +67,13 @@ var Progress = React.createClass({
     $slider.on('change', function(){
       progress.current = parseInt($(this).val());
       ProgressActions.updateProgress(progress.id, progress.current);
-      var $tips = $(this).parent().parent().find('[data-role="slider-current"]');
-      $tips.hide();
+      $(self.refs.tipCurrent.getDOMNode()).hide();
     });
   },
 
   componentDidUpdate() {
     var progress = this.props.progress,
-        $slider = $(`#${progress.id}`).find('[data-role="slider"]'),
+        $slider = $(this.refs.slider.getDOMNode()),
         options = $slider.noUiSlider('options');
 
     if (options) {
@@ -87,8 +93,9 @@ var Progress = React.createClass({
 
   render() {
     var progress = this.props.progress,
+        current = this.state.current,
         keyword = this.props.keyword,
-        percentage = Math.floor(progress.current * 100 / progress.total),
+        percentage = Math.floor(current * 100 / progress.total),
         title = progress.title;
 
     if (keyword) {
@@ -99,22 +106,22 @@ var Progress = React.createClass({
     }
 
     return (
-      <div id={progress.id} className="panel panel-default">
-        <div className="panel-body row" data-completed={progress.completed} data-role="progress">
+      <div className="panel panel-default">
+        <div className="panel-body row">
           <div className="col-lg-10">
             <h5 className="progress-title" dangerouslySetInnerHTML={{__html: title}} />
             <small className="progress-desc">{progress.description}</small>
             <label className="progress-percentage">{percentage}%</label>
-            <div data-role="slider" className="progress-slider">
+            <div ref="slider" className="progress-slider">
             </div>
             <div className="slider-tip">
-              <span data-role="slider-current"></span>
+              <span ref="tipCurrent">{current}</span>
             </div>
           </div>
           <div className="col-lg-2">
             <div>
-              <span data-role="progress" className="label label-success label-progress">
-                <span data-role="current">{progress.current}</span>/{progress.total}
+              <span className="label label-success label-progress">
+                <span>{current}</span>/{progress.total}
               </span>
             </div>
             <div className="progress-control">
