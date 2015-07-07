@@ -57,7 +57,6 @@ var ProgressList = React.createClass({
 
   handleFocus() {
     $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMissionTips"));
-    //$(this.refs.createBtn.getDOMNode()).show();
   },
 
   handleBlur() {
@@ -68,7 +67,6 @@ var ProgressList = React.createClass({
       $input.parent().addClass("input--filled");
     } else {
       $input.parent().removeClass("input--filled");
-      //$(this.refs.createBtn.getDOMNode()).hide(300);
       $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMission"));
     }
   },
@@ -98,46 +96,36 @@ var ProgressList = React.createClass({
   },
 
   render() {
-    var self = this,
-        progresses = this.props.progresses,
-        progressItems = [],
-        _progresses = [],
+    var progresses = this.props.progresses,
+        progressList = [],
         orderby = this.state.orderby,
         keyword = this.state.keyword,
         filter = this.state.filter;
 
-    if (this.props.category) {
+    // a key is need here for Progress.
+    // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+    for (var key in progresses) {
+      var progress = progresses[key];
 
-      // a key is need here for Progress.
-      // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-      for (var key in progresses) {
-        var progress = progresses[key];
-
-        if (keyword.length > 0) {
-          if (progress.title.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
-            continue;
-          }
-        }
-
-        if (filter === "current" && progress.completed) {
+      if (keyword.length > 0) {
+        if (progress.title.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
           continue;
         }
-        if (filter === "completed" && !progress.completed) {
-          continue;
-        }
-
-        progress.percent = progress.current * 100 / progress.total; 
-
-        _progresses.push(progress);
       }
 
-      var sortProgress = getSorting(orderby);
-      _progresses.sort(sortProgress);
+      if (filter === "current" && progress.completed) {
+        continue;
+      }
+      if (filter === "completed" && !progress.completed) {
+        continue;
+      }
 
-      _progresses.forEach(function(p) {
-        progressItems.push(<Progress keyword={keyword} key={p.id} progress={p} />);
-      });
+      progress.percent = progress.current * 100 / progress.total; 
+
+      progressList.push(progress);
     }
+
+    progressList.sort(getSorting(orderby));
 
     return (
       <div className="container-fluid main-container">
@@ -159,7 +147,9 @@ var ProgressList = React.createClass({
         </div>
 
         <div className="progress-list">
-          {progressItems}
+          {progressList.map((function(p) {
+            return <Progress keyword={keyword} key={p.id} progress={p} />
+          }))}
         </div>
       </div>  
     );
