@@ -77,10 +77,6 @@ function updateOrder(id, targetId) {
   }
 }
 
-function switchCategory(category) {
-  _current = category;
-}
-
 /**
  * Delete a Category.
  * @param  {string} id
@@ -106,6 +102,10 @@ var CategoryStore = Object.assign({}, EventEmitter.prototype, {
 
   loadCategories(categories) {
     _categories = categories;
+  },
+
+  switchCategory(category) {
+    _current = category;
   },
 
   getAll() {
@@ -158,7 +158,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case CategoryConstants.CATEGORY_SWITCH:
-      switchCategory(action.id);
+      CategoryStore.switchCategory(action.id);
       break;
 
     case CategoryConstants.CATEGORY_TITLE_UPDATE:

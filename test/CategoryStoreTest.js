@@ -4,12 +4,12 @@ var sinon = require("sinon");
 
 describe('CategoryStore', function(){
 
+  var CategoryStore = require("../js/stores/CategoryStore");
   before(function () {
     
   })
 
   describe('#init()', function(){
-    var CategoryStore = require("../js/stores/CategoryStore");
     var persist = sinon.stub(CategoryStore, "persist");
     var clear = sinon.stub(CategoryStore, "clear");
 
@@ -22,15 +22,32 @@ describe('CategoryStore', function(){
     });
   });
 
-  describe('#loadCategories()', function(){
-    var CategoryStore = require("../js/stores/CategoryStore");
+  describe('#switchCategory(), #getCurrentCategory()', function(){
+    it('should load switch to another category', function(){
+      const oldCategory = "1";
+      const newCateogry = "2";
 
-    it('should load all categories', function(){
-      var ids = CategoryStore.loadCategories();
+      CategoryStore.switchCategory(oldCategory);
+      assert.equal(oldCategory, CategoryStore.getCurrentCategory());
 
-      sinon.assert.called(persist)
-
-      assert.equal(ids.length, 3);
+      CategoryStore.switchCategory(newCateogry);
+      assert.equal(newCateogry, CategoryStore.getCurrentCategory());
     });
   });
+
+  describe('#getAll()', function(){
+    it('should return all the categories', function(){
+      var categories = CategoryStore.getAll();
+
+      assert.equal(Object.keys(categories).length, 4);
+    });
+  });
+
+  // describe('#loadCategories()', function(){
+  //   it('should load all categories', function(){
+  //     console.log(CategoryStore.getAll());
+  //     var items = CategoryStore.loadCategories();
+  //     console.log(items);
+  //   });
+  // });
 })
