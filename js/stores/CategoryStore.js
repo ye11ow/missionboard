@@ -48,13 +48,6 @@ function updateTitle(id, title) {
   _categories[id].title = title;
 }
 
-function updateOrderby(id, by, type) {
-  _categories[id].orderby = {
-    by: by,
-    type: type
-  };
-}
-
 function updateOrder(id, targetId) {
   var category = _categories[id],
       targetCategory = _categories[targetId],
@@ -88,6 +81,15 @@ function destroy(id) {
   }
 }
 
+function switchCategory(category) {
+  if (category in _categories) {
+    _current = category;
+  } else {
+    _current = CATEGORYALL.id;
+  }
+  
+}
+
 var CategoryStore = Object.assign({}, EventEmitter.prototype, {
 
   init() {
@@ -95,17 +97,14 @@ var CategoryStore = Object.assign({}, EventEmitter.prototype, {
     ids.push(create(i18n.getMessage("sampleCategory1"), 1));
     ids.push(create(i18n.getMessage("sampleCategory2"), 2));
     ids.push(create(i18n.getMessage("sampleCategory3"), 3));
-    CategoryStore.persist();
+
+    this.persist();
 
     return ids;
   },
 
   loadCategories(categories) {
     _categories = categories;
-  },
-
-  switchCategory(category) {
-    _current = category;
   },
 
   getAll() {
@@ -158,7 +157,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case CategoryConstants.CATEGORY_SWITCH:
-      CategoryStore.switchCategory(action.id);
+      switchCategory(action.id);
       break;
 
     case CategoryConstants.CATEGORY_TITLE_UPDATE:
@@ -166,10 +165,6 @@ AppDispatcher.register(function(action) {
       if (title !== '') {
         updateTitle(action.id, title);
       }
-      break;
-
-    case CategoryConstants.CATEGORY_ORDERBY_UPDATE:
-      updateOrderby(action.id, action.by, action.type);
       break;
 
     case CategoryConstants.CATEGORY_ORDER_UPDATE:
@@ -187,7 +182,7 @@ AppDispatcher.register(function(action) {
   CategoryStore.persist();
   CategoryStore.emitChange();
 
-  return true; // No errors.  Needed by promise in Dispatcher.
+  return true;
 });
 
 

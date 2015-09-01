@@ -3,9 +3,6 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 
 var CategoryActions = {
 
-  /**
-   * @param  {string} title
-   */
   create(title, order) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_CREATE,
@@ -29,15 +26,6 @@ var CategoryActions = {
     });
   },
 
-  updateOrderby(id, by, type) {
-    AppDispatcher.dispatch({
-      actionType: CategoryConstants.CATEGORY_ORDERBY_UPDATE,
-      id,
-      by,
-      type
-    });
-  },
-
   updateOrder(id, targetId) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_ORDER_UPDATE,
@@ -46,9 +34,6 @@ var CategoryActions = {
     });
   },
 
-  /**
-   * @param  {string} id
-   */
   destroy(id) {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.CATEGORY_DESTROY,
