@@ -92,49 +92,52 @@ function updateProgress(id, current) {
 var ProgressStore = Object.assign({}, EventEmitter.prototype, {
 
   init(ids) {
-    create(
+    var pIds = [];
+    pIds.push(create(
       i18n.getMessage("sampleAnime1Title"), 
       3, 
       12,
       ids[0],
       null,
       i18n.getMessage("sampleAnime1Desc")
-    );
-    create(
+    ));
+    pIds.push(create(
       i18n.getMessage("sampleAnime2Title"), 
       25, 
       25,
       ids[0],
       null,
       i18n.getMessage("sampleAnime2Desc")
-    );
-    create(
+    ));
+    pIds.push(create(
       i18n.getMessage("sampleBook1Title"), 
       350, 
       600,
       ids[1],
       null,
       i18n.getMessage("sampleBook1Desc")
-    );
-    create(
+    ));
+    pIds.push(create(
       i18n.getMessage("sampleBook2Title"), 
       300, 
       500,
       ids[1],
       null,
       i18n.getMessage("sampleBook2Desc")
-    );
-    create(
+    ));
+    pIds.push(create(
       i18n.getMessage("sampleOther1Title"), 
       1, 
       10,
       ids[2],
       null,
       i18n.getMessage("sampleOther1Desc")
-    );
+    ));
 
     ProgressStore.persist();
     ProgressStore.emitChange();
+
+    return pIds;
   },
 
   loadProgresses(progresses) {
