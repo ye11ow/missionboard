@@ -5,7 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 
 const CHANGE_EVENT = 'change';
 
-var _filter = "current",
+var _filter = HeaderConstants.HEADER_FILTER_CURRENT,
     _orderby = {
       type: "desc",
       by: "title"

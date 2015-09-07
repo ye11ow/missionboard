@@ -2,7 +2,8 @@ var React = require('react'),
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
     ChromeProxy = require("../helpers/ChromeProxy"),
-    HeaderActions = require('../actions/HeaderActions');
+    HeaderActions = require('../actions/HeaderActions'),
+    HeaderConstants = require('../constants/HeaderConstants');
 
 var Header = React.createClass({
 
@@ -91,23 +92,15 @@ var Header = React.createClass({
           <input ref="searchInput" type="text" className="form-control search" placeholder={i18n.getMessage("labelSearch")} onChange={this.handleSearch} />
         </form>
         <div className="navbar-collapse collapse navbar-inverse-collapse">
-         
-          {/*<ul className="nav navbar-nav">
-            <li id="progress-count" className="navbar-value"></li>
-            <li className="navbar-title">Missions</li>
-            <li id="overall-progress" className="navbar-value"></li>
-            <li className="navbar-title">Overall Progress</li>
-          </ul>*/}
-          
           <ul className="nav navbar-nav navbar-right">
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{i18n.getMessage("labelFilterShowing")}</a></li>
             <li className="progress-filter dropdown">
               <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{i18n.getMessage("labelFilterCurrent")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
-                <li><a href="#" data-filter="all">{i18n.getMessage("labelFilterAll")}</a></li>
-                <li className="active"><a href="#" data-filter="current">{i18n.getMessage("labelFilterCurrent")}</a></li>
-                <li><a href="#" data-filter="completed">{i18n.getMessage("labelFilterCompleted")}</a></li>
+                <li><a href="#" data-filter={HeaderConstants.HEADER_FILTER_ALL}>{i18n.getMessage("labelFilterAll")}</a></li>
+                <li className="active"><a href="#" data-filter={HeaderConstants.HEADER_FILTER_CURRENT}>{i18n.getMessage("labelFilterCurrent")}</a></li>
+                <li><a href="#" data-filter={HeaderConstants.HEADER_FILTER_COMPLETED}>{i18n.getMessage("labelFilterCompleted")}</a></li>
               </ul>
             </li>
             <li className="navbar-label"><a href="#">{i18n.getMessage("labelMissions")}</a></li>

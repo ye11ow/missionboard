@@ -5,8 +5,8 @@ var React = require('react'),
     ProgressForm = require('./ProgressForm'),
     ProgressActions = require('../actions/ProgressActions'),
     CategoryActions = require('../actions/CategoryActions'),
-    HeaderStore = require('../stores/HeaderStore');
-
+    HeaderStore = require('../stores/HeaderStore'),
+    HeaderConstants = require('../constants/HeaderConstants');
 
 // TODO optimize
 function getSorting(order) {
@@ -113,10 +113,10 @@ var ProgressList = React.createClass({
         }
       }
 
-      if (filter === "current" && progress.completed) {
+      if (filter === HeaderConstants.HEADER_FILTER_CURRENT && progress.completed) {
         continue;
       }
-      if (filter === "completed" && !progress.completed) {
+      if (filter === HeaderConstants.HEADER_FILTER_COMPLETED && !progress.completed) {
         continue;
       }
 
