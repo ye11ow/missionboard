@@ -13,7 +13,7 @@ describe('ProgressStore', function() {
   before(function () {
   });
 
-  const CATEGORY_IDS = [1, 2, 3];
+  const CATEGORY_IDS = ["1", "2", "3"];
 
   describe('#init()', function() {
     var persist = sinon.stub(ProgressStore, "persist");
@@ -121,6 +121,42 @@ describe('ProgressStore', function() {
       ProgressActions.destroyProgressByCategory(CATEGORY_IDS[1]);
 
       assert.equal(ProgressStore.getLengthByCategory(CATEGORY_IDS[1]), 0);
+    });
+  });
+
+  describe('#Action::update', function() {
+    it('should update a specific progress', function() {
+      const title = "NEW TITLE";
+      const current = 33;
+      const total = 45;
+      const category = "NEW CATEGORY";
+      const description = "NEW DESCRIPTION";
+
+      var id = Object.keys(ProgressStore.getAll())[0];
+      var progress = ProgressStore.getAll()[id];
+      var oldCreatedAt = progress.createdAt;
+
+      ProgressActions.update(progress.id, title, current, total, category, null, description);
+
+      progress = ProgressStore.getAll()[id];
+      assert.equal(progress.title, title);
+      assert.equal(progress.current, current);
+      assert.equal(progress.total, total);
+      assert.equal(progress.category, category);
+      assert.equal(progress.description, description);
+      assert.equal(progress.createdAt, oldCreatedAt);
+    });
+  });
+
+   describe('#Action::updateProgress', function() {
+    it('should update the progress of a specific progress', function() {
+      const current = 77;
+      var id = Object.keys(ProgressStore.getAll())[0];
+
+      ProgressActions.updateProgress(id, current);
+
+      var progress = ProgressStore.getAll()[id];
+      assert.equal(progress.current, current);
     });
   });
 

@@ -225,8 +225,6 @@ AppDispatcher.register(function(action) {
 
     case ProgressConstants.PROGRESS_UPDATE:
       title = action.title.trim();
-      current = action.current;
-      total = action.total;
       if (title !== '') {
         update(action.id, title, action.current, action.total, action.category, action.type, action.description);
       }
