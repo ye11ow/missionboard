@@ -1,8 +1,8 @@
 var React = require('react/addons'),
     $ = require('jquery'),
     i18n = require("../helpers/I18n"),
-    ProgressActions = require('../actions/ProgressActions'),
-    ProgressStore = require('../stores/ProgressStore');
+    MissionActions = require('../actions/MissionActions'),
+    MissionStore = require('../stores/MissionStore');
 
 function validate($title, $current, $total) {
   var title = $title.val(),
@@ -29,7 +29,7 @@ function validate($title, $current, $total) {
   return true;
 }
 
-const EMPTY_PROGRESS = {
+const EMPTY_MISSION = {
   id: null,
   title: null,
   current: null,
@@ -40,7 +40,7 @@ const EMPTY_PROGRESS = {
 
 var $modal = null;
 
-var ProgressForm = React.createClass({
+var MissionForm = React.createClass({
 
   propTypes: {
     categories: React.PropTypes.array.isRequired,
@@ -49,24 +49,24 @@ var ProgressForm = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
   componentWillUnmount() {
-    ProgressStore.removeChangeListener(this._onChange);
+    MissionStore.removeChangeListener(this._onChange);
   },
 
   getInitialState() {
-    return EMPTY_PROGRESS;
+    return EMPTY_MISSION;
   },
 
   handleSave() {
     var editing = this.state;
 
-    if (validate($(this.refs.progressTitle.getDOMNode()), $(this.refs.progressCurrent.getDOMNode()), $(this.refs.progressTotal.getDOMNode()))) {
+    if (validate($(this.refs.missionTitle.getDOMNode()), $(this.refs.missionCurrent.getDOMNode()), $(this.refs.missionTotal.getDOMNode()))) {
       var current = parseInt(editing.current),
           total = parseInt(editing.total);
 
       if ($modal.attr("data-role") === "add") {
-        ProgressActions.create(editing.title, current, total, editing.category, null, editing.description);
+        MissionActions.create(editing.title, current, total, editing.category, null, editing.description);
       } else if ($modal.attr("data-role") === "edit") {
-        ProgressActions.update(editing.id, editing.title, current, total, editing.category, null, editing.description);
+        MissionActions.update(editing.id, editing.title, current, total, editing.category, null, editing.description);
       }
 
       this.handleCancel();
@@ -74,21 +74,21 @@ var ProgressForm = React.createClass({
   },
 
   handleCancel() {
-    ProgressActions.setEditing(null);
+    MissionActions.setEditing(null);
   },
 
   componentDidMount() {
     var self = this;
-    $modal = $(this.refs.progressFormModal.getDOMNode());
+    $modal = $(this.refs.missionFormModal.getDOMNode());
 
-    ProgressStore.addChangeListener(this._onChange);
+    MissionStore.addChangeListener(this._onChange);
 
     $modal.on('shown.bs.modal', function () {
-      $(self.refs.progressCurrent.getDOMNode()).focus();
+      $(self.refs.missionCurrent.getDOMNode()).focus();
     });
 
     $modal.on('hidden.bs.modal', function () {
-      ProgressActions.setEditing(null);
+      MissionActions.setEditing(null);
     });
   },
 
@@ -97,9 +97,9 @@ var ProgressForm = React.createClass({
 
     if (editing.title) {
       $modal.modal("show");
-      $(this.refs.progressTitle.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
-      $(this.refs.progressCurrent.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
-      $(this.refs.progressTotal.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
+      $(this.refs.missionTitle.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
+      $(this.refs.missionCurrent.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
+      $(this.refs.missionTotal.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
     } else {
       $modal.modal("hide");
     }
@@ -129,7 +129,7 @@ var ProgressForm = React.createClass({
     }
 
     return (
-    <div ref="progressFormModal" className="modal fade" tabIndex="-1" data-role={role}>
+    <div ref="missionFormModal" className="modal fade" tabIndex="-1" data-role={role}>
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header">
@@ -141,7 +141,7 @@ var ProgressForm = React.createClass({
               <div className="form-group">
                 <label className="col-sm-2 control-label">{i18n.getMessage("labelMissionFormTitle")}</label>
                 <div className="col-sm-10">
-                  <input ref="progressTitle" type="text" className="form-control" placeholder="Gundam Seed" valueLink={this.linkState("title")} />
+                  <input ref="missionTitle" type="text" className="form-control" placeholder="Gundam Seed" valueLink={this.linkState("title")} />
                 </div>
               </div>
               <div className="form-group">
@@ -151,16 +151,16 @@ var ProgressForm = React.createClass({
                 </div>
               </div>
               <div className="row">
-                <div className="progress-current col-sm-5 form-group">
+                <div className="mission-current col-sm-5 form-group">
                   <label className="control-label">{i18n.getMessage("labelMissionFormCurrent")}</label>
                   <div className="">
-                    <input ref="progressCurrent" type="number" className="form-control" placeholder={i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("current")} />
+                    <input ref="missionCurrent" type="number" className="form-control" placeholder={i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("current")} />
                   </div>
                 </div>
-                <div className="progress-total form-group col-sm-5">
+                <div className="mission-total form-group col-sm-5">
                   <label className="control-label">{i18n.getMessage("labelMissionFormTotal")}</label>
                   <div className="">
-                    <input ref="progressTotal" type="number" className="form-control" placeholder={i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("total")} />
+                    <input ref="missionTotal" type="number" className="form-control" placeholder={i18n.getMessage("labelMissionProgressError")} valueLink={this.linkState("total")} />
                   </div>
                 </div>
               </div>
@@ -185,14 +185,14 @@ var ProgressForm = React.createClass({
   },
 
   _onChange() {
-    var editing = ProgressStore.getEditing();
+    var editing = MissionStore.getEditing();
 
     if (!editing) {
-      this.setState(EMPTY_PROGRESS);
+      this.setState(EMPTY_MISSION);
     } else {
       this.setState(editing);
     }
   }
 });
 
-module.exports = ProgressForm;
+module.exports = MissionForm;

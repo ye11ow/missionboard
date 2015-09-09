@@ -5,7 +5,7 @@ require("bootstrap");
 require('sweetalert');
 
 var React = require('react'),
-    ProgressStore = require('./stores/ProgressStore'),
+    MissionStore = require('./stores/MissionStore'),
     CategoryStore = require('./stores/CategoryStore'),
     introguide = require('./helpers/Introguide'),
     Storage = require('./helpers/Storage'),
@@ -26,15 +26,22 @@ React.render(
   document.getElementById('mission-board')
 );
 
-Storage.get(['_inited', '_categories', '_progresses'] , function(data){
+Storage.get(['_inited', '_categories', '_missions', '_progresses'] , function(data){
   if ('_inited' in data && data['_inited'] === true) {
+    if (data._progresses) {
+      MissionStore.loadMissions(data._progresses);
+      MissionStore.persist();
+      Storage.remove('_progresses');
+    } else {
+      MissionStore.loadMissions(data._missions);
+    }
     // promise here
     CategoryStore.loadCategories(data._categories);
-    ProgressStore.loadProgresses(data._progresses);
+    
   } else {
     Storage.set({'_inited': true});
     var ids = CategoryStore.init();
-    ProgressStore.init(ids);
+    MissionStore.init(ids);
 
     setTimeout(function() {
       introguide.startIntro();

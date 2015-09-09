@@ -1,27 +1,27 @@
 var React = require('react'),
     Header = require('./Header'),
-    ProgressList = require('./ProgressList'),
+    MissionList = require('./MissionList'),
     CategoryList = require('./CategoryList'),
-    ProgressStore = require('../stores/ProgressStore'),
+    MissionStore = require('../stores/MissionStore'),
     CategoryStore = require('../stores/CategoryStore'),
     CategoryConstants = require('../constants/CategoryConstants');
 
-function calcCategoryCount(categories, progresses) {
+function calcCategoryCount(categories, missions) {
   for (var key in categories) {
     categories[key].count = 0;
   }
 
-  for (var key in progresses) {
-    if (!progresses[key].completed) {
-      categories[progresses[key].category].count++;
+  for (var key in missions) {
+    if (!missions[key].completed) {
+      categories[missions[key].category].count++;
       categories[CategoryConstants.CATEGORY_ALLID].count++;
     }
   }
 }
 
-function getProgressState() {
+function getMissionState() {
   return {
-    progresses: ProgressStore.getAll(),
+    missions: MissionStore.getAll(),
     categories: CategoryStore.getAll(),
     category: CategoryStore.getCurrentCategory()
   };
@@ -30,23 +30,23 @@ function getProgressState() {
 var MissionBoard = React.createClass({
 
   getInitialState() {
-    return getProgressState();
+    return getMissionState();
   },
 
   componentDidMount() {
-    ProgressStore.addChangeListener(this._onChange);
+    MissionStore.addChangeListener(this._onChange);
     CategoryStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount() {
-    ProgressStore.removeChangeListener(this._onChange);
+    MissionStore.removeChangeListener(this._onChange);
     CategoryStore.removeChangeListener(this._onChange);
   },
 
   render() {
-    var progresses = this.state.progresses,
+    var missions = this.state.missions,
         categories = this.state.categories,
-        currentProgresses = {},
+        currentMissions = {},
         categoryList = [],
         category = null;
 
@@ -55,16 +55,16 @@ var MissionBoard = React.createClass({
       category = categories[this.state.category];
     }
 
-    // a key is need here for Progress.
+    // a key is need here for Mission.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-    for (var key in progresses) {
-      var progress = progresses[key];
-      if (!category || progress.category === category.id || category.system === true) {
-        currentProgresses[key] = progress;
+    for (var key in missions) {
+      var mission = missions[key];
+      if (!category || mission.category === category.id || category.system === true) {
+        currentMissions[key] = mission;
       }
     }
 
-    calcCategoryCount(categories, progresses);
+    calcCategoryCount(categories, missions);
     for (var key in categories) {
       categoryList.push(categories[key]);
     }
@@ -76,13 +76,13 @@ var MissionBoard = React.createClass({
 
         <CategoryList category={category} categories={categoryList} />
 
-        <ProgressList progresses={currentProgresses} category={category} categories={categoryList} />
+        <MissionList missions={currentMissions} category={category} categories={categoryList} />
       </div>
     );
   },
 
   _onChange() {
-    this.setState(getProgressState());
+    this.setState(getMissionState());
   }
 });
 

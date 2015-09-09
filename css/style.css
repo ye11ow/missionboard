@@ -148,30 +148,30 @@ h3 {
   padding: 20.5px 5px!important;
 }
 
-.progress-filter {
+.mission-filter {
   width: 90px;
   text-align: center;
   border-bottom: 1px solid;
 }
 
-.progress-order {
+.mission-order {
   width: 70px;
   text-align: center;
   border-bottom: 1px solid;
 }
 
 
-.progress-filter .fa-angle-down, 
-.progress-order .fa-angle-down {
+.mission-filter .fa-angle-down, 
+.mission-order .fa-angle-down {
   float: right;
   margin-top: 5px;
 }
 
-.progress-order:hover, .progress-filter:hover  {
+.mission-order:hover, .mission-filter:hover  {
   border-bottom: 3px solid #2196f3;
 }
 
-.progress-filter > a, .progress-order > a {
+.mission-filter > a, .mission-order > a {
   padding-left: 5px!important;
   padding-right: 5px!important;
   padding-bottom: 5px!important;
@@ -365,7 +365,7 @@ li.placeholder {
   text-align: center;
 }
 
-.progress-toolbar {
+.mission-toolbar {
   padding: 0px 15px;
   margin-bottom: 10px;
 }
@@ -379,7 +379,7 @@ li.placeholder {
   text-decoration: underline;
 }
 
-.create-progress {
+.create-mission {
   height: 36px;
   width: 36px;
   border-radius: 50%;
@@ -391,25 +391,25 @@ li.placeholder {
   display: none;
 }
 
-.progress-current {
+.mission-current {
   margin-left: 16.666% !important;
 }
 
-.progress-total {
+.mission-total {
   margin-left: 15px !important;
 }
 
-.progress {
+.mission {
   height: 40px;
   width: 100%;
 }
 
-.progress-title {
+.mission-title {
   margin-left: 10px;
   display: inline;
 }
 
-.progress-desc {
+.mission-desc {
   margin-left: 20px;
   color: #aaa;
 }
@@ -418,26 +418,26 @@ li.placeholder {
   background-color: yellow;
 }
 
-.progress-edit, .progress-done, .progress-delete {
+.mission-edit, .mission-done, .mission-delete {
   font-size: 18px;
 }
 
-.progress-edit {
+.mission-edit {
   float: left;
 }
 
-.progress-delete {
+.mission-delete {
   text-align: right;
   float: right;
 }
 
-.progress-edit:hover, .progress-done:hover, .progress-delete:hover {
+.mission-edit:hover, .mission-done:hover, .mission-delete:hover {
   font-size: 24px;
   color: red;
   cursor: pointer;
 }
 
-.progress-percentage {
+.mission-percentage {
   font-weight: bold;
   color: #4caf50;
   font-size: 16px;
@@ -446,22 +446,22 @@ li.placeholder {
   float: right;
 }
 
-.progress-control {
+.mission-control {
   clear: both;
   padding-top: 18px;
   padding-left: 20%;
   padding-right: 20%;
 }
 
-.progress-list .panel {
+.mission-list .panel {
   margin-bottom: 0px;
 }
 
-.progress {
+.mission {
   margin-bottom: 0;
 }
 
-.progress-slider {
+.mission-slider {
   margin-top: 10px;
   margin-bottom: 20px;
 }
@@ -470,7 +470,7 @@ li.placeholder {
   box-shadow: 0 2px 7px rgba(0,0,0,0.3);
 }
 
-.label-progress {
+.label-mission {
   height: 24px;
   font-size: 16px;
   width: 100%;

@@ -1,27 +1,27 @@
 var React = require('react/addons'),
     $ = require('jquery'),
     i18n = require("../helpers/I18n"),
-    ProgressActions = require('../actions/ProgressActions');
+    MissionActions = require('../actions/MissionActions');
 
-var Progress = React.createClass({
+var Mission = React.createClass({
 
   propTypes: {
     keyword: React.PropTypes.string,
-    progress: React.PropTypes.object.isRequired,
+    mission: React.PropTypes.object.isRequired,
   },
 
   getInitialState () {
     return {
-      current: this.props.progress.current
+      current: this.props.mission.current
     };
   },
 
   handleEdit() {
-    ProgressActions.setEditing(this.props.progress);
+    MissionActions.setEditing(this.props.mission);
   },
 
   handleDestroy() {
-    var id = this.props.progress.id;
+    var id = this.props.mission.id;
     
     swal({   
       title: i18n.getMessage("deleteMissionTitle"),
@@ -33,23 +33,23 @@ var Progress = React.createClass({
       cancelButtonText: i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) { 
-        ProgressActions.destroy(id);
+        MissionActions.destroy(id);
       }
     });
   },
 
   componentDidMount() {
     var self = this,
-        progress = this.props.progress,
+        mission = this.props.mission,
         $slider = $(this.refs.slider.getDOMNode());
 
     $slider.noUiSlider({
-      start: progress.current,
+      start: mission.current,
       connect: "lower",
       step: 1,
       range: {
-        'min': [  0 ],
-        'max': [ progress.total ]
+        'min': [ 0 ],
+        'max': [ mission.total ]
       }
     });
 
@@ -65,26 +65,32 @@ var Progress = React.createClass({
     });
 
     $slider.on('change', function(){
-      progress.current = parseInt($(this).val());
-      ProgressActions.updateProgress(progress.id, progress.current);
+      mission.current = parseInt($(this).val());
+      MissionActions.updateMission(mission.id, mission.current);
       $(self.refs.tipCurrent.getDOMNode()).hide();
     });
   },
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      current: nextProps.mission.current
+    });
+  },
+
   componentDidUpdate() {
-    var progress = this.props.progress,
+    var mission = this.props.mission,
         $slider = $(this.refs.slider.getDOMNode()),
         options = $slider.noUiSlider('options');
 
     if (options) {
-      if (options.range.max[0] !== progress.total || options.start !== progress.current) {
+      if (options.range.max[0] !== mission.total || options.start !== mission.current) {
         $slider.noUiSlider({
-          start: progress.current,
+          start: mission.current,
           connect: "lower",
           step: 1,
           range: {
             'min': [  0 ],
-            'max': [ progress.total ]
+            'max': [ mission.total ]
           }
         }, true);
       }
@@ -92,11 +98,11 @@ var Progress = React.createClass({
   },
 
   render() {
-    var progress = this.props.progress,
+    var mission = this.props.mission,
         current = this.state.current,
         keyword = this.props.keyword,
-        percentage = Math.floor(current * 100 / progress.total),
-        title = progress.title;
+        percentage = Math.floor(current * 100 / mission.total),
+        title = mission.title;
 
     if (keyword) {
       var start = title.toLowerCase().indexOf(keyword.toLowerCase()),
@@ -109,10 +115,10 @@ var Progress = React.createClass({
       <div className="panel panel-default">
         <div className="panel-body row">
           <div className="col-lg-10">
-            <h5 className="progress-title" dangerouslySetInnerHTML={{__html: title}} />
-            <small className="progress-desc">{progress.description}</small>
-            <label className="progress-percentage">{percentage}%</label>
-            <div ref="slider" className="progress-slider">
+            <h5 className="mission-title" dangerouslySetInnerHTML={{__html: title}} />
+            <small className="mission-desc">{mission.description}</small>
+            <label className="mission-percentage">{percentage}%</label>
+            <div ref="slider" className="mission-slider">
             </div>
             <div className="slider-tip">
               <span ref="tipCurrent">{current}</span>
@@ -120,13 +126,13 @@ var Progress = React.createClass({
           </div>
           <div className="col-lg-2">
             <div>
-              <span className="label label-success label-progress">
-                <span>{current}</span>/{progress.total}
+              <span className="label label-success label-mission">
+                <span>{current}</span>/{mission.total}
               </span>
             </div>
-            <div className="progress-control">
-              <i className="fa fa-pencil fa-lg progress-edit" onClick={this.handleEdit} /> 
-              <i className="fa fa-trash  fa-lg progress-delete" onClick={this.handleDestroy} />
+            <div className="mission-control">
+              <i className="fa fa-pencil fa-lg mission-edit" onClick={this.handleEdit} /> 
+              <i className="fa fa-trash  fa-lg mission-delete" onClick={this.handleDestroy} />
             </div>
           </div>
         </div>
@@ -135,4 +141,4 @@ var Progress = React.createClass({
   },
 });
 
-module.exports = Progress;
+module.exports = Mission;

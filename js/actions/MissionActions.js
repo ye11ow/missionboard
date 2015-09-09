@@ -1,14 +1,14 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
-    ProgressConstants = require('../constants/ProgressConstants');
+    MissionConstants = require('../constants/MissionConstants');
 
-var ProgressActions = {
+var MissionActions = {
 
   /**
    * @param  {string} title
    */
   create(title, current, total, category, type, description) {
     AppDispatcher.dispatch({
-      actionType: ProgressConstants.PROGRESS_CREATE,
+      actionType: MissionConstants.MISSION_CREATE,
       title,
       current,
       total,
@@ -19,18 +19,18 @@ var ProgressActions = {
   },
 
   /**
-   * @param  {Progress} progress
+   * @param  {Mission} mission
    */
-  setEditing(progress) {
+  setEditing(mission) {
     AppDispatcher.dispatch({
-      actionType: ProgressConstants.PROGRESS_EDITING,
-      progress
+      actionType: MissionConstants.MISSION_EDITING,
+      mission
     });
   },
 
   update(id, title, current, total, category, type, description) {
     AppDispatcher.dispatch({
-      actionType: ProgressConstants.PROGRESS_UPDATE,
+      actionType: MissionConstants.MISSION_UPDATE,
       id,
       title,
       current,
@@ -41,9 +41,9 @@ var ProgressActions = {
     });
   },
 
-  updateProgress(id, current) {
+  updateMission(id, current) {
     AppDispatcher.dispatch({
-      actionType: ProgressConstants.PROGRESS_UPDATE_PROGRESS,
+      actionType: MissionConstants.MISSION_UPDATE_MISSION,
       id,
       current
     });
@@ -54,7 +54,7 @@ var ProgressActions = {
    */
   destroy(id) {
     AppDispatcher.dispatch({
-      actionType: ProgressConstants.PROGRESS_DESTROY,
+      actionType: MissionConstants.MISSION_DESTROY,
       id
     });
   },
@@ -62,13 +62,13 @@ var ProgressActions = {
   /**
    * @param  {string} categoryId
    */
-  destroyProgressByCategory(categoryId) {
+  destroyMissionByCategory(categoryId) {
     AppDispatcher.dispatch({
-      actionType: ProgressConstants.PROGRESS_DESTROY_BY_CATEGORY,
+      actionType: MissionConstants.MISSION_DESTROY_BY_CATEGORY,
       categoryId
     });
   }
 
 };
 
-module.exports = ProgressActions;
+module.exports = MissionActions;

@@ -95,7 +95,7 @@ var Header = React.createClass({
           <ul className="nav navbar-nav navbar-right">
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{i18n.getMessage("labelFilterShowing")}</a></li>
-            <li className="progress-filter dropdown">
+            <li className="mission-filter dropdown">
               <a ref="activeFilter" href="#" className="dropdown-toggle" data-toggle="dropdown">{i18n.getMessage("labelFilterCurrent")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleFilter}>
                 <li><a href="#" data-filter={HeaderConstants.HEADER_FILTER_ALL}>{i18n.getMessage("labelFilterAll")}</a></li>
@@ -106,7 +106,7 @@ var Header = React.createClass({
             <li className="navbar-label"><a href="#">{i18n.getMessage("labelMissions")}</a></li>
             <li className="divider"></li>
             <li className="navbar-label"><a href="#">{i18n.getMessage("labelOrderby")}</a></li>
-            <li className="progress-order dropdown">
+            <li className="mission-order dropdown">
               <a ref="activeOrder" href="#" className="dropdown-toggle" data-toggle="dropdown">{i18n.getMessage("labelOrderbyTitle")}<i className="fa fa-angle-down fa-lg"/></a>
               <ul className="dropdown-menu" role="menu" onClick={this.handleOrder}>
                 <li className="active"><a href="#" data-orderby="title" data-ordertype="asc"><i className="fa fa-sort-alpha-asc" /> {i18n.getMessage("labelOrderbyTitle")}</a></li>

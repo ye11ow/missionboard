@@ -1,9 +1,9 @@
 var React = require('react'),
     $ = require('jquery'),
     i18n = require("../helpers/I18n"),
-    Progress = require('./Progress'),
-    ProgressForm = require('./ProgressForm'),
-    ProgressActions = require('../actions/ProgressActions'),
+    Mission = require('./Mission'),
+    MissionForm = require('./MissionForm'),
+    MissionActions = require('../actions/MissionActions'),
     CategoryActions = require('../actions/CategoryActions'),
     HeaderStore = require('../stores/HeaderStore'),
     HeaderConstants = require('../constants/HeaderConstants');
@@ -30,10 +30,10 @@ function getSorting(order) {
   }
 }
 
-var ProgressList = React.createClass({
+var MissionList = React.createClass({
 
   propTypes: {
-    progresses: React.PropTypes.object,
+    missions: React.PropTypes.object,
     category: React.PropTypes.object.isRequired,
     categories: React.PropTypes.array.isRequired
   },
@@ -48,7 +48,7 @@ var ProgressList = React.createClass({
 
   getInitialState () {
     return {
-      //count: this.props.progresses.count,
+      //count: this.props.missions.count,
       keyword: HeaderStore.getKeyword(),
       filter: HeaderStore.getFilter(),
       orderby: HeaderStore.getOrderby()
@@ -56,18 +56,18 @@ var ProgressList = React.createClass({
   },
 
   handleFocus() {
-    $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMissionTips"));
+    $(this.refs.missionTip.getDOMNode()).text(i18n.getMessage("labelCreateMissionTips"));
   },
 
   handleBlur() {
-    var $input = $(this.refs.progressTitle.getDOMNode()),
+    var $input = $(this.refs.missionTitle.getDOMNode()),
         title = $input.val();
 
     if (title && title.length > 0) {
       $input.parent().addClass("input--filled");
     } else {
       $input.parent().removeClass("input--filled");
-      $(this.refs.progressTip.getDOMNode()).text(i18n.getMessage("labelCreateMission"));
+      $(this.refs.missionTip.getDOMNode()).text(i18n.getMessage("labelCreateMission"));
     }
   },
 
@@ -75,11 +75,11 @@ var ProgressList = React.createClass({
     if (event.which === 13) {
 
       // "ENTER" pressed
-      var $input = $(this.refs.progressTitle.getDOMNode()),
+      var $input = $(this.refs.missionTitle.getDOMNode()),
           title = $input.val();
 
       if (typeof title === "string" && title.length > 0) {
-        ProgressActions.setEditing({
+        MissionActions.setEditing({
           id: null,
           title: title,
           category: this.props.category.id
@@ -90,65 +90,65 @@ var ProgressList = React.createClass({
     } else if (event.which === 27) {
 
       // "ESC" pressed
-      var $input = $(this.refs.progressTitle.getDOMNode());
+      var $input = $(this.refs.missionTitle.getDOMNode());
       $input.val("").blur();
     }
   },
 
   render() {
-    var progresses = this.props.progresses,
-        progressList = [],
+    var missions = this.props.missions,
+        missionList = [],
         orderby = this.state.orderby,
         keyword = this.state.keyword,
         filter = this.state.filter;
 
-    // a key is need here for Progress.
+    // a key is need here for Mission.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-    for (var key in progresses) {
-      var progress = progresses[key];
+    for (var key in missions) {
+      var mission = missions[key];
 
       if (keyword.length > 0) {
-        if (progress.title.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
+        if (mission.title.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
           continue;
         }
       }
 
-      if (filter === HeaderConstants.HEADER_FILTER_CURRENT && progress.completed) {
+      if (filter === HeaderConstants.HEADER_FILTER_CURRENT && mission.completed) {
         continue;
       }
-      if (filter === HeaderConstants.HEADER_FILTER_COMPLETED && !progress.completed) {
+      if (filter === HeaderConstants.HEADER_FILTER_COMPLETED && !mission.completed) {
         continue;
       }
 
-      progress.percent = progress.current * 100 / progress.total; 
+      mission.percent = mission.current * 100 / mission.total; 
 
-      progressList.push(progress);
+      missionList.push(mission);
     }
 
-    progressList.sort(getSorting(orderby));
+    missionList.sort(getSorting(orderby));
 
     return (
       <div className="container-fluid main-container">
 
-        <ProgressForm categories={this.props.categories} />
+        <MissionForm categories={this.props.categories} />
 
-        <div className="progress-toolbar">
+        <div className="mission-toolbar">
           <div className="row">
             <div className="col-lg-7 col-lg-offset-2">
               <span className="input input--hoshi">
-                <input ref="progressTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
+                <input ref="missionTitle" type="text" className="input__field input__field--hoshi" onKeyDown={this.handlePreAdd} onFocus={this.handleFocus} onBlur={this.handleBlur} />
                 <label className="input__label input__label--hoshi input__label--hoshi-color-1">
-                  <span ref="progressTip" className="input__label-content input__label-content--hoshi">{i18n.getMessage("labelCreateMission")}</span>
+                  <span ref="missionTip" className="input__label-content input__label-content--hoshi">{i18n.getMessage("labelCreateMission")}</span>
                 </label>
               </span>
-              {/*<a href="#" ref="createBtn" className="btn btn-primary create-progress" onClick={this.handlePreAdd}><i className="fa fa-plus" /></a>*/}
+              {/*<a href="#" ref="createBtn" className="btn btn-primary create-mission" onClick={this.handlePreAdd}><i className="fa fa-plus" /></a>*/}
             </div>
           </div>
         </div>
 
-        <div className="progress-list">
-          {progressList.map((function(p) {
-            return <Progress keyword={keyword} key={p.id} progress={p} />
+        <div className="mission-list">
+          {missionList.map((function(p) {
+            return <Mission keyword={keyword} key={p.id} mission={p} />
           }))}
         </div>
       </div>  
@@ -165,4 +165,4 @@ var ProgressList = React.createClass({
 
 });
 
-module.exports = ProgressList;
+module.exports = MissionList;

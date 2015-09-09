@@ -23,7 +23,7 @@ var hopscotch = require("hopscotch"),
         {
           title: i18n.getMessage("ttMissionTitle"),
           content: i18n.getMessage("ttMissionText"),
-          target: ".progress-list",
+          target: ".mission-list",
           placement: "top"
         },
         {
@@ -35,7 +35,7 @@ var hopscotch = require("hopscotch"),
         {
           title: i18n.getMessage("ttFilterTitle"),
           content: i18n.getMessage("ttFilterText"),
-          target: ".progress-filter",
+          target: ".mission-filter",
           placement: "left"
         },
 

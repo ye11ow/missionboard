@@ -2,20 +2,20 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events').EventEmitter,
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
-    ProgressConstants = require('../constants/ProgressConstants');
+    MissionConstants = require('../constants/MissionConstants');
 
 var utils = require('../helpers/Utils.js');
 
 const CHANGE_EVENT = 'change';
 
-var _progresses = {},
+var _missions = {},
     _editing = null;
 
 /**
- * Create a Progress.
+ * Create a Mission.
  */
 function create(title, current, total, category, type, description) {
-  var progress = {
+  var mission = {
     id: utils.UUID(),
     title,
     current,
@@ -27,69 +27,69 @@ function create(title, current, total, category, type, description) {
     createdAt: Date.now(),
   };
      
-  _progresses[progress.id] = progress;
+  _missions[mission.id] = mission;
 
-  return progress.id;
+  return mission.id;
 }
 
-function setEditing(progress) {
-  _editing = progress;
+function setEditing(mission) {
+  _editing = mission;
 }
 
 /**
- * Delete a Progress.
+ * Delete a Mission.
  * @param  {string} id
  */
 function destroy(id) {
-  delete _progresses[id];
+  delete _missions[id];
 }
 
 function destoryByCategory(categoryId) {
-  for (var key in _progresses) {
-    if (_progresses[key].category === categoryId) {
+  for (var key in _missions) {
+    if (_missions[key].category === categoryId) {
       destroy(key);
     }
   }
 }
 
 function update(id, title, current, total, category, type, description) {
-  var progress = _progresses[id];
-  if (progress) {
+  var mission = _missions[id];
+  if (mission) {
     if (title && title.length > 0) {
-      progress.title = title;
+      mission.title = title;
     }
     if (typeof current === "number" && current >= 0) {
-      progress.current = current;
+      mission.current = current;
     }
     if (typeof total === "number" && total >= 0) {
-      progress.total = total;
+      mission.total = total;
     }
     if (category && category.length > 0) {
-      progress.category = category;
+      mission.category = category;
     }
     if (type && type.length > 0) {
-      progress.type = type;
+      mission.type = type;
     }
     
-    progress.description = description;
-    progress.completed = (progress.current >= progress.total);
+    mission.description = description;
+    mission.completed = (mission.current >= mission.total);
   }
 }
 
-function updateProgress(id, current) {
-  var progress = _progresses[id];
-  if (progress) {
+function updateMission(id, current) {
+  var mission = _missions[id];
+  if (mission) {
     if (current && typeof current === "number") {
       if (current === -1) {
-        current = progress.total;
+        current = mission.total;
       }
-      progress.current = current;
+      mission.current = current;
     }
-    progress.completed = (progress.current >= progress.total);
+    mission.completed = (mission.current >= mission.total);
   }
 }
 
-var ProgressStore = Object.assign({}, EventEmitter.prototype, {
+var MissionStore = Object.assign({}, EventEmitter.prototype, {
 
   init(ids) {
     var pIds = [];
@@ -134,18 +134,18 @@ var ProgressStore = Object.assign({}, EventEmitter.prototype, {
       i18n.getMessage("sampleOther1Desc")
     ));
 
-    ProgressStore.persist();
-    ProgressStore.emitChange();
+    MissionStore.persist();
+    MissionStore.emitChange();
 
     return pIds;
   },
 
-  loadProgresses(progresses) {
-    _progresses = progresses;
+  loadMissions(missions) {
+    _missions = missions;
   },
 
   getAll() {
-    return _progresses;
+    return _missions;
   },
 
   getEditing() {
@@ -154,8 +154,8 @@ var ProgressStore = Object.assign({}, EventEmitter.prototype, {
 
   getLengthByCategory(category) {
     var length = 0;
-    for (var i in _progresses) {
-      if (_progresses[i].category === category) {
+    for (var i in _missions) {
+      if (_missions[i].category === category) {
         length++;
       }
     }
@@ -164,8 +164,8 @@ var ProgressStore = Object.assign({}, EventEmitter.prototype, {
 
   getCompleted() {
     var completed = 0;
-    for (var i in _progresses) {
-      if (_progresses[i].current >= _progresses[i].total) {
+    for (var i in _missions) {
+      if (_missions[i].current >= _missions[i].total) {
         completed++;
       }
     }
@@ -191,11 +191,11 @@ var ProgressStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   persist() {
-    Storage.set({'_progresses': _progresses}, function() {});
+    Storage.set({'_missions': _missions}, function() {});
   },
 
   clear() {
-    Storage.remove('_progresses');
+    Storage.remove('_missions');
   }
 
 });
@@ -204,45 +204,45 @@ AppDispatcher.register(function(action) {
   var title;
 
   switch(action.actionType) {
-    case ProgressConstants.PROGRESS_CREATE:
+    case MissionConstants.MISSION_CREATE:
       title = action.title.trim();
       if (title !== '') {
         action.id = create(title, action.current, action.total, action.category, action.type, action.description);
       }
       break;
 
-    case ProgressConstants.PROGRESS_EDITING:
-      setEditing(action.progress);
+    case MissionConstants.MISSION_EDITING:
+      setEditing(action.mission);
       break;
 
-    case ProgressConstants.PROGRESS_DESTROY:
+    case MissionConstants.MISSION_DESTROY:
       destroy(action.id);
       break;
 
-    case ProgressConstants.PROGRESS_DESTROY_BY_CATEGORY:
+    case MissionConstants.MISSION_DESTROY_BY_CATEGORY:
       destoryByCategory(action.categoryId);
       break;
 
-    case ProgressConstants.PROGRESS_UPDATE:
+    case MissionConstants.MISSION_UPDATE:
       title = action.title.trim();
       if (title !== '') {
         update(action.id, title, action.current, action.total, action.category, action.type, action.description);
       }
       break;
 
-    case ProgressConstants.PROGRESS_UPDATE_PROGRESS:
-      updateProgress(action.id, action.current);
+    case MissionConstants.MISSION_UPDATE_MISSION:
+      updateMission(action.id, action.current);
       break;
 
     default:
       return true;
   }
 
-  ProgressStore.persist();
-  ProgressStore.emitChange();
+  MissionStore.persist();
+  MissionStore.emitChange();
 
   return true; // No errors.  Needed by promise in Dispatcher.
 });
 
 
-module.exports = ProgressStore;
+module.exports = MissionStore;

@@ -2,9 +2,9 @@ var React = require('react'),
     $ = require('jquery'),
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
-    ProgressStore = require('../stores/ProgressStore'),
+    MissionStore = require('../stores/MissionStore'),
     CategoryActions = require('../actions/CategoryActions'),
-    ProgressActions = require('../actions/ProgressActions'),
+    MissionActions = require('../actions/MissionActions'),
     CategoryConstants = require('../constants/CategoryConstants');
 
 const MODE_NORMAL  = 1,
@@ -116,7 +116,7 @@ var CategoryList = React.createClass({
 
     swal({
       title: i18n.getMessage("deleteCategoryTitle"),
-      text: ProgressStore.getLengthByCategory(id) > 0 ? i18n.getMessage("deleteCategory") : i18n.getMessage("deleteEmptyCategory"),
+      text: MissionStore.getLengthByCategory(id) > 0 ? i18n.getMessage("deleteCategory") : i18n.getMessage("deleteEmptyCategory"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
@@ -124,7 +124,7 @@ var CategoryList = React.createClass({
       cancelButtonText: i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) {
-        ProgressActions.destroyProgressByCategory(id);
+        MissionActions.destroyMissionByCategory(id);
         CategoryActions.destroy(id);
       }
     });
