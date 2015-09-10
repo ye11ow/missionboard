@@ -104,7 +104,11 @@ var CategoryStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   loadCategories(categories) {
-    _categories = categories;
+    if (typeof categories !== "object") {
+      _categories = {};
+    } else {
+      _categories = categories;
+    }
   },
 
   getAll() {

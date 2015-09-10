@@ -141,7 +141,11 @@ var MissionStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   loadMissions(missions) {
-    _missions = missions;
+    if (typeof missions !== "object") {
+      _missions = {};
+    } else {
+      _missions = missions;
+    }
   },
 
   getAll() {

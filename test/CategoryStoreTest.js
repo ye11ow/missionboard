@@ -46,7 +46,21 @@ describe('CategoryStore', function() {
     it('should load some categories', function() {
       var categoriesBak = CategoryStore.getAll();
 
-      CategoryStore.loadCategories([]);
+      CategoryStore.loadCategories({});
+      var categories = CategoryStore.getAll();
+
+      assert.equal(Object.keys(categories).length, 1);
+
+      CategoryStore.loadCategories(categoriesBak);
+      categories = CategoryStore.getAll();
+
+      assert.equal(Object.keys(categories).length, 4);
+    });
+
+    it('should set empty when parameter is wrong', function() {
+      var categoriesBak = CategoryStore.getAll();
+
+      CategoryStore.loadCategories(undefined);
       var categories = CategoryStore.getAll();
 
       assert.equal(Object.keys(categories).length, 1);

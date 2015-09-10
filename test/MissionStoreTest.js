@@ -50,6 +50,17 @@ describe('MissionStore', function() {
 
       assert.equal(Object.keys(missions).length, 5);
     });
+
+    it('should set empty when parameter is wrong', function() {
+      var missionsBak = MissionStore.getAll();
+
+      MissionStore.loadMissions(undefined);
+      var missions = MissionStore.getAll();
+
+      assert.equal(Object.keys(missions).length, 0);
+
+      MissionStore.loadMissions(missionsBak);
+    });
   });
 
   describe('#getEditing() & #Action::setEditing', function() {
