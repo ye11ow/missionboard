@@ -1,6 +1,5 @@
 require("babel/polyfill");
 require("jquery");
-require("nouislider");
 require("bootstrap");
 require('sweetalert');
 

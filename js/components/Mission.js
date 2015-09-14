@@ -1,6 +1,7 @@
 var React = require('react/addons'),
     $ = require('jquery'),
     i18n = require("../helpers/I18n"),
+    noUiSlider = require("nouislider"),
     MissionActions = require('../actions/MissionActions');
 
 var Mission = React.createClass({
@@ -41,9 +42,9 @@ var Mission = React.createClass({
   componentDidMount() {
     var self = this,
         mission = this.props.mission,
-        $slider = $(this.refs.slider.getDOMNode());
+        slider = this.refs.slider.getDOMNode();
 
-    $slider.noUiSlider({
+    noUiSlider.create(slider, {
       start: mission.current,
       connect: "lower",
       step: 1,
@@ -53,19 +54,22 @@ var Mission = React.createClass({
       }
     });
 
-    $slider.on('slide', function(){
-      var val = parseInt($(this).val()),
-          $container = $(this).parent().parent();
+    slider.noUiSlider.options = {
+      max: mission.total
+    };
+
+    slider.noUiSlider.on('slide', function(values, handle){
+      var val = parseInt(values[handle]),
+          $tips =  $(self.refs.tipCurrent.getDOMNode());
 
       self.setState({ current: val }); 
 
-      var $tips =  $(self.refs.tipCurrent.getDOMNode());
       $tips.css("left", $(this).find(".noUi-origin").css("left"));
       $tips.show();
     });
 
-    $slider.on('change', function(){
-      mission.current = parseInt($(this).val());
+    slider.noUiSlider.on('change', function(values, handle){
+      mission.current = parseInt(values[handle]),
       MissionActions.updateMission(mission.id, mission.current);
       $(self.refs.tipCurrent.getDOMNode()).hide();
     });
@@ -79,21 +83,24 @@ var Mission = React.createClass({
 
   componentDidUpdate() {
     var mission = this.props.mission,
-        $slider = $(this.refs.slider.getDOMNode()),
-        options = $slider.noUiSlider('options');
+        slider = this.refs.slider.getDOMNode();
 
-    if (options) {
-      if (options.range.max[0] !== mission.total || options.start !== mission.current) {
-        $slider.noUiSlider({
-          start: mission.current,
-          connect: "lower",
-          step: 1,
-          range: {
-            'min': [  0 ],
-            'max': [ mission.total ]
-          }
-        }, true);
-      }
+    if (slider.noUiSlider.options.max !== mission.total) {
+      slider.noUiSlider.destroy();
+
+      noUiSlider.create(slider, {
+        start: mission.current,
+        connect: "lower",
+        step: 1,
+        range: {
+          'min': [ 0 ],
+          'max': [ mission.total ]
+        }
+      });
+
+      slider.noUiSlider.options = {
+        max: mission.total
+      };
     }
   },
 
@@ -114,7 +121,7 @@ var Mission = React.createClass({
     return (
       <div className="panel panel-default">
         <div className="panel-body row">
-          <div className="col-lg-10">
+          <div className="col-lg-10"> 
             <h5 className="mission-title" dangerouslySetInnerHTML={{__html: title}} />
             <small className="mission-desc">{mission.description}</small>
             <label className="mission-percentage">{percentage}%</label>

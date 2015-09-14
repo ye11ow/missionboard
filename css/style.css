@@ -407,11 +407,15 @@ li.placeholder {
 .mission-title {
   margin-left: 10px;
   display: inline;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .mission-desc {
   margin-left: 20px;
   color: #aaa;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .title-highlight {

@@ -9,6 +9,7 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.4",
     "hopscotch": "~0.2.4",
+    "nouislider": "~8.0.2",
     "sweetalert": "*",
     "font-awesome": "~4.3.0"
   },
@@ -37,16 +38,10 @@
   "license": "MIT",
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.min.js",
-    "nouislider": "./js/libs/jquery.nouislider.all.min.js",
     "bootstrap": "./node_modules/bootstrap/dist/js/bootstrap.min.js"
   },
   "browserify-shim": {
     "jquery": "$",
-    "nouislider": {
-      "depends": [
-        "jquery"
-      ]
-    },
     "bootstrap": {
       "depends": [
         "jquery"
