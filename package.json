@@ -24,14 +24,17 @@
     "grunt-contrib-compress": "~0.13.0",
     "grunt-contrib-copy": "~0.7.0",
     "grunt-contrib-uglify": "~0.7.0",
+    "jsdom": "~6.5.0",
+    "mocha-jsdom": "~1.0.0",
     "mocha": "~2.2.5",
+    "chai": "~2.1.0",
     "sinon": "~1.15.4",
     "uglify-js": "~2.4.13",
     "watchify": "~3.2.1"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d .",
-    "test": "mocha --compilers js:babel/register"
+    "test": "mocha -R nyan --compilers js:babel/register"
   },
   "author": "Calvin Zhang",
   "repository": "https://github.com/ye11ow/missionboard",

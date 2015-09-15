@@ -25,6 +25,8 @@ var CategoryList = React.createClass({
         $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
+
+    $(this.refs.leftMenu.getDOMNode()).find(`[data-category="${this.props.category.id}"]`).addClass("active");
   },
 
   getInitialState() {
@@ -207,7 +209,7 @@ var CategoryList = React.createClass({
                 </li>
               );
             } else {
-              return <li className="category active" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
+              return <li className="category" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
           }).bind(this))}
           <li className={`${visibleAdding} category-title`}>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mission Board</title>
+  <link href="../../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../node_modules/nouislider/distribute/nouislider.min.css" rel="stylesheet">
+  <link href="../../node_modules/sweetalert/dist/sweetalert.css" rel="stylesheet">
+  <link href="../../node_modules/hopscotch/dist/css/hopscotch.min.css" rel="stylesheet">
+  <link href="../../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../../css/style.css" rel="stylesheet">
+  <link href="../../node_modules/mocha/mocha.css" rel="stylesheet">
+  <script src="../../node_modules/chai/chai.js"></script>
+  <script src="../../node_modules/mocha/mocha.js"></script>
+
+</head>
+<body id="mission-board">
+  <script src="../../js/bundle.js"></script>
+  <script>
+    mocha.setup('bdd');
+    assert = chai.assert;
+  </script>
+  <script src="test.js"></script>
+  <script>
+    var mochaDOM = document.createElement("div");
+    mochaDOM.id = "mocha";
+    mochaDOM.style.display = "none";
+    var body = document.body;
+    body.appendChild(mochaDOM);
+
+    function show() {
+      var el = document.querySelector('[data-reactid=".1"]');
+      el.parentNode.removeChild(el);
+      mochaDOM.style.display = "initial";
+    }
+
+    mocha.run();
+
+  </script>
+</body>
+</html>
