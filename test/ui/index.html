@@ -17,11 +17,15 @@
 
 </head>
 <body id="mission-board">
+  <script>
+    localStorage.clear();
+  </script>
   <script src="../../js/bundle.js"></script>
   <script>
     mocha.setup('bdd');
     assert = chai.assert;
   </script>
+  <script src="helper.js"></script>
   <script src="test.js"></script>
   <script>
     var mochaDOM = document.createElement("div");

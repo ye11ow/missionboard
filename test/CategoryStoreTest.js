@@ -1,7 +1,6 @@
 var assert = require("assert");
 var sinon = require("sinon");
 
-
 /**
  * Test cases for CategoryStore and CategoryActions
  * @todo Action::updateOrder
