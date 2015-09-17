@@ -3,11 +3,10 @@
  * @todo helper functions
  */ 
 describe('MissionBoard', function() {
-  var singleClick = document.createEvent('HTMLEvents');
-  var dblClick = document.createEvent('HTMLEvents');
 
-  singleClick.initEvent('click', true, false);
-  dblClick.initEvent('dblclick', true, false);
+  after(function() {
+    show();
+  });
 
   describe('Render', function() {
     it('should have four categories', function() {
@@ -23,17 +22,23 @@ describe('MissionBoard', function() {
       assert.equal(missions.length, 4);
     });
 
-    it('should show tutorial and then close it', function() {
-      setTimeout(function() {
+    describe('Tutorial', function() {
+      before(function(done) {
+        setTimeout(function() {
+          done();
+        }, 500);
+      });
+
+      it('should show tutorial and then close it', function() {
         var tutorial = document.querySelector(".hopscotch-bubble");
         var closeButton = document.querySelector(".hopscotch-close");
 
         assert.notEqual(tutorial.style.display, "none");
 
-        closeButton.dispatchEvent(singleClick);
+        Helper.singleClick(closeButton);
         assert.equal(tutorial.style.display, "");
-      }, 500);
-    });
+      });
+    })    
   });
 
   describe('Category', function() {
@@ -44,7 +49,7 @@ describe('MissionBoard', function() {
       it('should remove current active category', function() {
         active = document.querySelector(".category.active");
 
-        next.querySelector('a').dispatchEvent(singleClick);
+        Helper.singleClick(next.querySelector('a'));
 
         assert(!active.classList.contains("active"));
       });
@@ -67,15 +72,15 @@ describe('MissionBoard', function() {
       var popover = document.querySelector(".popover-edit");
 
       it('should not allow edit default category', function() {
-        defaultCategory.querySelector('a').dispatchEvent(singleClick);
-        defaultCategory.querySelector('a').dispatchEvent(dblClick);
+        Helper.singleClick(defaultCategory.querySelector('a'));
+        Helper.dblClick(defaultCategory.querySelector('a'));
 
         assert.equal(popover.style.display, "none");
       });
 
       it('should pop up popover', function() {
-        category.querySelector('a').dispatchEvent(singleClick);
-        category.querySelector('a').dispatchEvent(dblClick);
+        Helper.singleClick(category.querySelector('a'));
+        Helper.dblClick(category.querySelector('a'));
 
         assert.notEqual(popover.style.display, "none");
       });
@@ -88,7 +93,7 @@ describe('MissionBoard', function() {
 
         input.value = newTitle;
 
-        btn.dispatchEvent(singleClick);
+        Helper.singleClick(btn);
 
         assert.notEqual(category.querySelector('[data-role="title"]').innerText, oldTitle);
         assert.equal(category.querySelector('[data-role="title"]').innerText, newTitle);
@@ -99,20 +104,24 @@ describe('MissionBoard', function() {
       var category = document.querySelectorAll("li.category")[1];
       var popover = document.querySelector(".popover-edit");
 
-      it('should delete the category', function() {
+      before(function(done) {
         var btn = popover.querySelector("i.fa-trash");
 
-        category.querySelector('a').dispatchEvent(singleClick);
-        category.querySelector('a').dispatchEvent(dblClick);
-        btn.dispatchEvent(singleClick);
-
-        var confirm = document.querySelector(".sweet-alert button.confirm");
+        Helper.singleClick(category.querySelector('a'));
+        Helper.dblClick(category.querySelector('a'));
+        Helper.singleClick(btn);
 
         setTimeout(function() {
-          var oldLength = document.querySelectorAll("li.category").length;
-          confirm.dispatchEvent(singleClick);
-          assert.equal(oldLength - 1, document.querySelectorAll("li.category").length)
+          done();
         }, 500);
+      });
+
+      it('should delete the category', function() {
+        var confirm = document.querySelector(".sweet-alert button.confirm");
+        var oldLength = document.querySelectorAll("li.category").length;
+
+        Helper.singleClick(confirm);
+        assert.equal(oldLength - 1, document.querySelectorAll("li.category").length)
       });
     });
 
@@ -120,7 +129,7 @@ describe('MissionBoard', function() {
       it('should add a new category', function() {
         const newTitle = "NEWCATEGORY"
         var addButton = document.querySelector(".category-add");
-        addButton.dispatchEvent(singleClick);
+        Helper.singleClick(addButton);
 
         var titleInput = document.querySelector(".category-title > input");
         assert.notEqual(titleInput.style.display, "none");
@@ -129,7 +138,7 @@ describe('MissionBoard', function() {
         assert.notEqual(titleInput.style.display, "none");
 
         titleInput.value = newTitle;
-        confirm.dispatchEvent(singleClick);
+        Helper.singleClick(confirm);
 
         var categories = document.querySelectorAll("li.category");
         var category = categories[categories.length - 1];
@@ -172,23 +181,27 @@ describe('MissionBoard', function() {
       });
     });
 
-    // describe('Delete', function() {
-    //   it('should delete a mission', function() {
-    //     var mission = missions[missions.length - 1];
+    describe('Delete', function() {
+      var mission = missions[missions.length - 1];
 
-    //     var btn = mission.querySelector("i.mission-delete");
+      before(function(done) {
+        var btn = mission.querySelector("i.mission-delete");
 
-    //     btn.dispatchEvent(singleClick);
+        Helper.singleClick(btn);
 
-    //     var confirm = document.querySelector(".sweet-alert button.confirm");
+        setTimeout(function() {
+          done();
+        }, 500);
+      });
 
-    //     setTimeout(function() {
-    //       var oldLength = missions.length;
-    //       confirm.dispatchEvent(singleClick);
-    //       assert.equal(oldLength - 1, missions.length)
-    //     }, 500);
-    //   });
-    // });
+      it('should delete a mission', function() {
+        var confirm = document.querySelector(".sweet-alert button.confirm");
+        var oldLength = missions.length;
+
+        Helper.singleClick(confirm);
+        assert.equal(oldLength - 1, document.querySelectorAll(".mission-list > div.panel").length)
+      });
+    });
   });
 
 });
