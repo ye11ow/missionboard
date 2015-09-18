@@ -1,5 +1,4 @@
 var React = require('react'),
-    $ = require('jquery'),
     i18n = require("../helpers/I18n"),
     Mission = require('./Mission'),
     MissionForm = require('./MissionForm'),
@@ -56,27 +55,27 @@ var MissionList = React.createClass({
   },
 
   handleFocus() {
-    $(this.refs.missionTip.getDOMNode()).text(i18n.getMessage("labelCreateMissionTips"));
+    this.refs.missionTip.getDOMNode().textContent = i18n.getMessage("labelCreateMissionTips");
   },
 
   handleBlur() {
-    var $input = $(this.refs.missionTitle.getDOMNode()),
-        title = $input.val();
+    var input = this.refs.missionTitle.getDOMNode(),
+        title = input.value;
 
     if (title && title.length > 0) {
-      $input.parent().addClass("input--filled");
+      input.parentNode.classList.add("input--filled");
     } else {
-      $input.parent().removeClass("input--filled");
-      $(this.refs.missionTip.getDOMNode()).text(i18n.getMessage("labelCreateMission"));
+      input.parentNode.classList.remove("input--filled");
+      this.refs.missionTip.getDOMNode().textContent = i18n.getMessage("labelCreateMission");
     }
   },
 
   handlePreAdd(event) {
+    var input = this.refs.missionTitle.getDOMNode();
     if (event.which === 13) {
 
       // "ENTER" pressed
-      var $input = $(this.refs.missionTitle.getDOMNode()),
-          title = $input.val();
+      var title = input.value;
 
       if (typeof title === "string" && title.length > 0) {
         MissionActions.setEditing({
@@ -86,12 +85,12 @@ var MissionList = React.createClass({
         });
       }
 
-      $input.val("");
+      input.value = "";
     } else if (event.which === 27) {
 
       // "ESC" pressed
-      var $input = $(this.refs.missionTitle.getDOMNode());
-      $input.val("").blur();
+      input.value = "";
+      input.blur();
     }
   },
 
