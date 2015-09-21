@@ -10,7 +10,7 @@
     "bootstrap": "~3.3.4",
     "hopscotch": "~0.2.4",
     "nouislider": "~8.0.2",
-    "sweetalert": "*",
+    "sweetalert": "1.1.0",
     "font-awesome": "~4.3.0"
   },
   "devDependencies": {

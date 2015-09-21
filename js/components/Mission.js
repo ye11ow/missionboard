@@ -1,6 +1,7 @@
 var React = require('react/addons'),
     i18n = require("../helpers/I18n"),
     noUiSlider = require("nouislider"),
+    swal = require("sweetalert"),
     MissionActions = require('../actions/MissionActions');
 
 var sliderWidth = 955; 

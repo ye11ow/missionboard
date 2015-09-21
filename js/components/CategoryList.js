@@ -2,6 +2,7 @@ var React = require('react'),
     $ = require('jquery'),
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
+    swal = require("sweetalert"),
     MissionStore = require('../stores/MissionStore'),
     CategoryActions = require('../actions/CategoryActions'),
     MissionActions = require('../actions/MissionActions'),
@@ -26,7 +27,7 @@ var CategoryList = React.createClass({
       }
     });
 
-    $(this.refs.leftMenu.getDOMNode()).find(`[data-category="${this.props.category.id}"]`).addClass("active");
+    this.refs.leftMenu.getDOMNode().querySelector(`[data-category="${this.props.category.id}"]`).classList.add("active");
   },
 
   getInitialState() {
@@ -36,11 +37,19 @@ var CategoryList = React.createClass({
   },
 
   componentDidUpdate() {
-    var $menu = $(this.refs.leftMenu.getDOMNode());
-    $menu.find(".active").removeClass("active");
-    $menu.find(`[data-category="${this.props.category.id}"]`).addClass("active");
+    var menu = this.refs.leftMenu.getDOMNode();
+    var active = menu.querySelector(".active");
+    var category = menu.querySelector(`[data-category="${this.props.category.id}"]`);
 
-    $(this.refs.popoverEdit.getDOMNode()).hide();
+    if (active) {
+      active.classList.remove("active");
+    }
+    if (!category) {
+      category = menu.querySelector(`[data-category="${CategoryConstants.CATEGORY_ALLID}"]`);
+    }
+    category.classList.add("active");
+
+    this.refs.popoverEdit.getDOMNode().style.display = "none";
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -61,7 +70,7 @@ var CategoryList = React.createClass({
   handleCategoryDoubleClick(event) {
     var $target = $(event.target).parents("li"),
         $popover = $(this.refs.popoverEdit.getDOMNode()),
-        $input = $(this.refs.popoverTitle.getDOMNode());
+        input = this.refs.popoverTitle.getDOMNode();
 
     if (this.state.mode === MODE_ADDING || this.props.category.id === CategoryConstants.CATEGORY_ALLID) {
       return;
@@ -74,21 +83,20 @@ var CategoryList = React.createClass({
 
     $popover.css("top", $target.offset().top - $target.height() - 30);
     $popover.show();
-    $input.focus();
-    $input.val(this.props.category.title);
+    input.focus();
+    input.value = this.props.category.title;
   },
 
   handlePopoverHide(event) {
-    $(this.refs.popoverEdit.getDOMNode()).hide();
+    this.refs.popoverEdit.getDOMNode().style.display = "none";
   },
 
   handleUpdateCateogryTitle(event) {
     var nativeEvent = event.nativeEvent,
-        $popover = $(this.refs.popoverEdit.getDOMNode()),
-        $input = $(this.refs.popoverTitle.getDOMNode());
+        input = this.refs.popoverTitle.getDOMNode();
 
     if (nativeEvent.keyCode === 13 || nativeEvent.type === "click") {      
-      var title = $input.val();
+      var title = input.value;
       if (title.trim().length > 0) {
         CategoryActions.updateTitle(this.props.category.id, title);
         this.handlePopoverHide();
@@ -99,15 +107,13 @@ var CategoryList = React.createClass({
   },
 
   resetCategoryControl() {
-    var $title = $(this.refs.categoryAddTitle.getDOMNode());
-    $title.val("");
+    this.refs.categoryAddTitle.getDOMNode().value = "";
 
     this.setState({ mode: MODE_NORMAL });
   },
 
   handleCategoryAdd() {
-    var $title = $(this.refs.categoryAddTitle.getDOMNode());
-    $title.focus();
+    this.refs.categoryAddTitle.getDOMNode().focus();
 
     this.setState({ mode: MODE_ADDING });
   },
@@ -126,6 +132,7 @@ var CategoryList = React.createClass({
       cancelButtonText: i18n.getMessage("modalNo"),
     }, function(isConfirm){
       if (isConfirm) {
+        // should combine them
         MissionActions.destroyMissionByCategory(id);
         CategoryActions.destroy(id);
       }
@@ -134,8 +141,7 @@ var CategoryList = React.createClass({
 
   handleCategoryCreate(event) {
     if (event.which === 13) {
-      var $input = $(event.target),
-          title = $input.val();
+      var title = event.target.value;
 
       if (title && title.length > 0) {
         CategoryActions.create(title, this.props.categories[this.props.categories.length - 1].order + 1);
@@ -145,11 +151,11 @@ var CategoryList = React.createClass({
   },
 
   handleCategoryConfirm() {
-    var $title = $(this.refs.categoryAddTitle.getDOMNode());
+    var title = this.refs.categoryAddTitle.getDOMNode();
     if (this.state.mode === MODE_ADDING) {
       var e = $.Event("keypress");
       e.which = 13;
-      e.target = $title[0];
+      e.target = title;
       this.handleCategoryCreate(e);
     }
     this.resetCategoryControl();

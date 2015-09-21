@@ -1,6 +1,7 @@
 var React = require('react'),
     Storage = require('../helpers/Storage'),
     i18n = require("../helpers/I18n"),
+    swal = require("sweetalert"),
     ChromeProxy = require("../helpers/ChromeProxy"),
     HeaderActions = require('../actions/HeaderActions'),
     HeaderConstants = require('../constants/HeaderConstants');

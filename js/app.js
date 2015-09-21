@@ -1,7 +1,6 @@
 require("babel/polyfill");
 require("jquery");
 require("bootstrap");
-require('sweetalert');
 
 var React = require('react'),
     MissionStore = require('./stores/MissionStore'),
