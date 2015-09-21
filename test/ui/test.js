@@ -151,14 +151,15 @@ describe('MissionBoard', function() {
 
   describe('Mission', function() {
     var createInput = document.querySelector(".mission-toolbar input.input__field");
-    var editButton = document.querySelector(".mission-edit");
     var editForm = document.querySelector(".modal.fade");
     var missions = document.querySelectorAll(".mission-list > div.panel");
 
     describe('Update', function() {
       it('should update a mission', function() {
         var mission = missions[0];
+        var editButton = mission.querySelector(".mission-control > .mission-edit");
         var inputs = editForm.querySelectorAll(".form-group input");
+        var input = inputs[0];
 
         var oldTitle = mission.querySelector(".mission-title").innerText;
         var oldDesc = mission.querySelector(".mission-desc").innerText;
@@ -170,9 +171,17 @@ describe('MissionBoard', function() {
         const desc = "MY NEW DESC";
         const current = "10";
         const total = "25";
-        const percent = "40%"; 
+        const percent = "40%";
 
-        // editButton.dispatchEvent(singleClick);
+        // Helper.singleClick(editButton);
+
+        // var e = $.Event("keypress");
+        // e.which = 74;
+        // e.target = title;
+
+        // $(input).trigger(e);
+
+        // console.log(input, e);
 
         // console.log(inputs);
         // inputs[0].value = title;

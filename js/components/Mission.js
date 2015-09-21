@@ -1,8 +1,9 @@
 var React = require('react/addons'),
-    $ = require('jquery'),
     i18n = require("../helpers/I18n"),
     noUiSlider = require("nouislider"),
     MissionActions = require('../actions/MissionActions');
+
+var sliderWidth = 955; 
 
 var Mission = React.createClass({
 
@@ -13,6 +14,7 @@ var Mission = React.createClass({
 
   getInitialState () {
     return {
+      sliding: false,
       current: this.props.mission.current
     };
   },
@@ -59,19 +61,18 @@ var Mission = React.createClass({
     };
 
     slider.noUiSlider.on('slide', function(values, handle){
-      var val = parseInt(values[handle]),
-          $tips =  $(self.refs.tipCurrent.getDOMNode());
-
-      self.setState({ current: val }); 
-
-      $tips.css("left", $(this).find(".noUi-origin").css("left"));
-      $tips.show();
+      self.setState({
+        sliding: true, 
+        current: parseInt(values[handle])
+      });
     });
 
     slider.noUiSlider.on('change', function(values, handle){
-      mission.current = parseInt(values[handle]),
-      MissionActions.updateMission(mission.id, mission.current);
-      $(self.refs.tipCurrent.getDOMNode()).hide();
+      MissionActions.updateMission(mission.id, parseInt(values[handle]));
+      self.setState({
+        sliding: false,
+        current: mission.current
+      });
     });
   },
 
@@ -84,6 +85,8 @@ var Mission = React.createClass({
   componentDidUpdate() {
     var mission = this.props.mission,
         slider = this.refs.slider.getDOMNode();
+
+    sliderWidth = slider.offsetWidth;
 
     if (slider.noUiSlider.options.max !== mission.total) {
       slider.noUiSlider.destroy();
@@ -109,6 +112,10 @@ var Mission = React.createClass({
         current = this.state.current,
         keyword = this.props.keyword,
         percentage = Math.floor(current * 100 / mission.total),
+        sliderStyle = {
+          display: this.state.sliding ? "block" : "none",
+          left: sliderWidth * percentage / 100
+        },
         title = mission.title;
 
     if (keyword) {
@@ -128,7 +135,7 @@ var Mission = React.createClass({
             <div ref="slider" className="mission-slider">
             </div>
             <div className="slider-tip">
-              <span ref="tipCurrent">{current}</span>
+              <span ref="tipCurrent" style={sliderStyle}>{current}</span>
             </div>
           </div>
           <div className="col-lg-2">

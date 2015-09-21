@@ -524,10 +524,9 @@ li.placeholder {
   display: none;
   position: absolute;
   top: 52px;
-  left: 0;
   line-height: 24px;
   font-weight: bold;
-  margin-left: 2px;
+  margin-left: 6px;
 }
 
 

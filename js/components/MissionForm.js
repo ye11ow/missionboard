@@ -4,25 +4,27 @@ var React = require('react/addons'),
     MissionActions = require('../actions/MissionActions'),
     MissionStore = require('../stores/MissionStore');
 
-function validate($title, $current, $total) {
-  var title = $title.val(),
-      current = parseInt($current.val()),
-      total = parseInt($total.val());
+function validate(titleDOM, currentDOM, totalDOM) {
+  const boxShadow = "inset 0 -2px 0 #e51c23";
+
+  var title = titleDOM.value,
+      current = parseInt(currentDOM.value),
+      total = parseInt(totalDOM.value);
   
   if (!title || title.length == 0) {
-    $title.css("box-shadow", "inset 0 -2px 0 #e51c23");
+    titleDOM.style.boxShadow = boxShadow;
     return false;
   }
   if (isNaN(current)) {
-    $current.css("box-shadow", "inset 0 -2px 0 #e51c23");
-    $current.val("");
-    $current.attr("placeholder", i18n.getMessage("labelMissionProgressError"));
+    currentDOM.style.boxShadow = boxShadow;
+    currentDOM.value = "";
+    currentDOM.setAttribute("placeholder", i18n.getMessage("labelMissionProgressError"));
     return false;
   }
   if (isNaN(total)) {
-    $total.css("box-shadow", "inset 0 -2px 0 #e51c23");
-    $total.val("");
-    $total.attr("placeholder", i18n.getMessage("labelMissionProgressError"));
+    totalDOM.style.boxShadow = boxShadow;
+    totalDOM.value = "";
+    totalDOM.setAttribute("placeholder", i18n.getMessage("labelMissionProgressError"));
     return false;
   }
 
@@ -59,7 +61,7 @@ var MissionForm = React.createClass({
   handleSave() {
     var editing = this.state;
 
-    if (validate($(this.refs.missionTitle.getDOMNode()), $(this.refs.missionCurrent.getDOMNode()), $(this.refs.missionTotal.getDOMNode()))) {
+    if (validate(this.refs.missionTitle.getDOMNode(), this.refs.missionCurrent.getDOMNode(), this.refs.missionTotal.getDOMNode())) {
       var current = parseInt(editing.current),
           total = parseInt(editing.total);
 
