@@ -1,17 +1,22 @@
-var React = require('react'),
-    $ = require('jquery'),
-    Storage = require('../helpers/Storage'),
+var React = require("react"),
+    $ = require("jquery"),
+    Utils = require("../helpers/Utils"),
+    Storage = require("../helpers/Storage"),
     i18n = require("../helpers/I18n"),
     swal = require("sweetalert"),
-    MissionStore = require('../stores/MissionStore'),
-    CategoryActions = require('../actions/CategoryActions'),
-    MissionActions = require('../actions/MissionActions'),
-    CategoryConstants = require('../constants/CategoryConstants');
+    MissionStore = require("../stores/MissionStore"),
+    CategoryActions = require("../actions/CategoryActions"),
+    MissionActions = require("../actions/MissionActions"),
+    CategoryConstants = require("../constants/CategoryConstants");
 
 const MODE_NORMAL  = 1,
       MODE_ADDING  = 2;
 
-const $PLACEHOLDER = $(`<li><a>${i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
+var PLACEHOLDER = document.createElement("LI");
+PLACEHOLDER.classList.add("placeholder");
+PLACEHOLDER.innerHTML = `<a>${i18n.getMessage("labelCategoryMove")}</a>`;
+
+// const $PLACEHOLDER = $(`<li><a>${i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
 
 var CategoryList = React.createClass({
 
@@ -21,8 +26,8 @@ var CategoryList = React.createClass({
   },
 
   componentDidMount() {
-    Storage.get('_categoryTutorial', function(categoryTutorial){
-      if (!("_categoryTutorial" in categoryTutorial && categoryTutorial['_categoryTutorial'] === true)) {
+    Storage.get(['_categoryTutorial'], function(categoryTutorial){
+      if (!("_categoryTutorial" in categoryTutorial && categoryTutorial._categoryTutorial === true)) {
         $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
@@ -56,9 +61,8 @@ var CategoryList = React.createClass({
     return true;
   },
 
-  handleCategoryClick(event) {
-    var $target = $(event.target),
-        targetCategory = $(event.target).parents("li").attr("data-category");
+handleCategoryClick(event) {
+    var targetCategory = Utils.parents(event.target, "li").dataset.category;
 
     if (!targetCategory || targetCategory === this.state.category) {
       return;
@@ -68,21 +72,22 @@ var CategoryList = React.createClass({
   },
 
   handleCategoryDoubleClick(event) {
-    var $target = $(event.target).parents("li"),
-        $popover = $(this.refs.popoverEdit.getDOMNode()),
-        input = this.refs.popoverTitle.getDOMNode();
+    var target = Utils.parents(event.target, "li"),
+        popover = this.refs.popoverEdit.getDOMNode(),
+        input = this.refs.popoverTitle.getDOMNode(),
+        tutorial = document.querySelector(".category-tutorial");
 
     if (this.state.mode === MODE_ADDING || this.props.category.id === CategoryConstants.CATEGORY_ALLID) {
       return;
     }
 
-    if ($(".category-tutorial")) {
-      $(".category-tutorial").remove();
+    if (tutorial) {
+      tutorial.remove(tutorial);
       Storage.set({'_categoryTutorial': true}); 
     }
 
-    $popover.css("top", $target.offset().top - $target.height() - 30);
-    $popover.show();
+    popover.style.top = (target.getBoundingClientRect().top + document.body.scrollTop - target.offsetHeight * 2) + "px";
+    popover.style.display = 'block';
     input.focus();
     input.value = this.props.category.title;
   },
@@ -166,17 +171,20 @@ var CategoryList = React.createClass({
   },
 
   handleDragOver(event) {
-    var $target = $(event.target).parent("li");
+    var target = Utils.parents(event.target, "li");
 
     event.preventDefault();
-    this.dragged.hide();
-    if ($target.hasClass("placeholder") || $target.attr("data-category") === CategoryConstants.CATEGORY_ALLID) return;
-    this.over = $target;
-    $PLACEHOLDER.insertBefore(this.over);
+    this.dragged.style.display = "none";
+    if (target.classList.contains("placeholder") || target.dataset.category === CategoryConstants.CATEGORY_ALLID) {
+      return;
+    }
+    this.over = target;
+
+    this.over.parentNode.insertBefore(PLACEHOLDER, this.over);
   },
 
   handleDragStart(event) {
-    this.dragged = $(event.currentTarget);
+    this.dragged = event.currentTarget;
     event.dataTransfer.effectAllowed = 'move';
     
     // Firefox requires dataTransfer data to be set
@@ -184,11 +192,12 @@ var CategoryList = React.createClass({
   },
 
   handleDragEnd(event) {
-    var from = this.dragged.attr("data-category"),
-        to = this.dragged.parent().find(".placeholder").prev().attr("data-category");
+    var placeholder = this.dragged.parentNode.querySelector(".placeholder"),
+        from = this.dragged.dataset.category,
+        to = placeholder.previousElementSibling.dataset.category;
 
-    this.dragged.show();
-    this.dragged.parent().find(".placeholder").remove();
+    this.dragged.style.display = "block";
+    PLACEHOLDER.remove();
 
     CategoryActions.updateOrder(from, to);
   },

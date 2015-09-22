@@ -11,7 +11,20 @@
 
     var uuid = s.join("");
     return uuid;
-  }
+  };
+
+  var parents = function(el, selector) {
+    while (!el.matches(selector)) {
+      if (el.parentNode) {
+        el = el.parentNode;
+      } else {
+        return null;
+      }
+    }
+
+    return el;
+  };
 
   module.exports.UUID = UUID;
-}())
+  module.exports.parents = parents;
+}());
