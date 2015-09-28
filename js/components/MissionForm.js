@@ -11,7 +11,7 @@ function validate(titleDOM, currentDOM, totalDOM) {
       current = parseInt(currentDOM.value),
       total = parseInt(totalDOM.value);
   
-  if (!title || title.length == 0) {
+  if (!title || title.length === 0) {
     titleDOM.style.boxShadow = boxShadow;
     return false;
   }
@@ -38,7 +38,7 @@ const EMPTY_MISSION = {
   total: null,
   description: null,
   category: null,
-}
+};
 
 var $modal = null;
 
@@ -86,7 +86,7 @@ var MissionForm = React.createClass({
     MissionStore.addChangeListener(this._onChange);
 
     $modal.on('shown.bs.modal', function () {
-      $(self.refs.missionCurrent.getDOMNode()).focus();
+      self.refs.missionCurrent.getDOMNode().focus();
     });
 
     $modal.on('hidden.bs.modal', function () {
@@ -99,9 +99,9 @@ var MissionForm = React.createClass({
 
     if (editing.title) {
       $modal.modal("show");
-      $(this.refs.missionTitle.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
-      $(this.refs.missionCurrent.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
-      $(this.refs.missionTotal.getDOMNode()).css("box-shadow", "inset 0 -1px 0 #ddd");
+      this.refs.missionTitle.getDOMNode().style.boxShadow = "inset 0 -1px 0 #ddd";
+      this.refs.missionCurrent.getDOMNode().style.boxShadow = "inset 0 -1px 0 #ddd";
+      this.refs.missionTotal.getDOMNode().style.boxShadow = "inset 0 -1px 0 #ddd";
     } else {
       $modal.modal("hide");
     }

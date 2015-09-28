@@ -422,8 +422,16 @@ li.placeholder {
   background-color: yellow;
 }
 
-.mission-edit, .mission-done, .mission-delete {
+.mission-control {
+  clear: both;
+  padding-top: 18px;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+.mission-control > .fa {
   font-size: 18px;
+  opacity: 0.5;
 }
 
 .mission-edit {
@@ -435,10 +443,13 @@ li.placeholder {
   float: right;
 }
 
-.mission-edit:hover, .mission-done:hover, .mission-delete:hover {
-  font-size: 24px;
-  color: red;
+.mission-control > .fa:hover {
   cursor: pointer;
+  opacity: 1;
+}
+
+.mission-delete:hover {
+  color: red;
 }
 
 .mission-percentage {
@@ -450,15 +461,13 @@ li.placeholder {
   float: right;
 }
 
-.mission-control {
-  clear: both;
-  padding-top: 18px;
-  padding-left: 20%;
-  padding-right: 20%;
-}
-
 .mission-list .panel {
   margin-bottom: 0px;
+}
+
+.panel-body.row {
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
 
 .mission {

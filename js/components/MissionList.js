@@ -99,7 +99,8 @@ var MissionList = React.createClass({
         missionList = [],
         orderby = this.state.orderby,
         keyword = this.state.keyword,
-        filter = this.state.filter;
+        filter = this.state.filter,
+        style = {};
 
     // a key is need here for Mission.
     // see http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
@@ -126,12 +127,18 @@ var MissionList = React.createClass({
 
     missionList.sort(getSorting(orderby));
 
+    if (missionList.length === 0) {
+      style = {
+        "margin-top": "20%"
+      };
+    }
+
     return (
       <div className="container-fluid main-container">
 
         <MissionForm categories={this.props.categories} />
 
-        <div className="mission-toolbar">
+        <div className="mission-toolbar" style={style}>
           <div className="row">
             <div className="col-lg-7 col-lg-offset-2">
               <span className="input input--hoshi">

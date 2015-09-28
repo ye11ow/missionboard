@@ -1,5 +1,4 @@
 var React = require("react"),
-    $ = require("jquery"),
     Utils = require("../helpers/Utils"),
     Storage = require("../helpers/Storage"),
     i18n = require("../helpers/I18n"),
@@ -16,8 +15,6 @@ var PLACEHOLDER = document.createElement("LI");
 PLACEHOLDER.classList.add("placeholder");
 PLACEHOLDER.innerHTML = `<a>${i18n.getMessage("labelCategoryMove")}</a>`;
 
-// const $PLACEHOLDER = $(`<li><a>${i18n.getMessage("labelCategoryMove")}</a></li>`).addClass("placeholder");
-
 var CategoryList = React.createClass({
 
   propTypes: {
@@ -26,9 +23,17 @@ var CategoryList = React.createClass({
   },
 
   componentDidMount() {
+    var self = this;
+
     Storage.get(['_categoryTutorial'], function(categoryTutorial){
       if (!("_categoryTutorial" in categoryTutorial && categoryTutorial._categoryTutorial === true)) {
-        $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
+        var tutorial = document.createElement("DIV");
+        tutorial.classList.add("category-tutorial");
+        tutorial.innerHTML = i18n.getMessage("ttCategoryEdit");
+
+        self.refs.leftMenu.getDOMNode().insertBefore(tutorial, self.refs.categoryDashboard.getDOMNode());
+
+        // $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
 
@@ -158,9 +163,10 @@ handleCategoryClick(event) {
   handleCategoryConfirm() {
     var title = this.refs.categoryAddTitle.getDOMNode();
     if (this.state.mode === MODE_ADDING) {
-      var e = $.Event("keypress");
-      e.which = 13;
-      e.target = title;
+      var e = {
+        target: title,
+        which: 13
+      };
       this.handleCategoryCreate(e);
     }
     this.resetCategoryControl();
@@ -231,7 +237,7 @@ handleCategoryClick(event) {
             <input ref="categoryAddTitle" type="text" className="form-control" placeholder={i18n.getMessage("labelCategoryPlaceholder")} onKeyPress={this.handleCategoryCreate} />
           </li>
         </ul>
-        <div className="category-dashboard row">
+        <div className="category-dashboard row" ref="categoryDashboard">
           <span className={`${hiddenNormal}  fa fa-check col-sm-3 category-control category-confirm`} onClick={this.handleCategoryConfirm}></span>
           <span className={`${visibleAdding} fa fa-times col-sm-3 category-control category-cancel`} onClick={this.handleCategoryCancel}></span>
           <span className={`${visibleNormal} fa fa-plus col-sm-3 col-sm-offset-3 category-control category-add`} onClick={this.handleCategoryAdd}></span>
