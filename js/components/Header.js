@@ -22,7 +22,7 @@ var Header = React.createClass({
 
     ul.querySelector(".active").classList.remove("active");
     newLi.classList.add("active");
-    this.refs.activeFilter.getDOMNode().innerHTML = `${newLi.innerText}<i class="fa fa-angle-down fa-lg"></i>`;
+    this.refs.activeFilter.innerHTML = `${newLi.innerText}<i class="fa fa-angle-down fa-lg"></i>`;
 
     HeaderActions.filter(filter);
   },
@@ -42,7 +42,7 @@ var Header = React.createClass({
 
     ul.querySelector(".active").classList.remove("active");
     newLi.classList.add("active");
-    this.refs.activeOrder.getDOMNode().innerHTML = `${newLi.innerText}<i class="fa fa-angle-down fa-lg"></i>`;
+    this.refs.activeOrder.innerHTML = `${newLi.innerText}<i class="fa fa-angle-down fa-lg"></i>`;
 
     HeaderActions.orderby({
       by: orderby, 

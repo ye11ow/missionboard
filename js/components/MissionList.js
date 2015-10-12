@@ -55,23 +55,23 @@ var MissionList = React.createClass({
   },
 
   handleFocus() {
-    this.refs.missionTip.getDOMNode().textContent = i18n.getMessage("labelCreateMissionTips");
+    this.refs.missionTip.textContent = i18n.getMessage("labelCreateMissionTips");
   },
 
   handleBlur() {
-    var input = this.refs.missionTitle.getDOMNode(),
+    var input = this.refs.missionTitle,
         title = input.value;
 
     if (title && title.length > 0) {
       input.parentNode.classList.add("input--filled");
     } else {
       input.parentNode.classList.remove("input--filled");
-      this.refs.missionTip.getDOMNode().textContent = i18n.getMessage("labelCreateMission");
+      this.refs.missionTip.textContent = i18n.getMessage("labelCreateMission");
     }
   },
 
   handlePreAdd(event) {
-    var input = this.refs.missionTitle.getDOMNode();
+    var input = this.refs.missionTitle;
     if (event.which === 13) {
 
       // "ENTER" pressed

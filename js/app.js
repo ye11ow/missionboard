@@ -3,6 +3,7 @@ require("jquery");
 require("bootstrap");
 
 var React = require('react'),
+    ReactDom = require("react-dom"),
     MissionStore = require('./stores/MissionStore'),
     CategoryStore = require('./stores/CategoryStore'),
     introguide = require('./helpers/Introguide'),
@@ -19,7 +20,7 @@ var Loader = React.createClass({
   },
 });
 
-React.render(
+ReactDom.render(
   <Loader />,
   document.getElementById('mission-board')
 );
@@ -46,7 +47,7 @@ Storage.get(['_inited', '_categories', '_missions', '_progresses'] , function(da
     }, 400);
   }
 
-  React.render(
+  ReactDom.render(
     <MissionBoard />,
     document.getElementById('mission-board')
   );

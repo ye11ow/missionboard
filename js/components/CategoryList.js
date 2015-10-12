@@ -31,13 +31,13 @@ var CategoryList = React.createClass({
         tutorial.classList.add("category-tutorial");
         tutorial.innerHTML = i18n.getMessage("ttCategoryEdit");
 
-        self.refs.leftMenu.getDOMNode().insertBefore(tutorial, self.refs.categoryDashboard.getDOMNode());
+        self.refs.leftMenu.insertBefore(tutorial, self.refs.categoryDashboard);
 
         // $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
 
-    this.refs.leftMenu.getDOMNode().querySelector(`[data-category="${this.props.category.id}"]`).classList.add("active");
+    this.refs.leftMenu.querySelector(`[data-category="${this.props.category.id}"]`).classList.add("active");
   },
 
   getInitialState() {
@@ -47,7 +47,7 @@ var CategoryList = React.createClass({
   },
 
   componentDidUpdate() {
-    var menu = this.refs.leftMenu.getDOMNode();
+    var menu = this.refs.leftMenu;
     var active = menu.querySelector(".active");
     var category = menu.querySelector(`[data-category="${this.props.category.id}"]`);
 
@@ -59,7 +59,7 @@ var CategoryList = React.createClass({
     }
     category.classList.add("active");
 
-    this.refs.popoverEdit.getDOMNode().style.display = "none";
+    this.refs.popoverEdit.style.display = "none";
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -78,8 +78,8 @@ handleCategoryClick(event) {
 
   handleCategoryDoubleClick(event) {
     var target = Utils.parents(event.target, "li"),
-        popover = this.refs.popoverEdit.getDOMNode(),
-        input = this.refs.popoverTitle.getDOMNode(),
+        popover = this.refs.popoverEdit,
+        input = this.refs.popoverTitle,
         tutorial = document.querySelector(".category-tutorial");
 
     if (this.state.mode === MODE_ADDING || this.props.category.id === CategoryConstants.CATEGORY_ALLID) {
@@ -98,12 +98,12 @@ handleCategoryClick(event) {
   },
 
   handlePopoverHide(event) {
-    this.refs.popoverEdit.getDOMNode().style.display = "none";
+    this.refs.popoverEdit.style.display = "none";
   },
 
   handleUpdateCateogryTitle(event) {
     var nativeEvent = event.nativeEvent,
-        input = this.refs.popoverTitle.getDOMNode();
+        input = this.refs.popoverTitle;
 
     if (nativeEvent.keyCode === 13 || nativeEvent.type === "click") {      
       var title = input.value;
@@ -117,13 +117,13 @@ handleCategoryClick(event) {
   },
 
   resetCategoryControl() {
-    this.refs.categoryAddTitle.getDOMNode().value = "";
+    this.refs.categoryAddTitle.value = "";
 
     this.setState({ mode: MODE_NORMAL });
   },
 
   handleCategoryAdd() {
-    this.refs.categoryAddTitle.getDOMNode().focus();
+    this.refs.categoryAddTitle.focus();
 
     this.setState({ mode: MODE_ADDING });
   },
@@ -161,7 +161,7 @@ handleCategoryClick(event) {
   },
 
   handleCategoryConfirm() {
-    var title = this.refs.categoryAddTitle.getDOMNode();
+    var title = this.refs.categoryAddTitle;
     if (this.state.mode === MODE_ADDING) {
       var e = {
         target: title,

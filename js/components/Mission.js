@@ -1,4 +1,4 @@
-var React = require('react/addons'),
+var React = require('react'),
     i18n = require("../helpers/I18n"),
     noUiSlider = require("nouislider"),
     swal = require("sweetalert"),
@@ -45,7 +45,7 @@ var Mission = React.createClass({
   componentDidMount() {
     var self = this,
         mission = this.props.mission,
-        slider = this.refs.slider.getDOMNode();
+        slider = this.refs.slider;
 
     noUiSlider.create(slider, {
       start: mission.current,
@@ -85,7 +85,7 @@ var Mission = React.createClass({
 
   componentDidUpdate() {
     var mission = this.props.mission,
-        slider = this.refs.slider.getDOMNode();
+        slider = this.refs.slider;
 
     sliderWidth = slider.offsetWidth;
 

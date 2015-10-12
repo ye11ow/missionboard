@@ -1,4 +1,5 @@
-var React = require('react/addons'),
+var React = require('react'),
+    LinkedStateMixin = require('react-addons-linked-state-mixin'),
     $ = require('jquery'),
     i18n = require("../helpers/I18n"),
     MissionActions = require('../actions/MissionActions'),
@@ -48,7 +49,7 @@ var MissionForm = React.createClass({
     categories: React.PropTypes.array.isRequired,
   },
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [LinkedStateMixin],
 
   componentWillUnmount() {
     MissionStore.removeChangeListener(this._onChange);
@@ -61,7 +62,7 @@ var MissionForm = React.createClass({
   handleSave() {
     var editing = this.state;
 
-    if (validate(this.refs.missionTitle.getDOMNode(), this.refs.missionCurrent.getDOMNode(), this.refs.missionTotal.getDOMNode())) {
+    if (validate(this.refs.missionTitle, this.refs.missionCurrent, this.refs.missionTotal)) {
       var current = parseInt(editing.current),
           total = parseInt(editing.total);
 
@@ -81,12 +82,12 @@ var MissionForm = React.createClass({
 
   componentDidMount() {
     var self = this;
-    $modal = $(this.refs.missionFormModal.getDOMNode());
+    $modal = $(this.refs.missionFormModal);
 
     MissionStore.addChangeListener(this._onChange);
 
     $modal.on('shown.bs.modal', function () {
-      self.refs.missionCurrent.getDOMNode().focus();
+      self.refs.missionCurrent.focus();
     });
 
     $modal.on('hidden.bs.modal', function () {
@@ -99,9 +100,9 @@ var MissionForm = React.createClass({
 
     if (editing.title) {
       $modal.modal("show");
-      this.refs.missionTitle.getDOMNode().style.boxShadow = "inset 0 -1px 0 #ddd";
-      this.refs.missionCurrent.getDOMNode().style.boxShadow = "inset 0 -1px 0 #ddd";
-      this.refs.missionTotal.getDOMNode().style.boxShadow = "inset 0 -1px 0 #ddd";
+      this.refs.missionTitle.style.boxShadow = "inset 0 -1px 0 #ddd";
+      this.refs.missionCurrent.style.boxShadow = "inset 0 -1px 0 #ddd";
+      this.refs.missionTotal.style.boxShadow = "inset 0 -1px 0 #ddd";
     } else {
       $modal.modal("hide");
     }
