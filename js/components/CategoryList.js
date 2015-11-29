@@ -32,12 +32,8 @@ var CategoryList = React.createClass({
         tutorial.innerHTML = i18n.getMessage("ttCategoryEdit");
 
         self.refs.leftMenu.insertBefore(tutorial, self.refs.categoryDashboard);
-
-        // $(`<div class="category-tutorial">${i18n.getMessage("ttCategoryEdit")}</div>`).insertBefore(".category-dashboard");
       }
     });
-
-    this.refs.leftMenu.querySelector(`[data-category="${this.props.category.id}"]`).classList.add("active");
   },
 
   getInitialState() {
@@ -47,29 +43,13 @@ var CategoryList = React.createClass({
   },
 
   componentDidUpdate() {
-    var menu = this.refs.leftMenu;
-    var active = menu.querySelector(".active");
-    var category = menu.querySelector(`[data-category="${this.props.category.id}"]`);
-
-    if (active) {
-      active.classList.remove("active");
-    }
-    if (!category) {
-      category = menu.querySelector(`[data-category="${CategoryConstants.CATEGORY_ALLID}"]`);
-    }
-    category.classList.add("active");
-
     this.refs.popoverEdit.style.display = "none";
-  },
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
   },
 
 handleCategoryClick(event) {
     var targetCategory = Utils.parents(event.target, "li").dataset.category;
 
-    if (!targetCategory || targetCategory === this.state.category) {
+    if (!targetCategory) {
       return;
     }
     
@@ -211,6 +191,7 @@ handleCategoryClick(event) {
   render() {
     var mode = this.state.mode,
         categoryList = this.props.categories,
+        currentCategory = this.props.category,
         visibleNormal = mode === MODE_NORMAL ? "" : "ani-invisible",
         hiddenNormal = mode !== MODE_NORMAL ? "" : "ani-invisible",
         visibleAdding = mode === MODE_ADDING ? "" : "ani-invisible";
@@ -220,9 +201,13 @@ handleCategoryClick(event) {
         <div className="category-header"><i className="fa fa-list" /> {i18n.getMessage("labelCategories")}</div>
         <ul className="nav nav-pills nav-stacked" onClick={this.handleCategoryClick} onDoubleClick={this.handleCategoryDoubleClick} onDragOver={this.handleDragOver}>
           {categoryList.map((function(category) {
+            var className = "category";
+            if (category.id === currentCategory.id) {
+              className += " active";
+            }
             if (!category.system) {
               return (
-                <li className="category" draggable="true" key={category.id} data-category={category.id} onDragEnd={this.handleDragEnd} onDragStart={this.handleDragStart}>
+                <li className={className} draggable="true" key={category.id} data-category={category.id} onDragEnd={this.handleDragEnd} onDragStart={this.handleDragStart}>
                   <a href="#">
                     <span data-role="title">{category.title}</span>
                     <span className="badge">{category.count}</span>
@@ -230,7 +215,7 @@ handleCategoryClick(event) {
                 </li>
               );
             } else {
-              return <li className="category" key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
+              return <li className={className} key={category.id} data-category={category.id}><a href="#">{category.title}<span className="badge">{category.count}</span></a></li>;
             }
           }).bind(this))}
           <li className={`${visibleAdding} category-title`}>

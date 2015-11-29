@@ -13,8 +13,10 @@ function calcCategoryCount(categories, missions) {
 
   for (var key in missions) {
     if (!missions[key].completed) {
-      categories[missions[key].category].count++;
-      categories[CategoryConstants.CATEGORY_ALLID].count++;
+      if (missions[key].category in categories) {
+        categories[missions[key].category].count++;
+        categories[CategoryConstants.CATEGORY_ALLID].count++;
+      }
     }
   }
 }

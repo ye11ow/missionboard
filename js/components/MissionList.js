@@ -129,7 +129,7 @@ var MissionList = React.createClass({
 
     if (missionList.length === 0) {
       style = {
-        "margin-top": "20%"
+        "marginTop": "20%"
       };
     }
 
