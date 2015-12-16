@@ -11,11 +11,16 @@ You can download Mission Board from Chrome WebStore [link](https://chrome.google
 
 ### Todos
 
-- [] TestTestTest
+- [] More test cases
 - [] ES6
-- [] Reflux
+- [] Redux
+- [] Immutable state
 
 ### Changelog
+
+** TBD, 2016 V0.3.0**
+
+- Code refactor
 
 **March 04, 2015 V0.2.7**
 
