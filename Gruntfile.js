@@ -80,6 +80,16 @@ module.exports = function(grunt) {
         filter: 'isFile',
       }
     },
+    less: {
+      production: {
+        options: {
+            compress: true
+        },
+        files: {
+          "css/bundle.css": "less/bundle.less"
+        }
+      }
+    },
     clean: ["demo"],
     compress: {
       main: {
@@ -97,9 +107,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
   // Default task(s).
   grunt.registerTask('default', ['copy:devFont']);
-  grunt.registerTask('build', ['clean', 'uglify', 'copy', 'compress']);
+  grunt.registerTask('build', ['clean', 'uglify', 'less', 'copy', 'compress']);
 
 };
