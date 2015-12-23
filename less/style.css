@@ -96,6 +96,7 @@ h3 {
 .navbar-header {
   width: 200px;
   /*margin: 0 10px;*/
+  margin-left: -15px!important;
   background-color: #333c48;
 }
 
