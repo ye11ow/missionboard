@@ -16,12 +16,15 @@
     "font-awesome": "~4.3.0"
   },
   "devDependencies": {
-    "babel": "~5.8.23",
-    "babelify": "~6.3.0",
     "less": "~2.5.3",
     "object-assign": "*",
-    "browserify": "*",
-    "browserify-shim": "*",
+    "webpack": "1.12.9",
+    "json-loader": "*",
+    "babel-loader": "*",
+    "babel-core": "^6.0.0",
+    "babel-polyfill": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
     "grunt": "~0.4.5",
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-compress": "~0.13.0",
@@ -42,23 +45,5 @@
   },
   "author": "Calvin Zhang",
   "repository": "https://github.com/ye11ow/missionboard",
-  "license": "MIT",
-  "browser": {
-    "jquery": "./node_modules/jquery/dist/jquery.min.js",
-    "bootstrap": "./node_modules/bootstrap/dist/js/bootstrap.min.js"
-  },
-  "browserify-shim": {
-    "jquery": "$",
-    "bootstrap": {
-      "depends": [
-        "jquery"
-      ]
-    }
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim",
-      "babelify"
-    ]
-  }
+  "license": "WTFPL"
 }

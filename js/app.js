@@ -1,5 +1,5 @@
-require("babel/polyfill");
-require("jquery");
+require("babel-polyfill");
+window.jQuery = window.$ = require("jquery");
 require("bootstrap");
 
 var React = require('react'),
