@@ -2,7 +2,9 @@
 
 var webpack = require("webpack"),
     path = require("path"),
-    srcPath = path.join(__dirname, "js");
+    srcPath = path.join(__dirname, "js"),
+    buildPath = srcPath;
+    // buildPath = path.join(__dirname, "build");
 
 module.exports = {
   module: {
@@ -10,10 +12,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel",
-        query: {
-          presets: ["react", "es2015"]
-        }
+        loader: "babel?presets[]=react,presets[]=es2015"
       },
       {
         test: /\.json$/,
@@ -26,8 +25,13 @@ module.exports = {
     module: path.join(srcPath, "app.js")
   },
   output: {
-    path: srcPath,
-    filename: "bundle.js",
-    pathInfo: true
+    path: buildPath,
+    publicPath: buildPath,
+    filename: "bundle.js"
+  },
+  devServer: {
+    contentBase: buildPath,
+    hotComponents: true,
+    devtool: "eval",
   }
 }

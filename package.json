@@ -40,7 +40,7 @@
     "watchify": "~3.2.1"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d .",
+    "start": "webpack --watch",
     "test": "mocha -R nyan --compilers js:babel/register"
   },
   "author": "Calvin Zhang",

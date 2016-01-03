@@ -86,6 +86,7 @@ module.exports = function(grunt) {
             compress: true
         },
         files: {
+          "css/static.css": "less/static.less"
           "css/bundle.css": "less/bundle.less"
         }
       }
