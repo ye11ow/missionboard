@@ -8,11 +8,20 @@ Mission Board is a very simple GTD App based on progress. You can use it to mana
 
 You can download Mission Board from Chrome WebStore [link](https://chrome.google.com/webstore/detail/mission-board/akojjilfeffkjafemodkhciiebhldnkb)
 
+### Contribute
+
+1. `git clone`
+2. `npm install`
+3. `npm webpack //build js`
+4. `grunt build //build static resources`
+5. Go to `build` folder, open `index.html`
+
 
 ### Todos
 
 - [] More test cases
-- [] ES6
+- [50%] ES2015
+- [50%] Webpack
 - [] Redux
 - [] Immutable state
 
