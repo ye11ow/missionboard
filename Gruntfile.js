@@ -20,15 +20,7 @@ module.exports = function(grunt) {
       manifest: {
         expand: true,
         src: 'manifest.json',
-        dest: 'demo/',
-        flatten: false,
-        filter: 'isFile',
-      },
-      css: {
-        expand: true,
-        cwd: 'css/',
-        src: '**',
-        dest: 'demo/css',
+        dest: 'build/',
         flatten: false,
         filter: 'isFile',
       },
@@ -36,22 +28,15 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'node_modules/font-awesome/fonts',
         src: 'fontawesome-webfont.woff2',
-        dest: 'demo/fonts',
+        dest: 'build/fonts',
         flatten: false,
         filter: 'isFile',
       },
-      index: {
+      html: {
         expand: true,
+        cwd: 'src',
         src: 'index.html',
-        dest: 'demo/',
-        flatten: false,
-        filter: 'isFile',
-      },
-      jslib: {
-        expand: true,
-        cwd: 'js/libs',
-        src: '**',
-        dest: 'demo/js/libs',
+        dest: 'build',
         flatten: false,
         filter: 'isFile',
       },
@@ -59,23 +44,15 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'img',
         src: '**',
-        dest: 'demo/img',
+        dest: 'build/img',
         flatten: false,
         filter: 'isFile',
       },
       locales: {
         expand: true,
-        cwd: '_locales',
+        cwd: 'src/_locales',
         src: '**',
-        dest: 'demo/_locales',
-        flatten: false,
-        filter: 'isFile',
-      },
-      devFont: {
-        expand: true,
-        cwd: 'node_modules/font-awesome/fonts',
-        src: 'fontawesome-webfont.woff2',
-        dest: 'fonts',
+        dest: 'build/_locales',
         flatten: false,
         filter: 'isFile',
       }
@@ -86,8 +63,8 @@ module.exports = function(grunt) {
             compress: true
         },
         files: {
-          "css/static.css": "less/static.less"
-          "css/bundle.css": "less/bundle.less"
+          "build/css/static.css": "src/less/static.less",
+          "build/css/bundle.css": "src/less/bundle.less"
         }
       }
     },
@@ -98,7 +75,7 @@ module.exports = function(grunt) {
           archive: 'dist/latest.zip'
         },
         files: [
-          {src: ['demo/**'], dest: '/'},
+          {src: ['build/**'], dest: '/'},
         ]
       }
     }
@@ -111,7 +88,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
 
   // Default task(s).
-  grunt.registerTask('default', ['copy:devFont']);
-  grunt.registerTask('build', ['clean', 'uglify', 'less', 'copy', 'compress']);
+  grunt.registerTask('build', ['clean', 'less', 'copy']);
+  grunt.registerTask('disk', ['build', 'compress']);
 
 };

@@ -2,9 +2,9 @@
 
 var webpack = require("webpack"),
     path = require("path"),
-    srcPath = path.join(__dirname, "js"),
-    buildPath = srcPath;
-    // buildPath = path.join(__dirname, "build");
+    srcPath = path.join(__dirname, "src", "js"),
+    // buildPath = srcPath;
+    buildPath = path.join(__dirname, "build", "js");
 
 module.exports = {
   module: {

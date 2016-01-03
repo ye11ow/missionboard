@@ -1,9 +1,5 @@
 */.DS_Store
 .DS_Store
-/js/bundle.js
-/js/bundle.min.js
-/fonts/fontawesome*
-demo
+/build/*
 node_modules
 /dist
-/css/*
