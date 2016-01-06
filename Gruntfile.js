@@ -89,6 +89,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('build', ['clean', 'less', 'copy']);
-  grunt.registerTask('disk', ['build', 'compress']);
+  grunt.registerTask('dist', ['build', 'compress']);
 
 };
